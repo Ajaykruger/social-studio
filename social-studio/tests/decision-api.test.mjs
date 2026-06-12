@@ -151,8 +151,8 @@ async function assertReviewPacketMatchesWorkflow(campaignDir, expectedStatus) {
   assert.equal(packet.scheduleOrPublishReady, false);
 }
 
-async function withServer(workspaceRoot, run) {
-  const app = createDecisionApp({ workspaceRoot });
+async function withServer(workspaceRoot, run, appOptions = {}) {
+  const app = createDecisionApp({ workspaceRoot, ...appOptions });
   const server = app.listen(0, "127.0.0.1");
   await new Promise((resolve) => server.once("listening", resolve));
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
@@ -270,6 +270,71 @@ test("decision api rejects fake reviewers and generic revision notes", async () 
       assert.equal(genericNotes.status, 422);
       assert.match(genericNotes.body.error, /specific decision notes/);
     });
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("decision api allows any real reviewer when no reviewer allowlist is configured", async () => {
+  const { workspaceRoot } = await seedWorkspace();
+  try {
+    await withServer(workspaceRoot, async (baseUrl) => {
+      const result = await postDecision(baseUrl, {
+        decision: "approve",
+        reviewer: "Mallory",
+        gates: ALL_GATES,
+        notes: "Reviewed all three assets on mobile."
+      });
+
+      assert.equal(result.status, 200);
+      assert.equal(result.body.reviewer, "Mallory");
+    });
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("decision api rejects reviewers outside the configured allowlist", async () => {
+  const { workspaceRoot } = await seedWorkspace();
+  try {
+    await withServer(
+      workspaceRoot,
+      async (baseUrl) => {
+        const result = await postDecision(baseUrl, {
+          decision: "approve",
+          reviewer: "Mallory",
+          gates: ALL_GATES,
+          notes: "Reviewed all three assets on mobile."
+        });
+
+        assert.equal(result.status, 400);
+        assert.match(result.body.error, /reviewer is not allowed/i);
+      },
+      { reviewers: ["Jen", "Andre"] }
+    );
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("decision api allows configured reviewers case-insensitively", async () => {
+  const { workspaceRoot } = await seedWorkspace();
+  try {
+    await withServer(
+      workspaceRoot,
+      async (baseUrl) => {
+        const result = await postDecision(baseUrl, {
+          decision: "approve",
+          reviewer: "jen",
+          gates: ALL_GATES,
+          notes: "Reviewed all three assets on mobile."
+        });
+
+        assert.equal(result.status, 200);
+        assert.equal(result.body.reviewer, "jen");
+      },
+      { reviewers: ["Jen", "Andre"] }
+    );
   } finally {
     await rm(workspaceRoot, { recursive: true, force: true });
   }

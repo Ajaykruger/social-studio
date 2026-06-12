@@ -50,6 +50,15 @@ With the key set, the Create tab generates with Claude (claude-opus-4-8).
 Without it, generation falls back to built-in templates. The `.env` file is
 gitignored and must never be committed.
 
+You can also restrict who may record review decisions:
+
+```text
+STUDIO_REVIEWERS=Jen,Andre
+```
+
+Leave `STUDIO_REVIEWERS` unset to allow any real reviewer name. When it is
+set, names are matched case-insensitively.
+
 ## Verification
 
 ```bash

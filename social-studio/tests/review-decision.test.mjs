@@ -119,6 +119,29 @@ test("rejects approval evidence that does not cover every required review gate",
   );
 });
 
+test("rejects approval timestamps that are not ISO date-times", () => {
+  const bundle = pendingBundle();
+  const badTimestamps = [
+    "2026-06-10",
+    "not-a-date-here",
+    "2026/06/10T12:00:00.000Z",
+    "2026-99-99T12:00:00.000Z"
+  ];
+
+  for (const approvedAt of badTimestamps) {
+    assert.throws(
+      () =>
+        applyReviewDecision(bundle, {
+          decision: "approve",
+          reviewer: "Andre",
+          evidence: fullApprovalEvidence,
+          approvedAt
+        }),
+      /approval timestamp/i
+    );
+  }
+});
+
 test("approve marks checks true and creates draft-upload-ready manual handoff", () => {
   const bundle = pendingBundle();
   const approved = applyReviewDecision(bundle, {

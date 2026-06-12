@@ -31,6 +31,9 @@ function approvalTimestamp(value) {
   if (clean.length < 10) {
     throw new Error("approval timestamp is too short");
   }
+  if (!/^\d{4}-\d{2}-\d{2}T/.test(clean) || !Number.isFinite(Date.parse(clean))) {
+    throw new Error("approval timestamp must be a valid ISO-8601 date-time");
+  }
   return clean;
 }
 

@@ -70,7 +70,20 @@ function requireValidCampaignId(campaignId) {
   return clean;
 }
 
-function validateDecisionRequest(body, requiredGates) {
+function normalizeReviewers(reviewers) {
+  const values = Array.isArray(reviewers)
+    ? reviewers
+    : String(reviewers || "").split(",");
+  return values.map((reviewer) => String(reviewer).trim()).filter(Boolean);
+}
+
+function reviewerAllowed(reviewer, reviewers) {
+  if (reviewers.length === 0) return true;
+  const normalized = reviewer.toLowerCase();
+  return reviewers.some((allowed) => allowed.toLowerCase() === normalized);
+}
+
+function validateDecisionRequest(body, requiredGates, reviewers = []) {
   const decision = String(body?.decision || "").trim();
   if (!DECISIONS.has(decision)) {
     return { error: "decision must be approve, needs_revision, or reject" };
@@ -79,6 +92,9 @@ function validateDecisionRequest(body, requiredGates) {
   const reviewer = String(body?.reviewer || "").trim();
   if (reviewer.length < 2 || reviewer === "pending-human-review") {
     return { error: "a real human reviewer name is required" };
+  }
+  if (!reviewerAllowed(reviewer, reviewers)) {
+    return { error: `reviewer is not allowed for this studio: ${reviewer}` };
   }
 
   const notes = String(body?.notes || "").trim();
@@ -137,9 +153,11 @@ async function refreshReviewPacketFromWorkflow(campaignDir) {
 }
 
 export function createDecisionApp({
-  workspaceRoot = defaultWorkspaceRoot
+  workspaceRoot = defaultWorkspaceRoot,
+  reviewers = process.env.STUDIO_REVIEWERS
 } = {}) {
   const paths = workspacePaths(workspaceRoot);
+  const reviewerAllowlist = normalizeReviewers(reviewers);
   const app = express();
   app.use(express.json({ limit: "256kb" }));
 
@@ -204,7 +222,7 @@ export function createDecisionApp({
       const requiredGates = approvalEvidenceRequirementsFor(bundle).map(
         (requirement) => requirement.label
       );
-      const validated = validateDecisionRequest(req.body, requiredGates);
+      const validated = validateDecisionRequest(req.body, requiredGates, reviewerAllowlist);
       if (validated.error) {
         res.status(400).json({ error: validated.error });
         return;
