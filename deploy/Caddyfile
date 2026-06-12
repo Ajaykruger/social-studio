@@ -1,0 +1,6 @@
+# Placeholder hostname: replace studio.example.com only after Cloudflare
+# Access is configured and protecting the application.
+studio.example.com {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:4810
+}

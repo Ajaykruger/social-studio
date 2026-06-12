@@ -1,0 +1,19 @@
+[Unit]
+Description=Social Studio local decision API
+After=network.target
+
+[Service]
+Type=simple
+User=socialstudio
+Group=socialstudio
+WorkingDirectory=/opt/social-studio
+Environment=HOST=127.0.0.1 PORT=4810
+EnvironmentFile=-/opt/social-studio/.env
+ExecStart=/usr/bin/node server/decision-api.mjs
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
