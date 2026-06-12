@@ -152,6 +152,19 @@ async function refreshReviewPacketFromWorkflow(campaignDir) {
   return true;
 }
 
+async function decidedFor(campaignDir) {
+  return (
+    (await fileExists(path.join(campaignDir, "approved-bundle.json"))) ||
+    (await fileExists(path.join(campaignDir, "revision-bundle.json"))) ||
+    (await fileExists(path.join(campaignDir, "rejected-bundle.json")))
+  );
+}
+
+function contentTypesFor(bundle) {
+  const declared = bundle?.postizHandoff?.requiredContentTypes;
+  return Array.isArray(declared) ? declared.map(String).filter(Boolean) : [];
+}
+
 export function createDecisionApp({
   workspaceRoot = defaultWorkspaceRoot,
   reviewers = process.env.STUDIO_REVIEWERS
@@ -298,8 +311,34 @@ export function createDecisionApp({
     }
   });
 
+  app.post("/api/campaigns/:campaignId/archive", async (req, res) => {
+    try {
+      const campaignId = requireValidCampaignId(req.params.campaignId);
+      const campaignDir = path.join(paths.generatedRoot, campaignId);
+      if (!(await fileExists(campaignDir))) {
+        res.status(404).json({ error: "campaign not found" });
+        return;
+      }
+
+      const archivedAt = new Date().toISOString();
+      await writeFile(path.join(campaignDir, "archived.flag"), `${archivedAt}\n`);
+      await appendAuditLog(paths.auditRoot, campaignId, {
+        at: archivedAt,
+        campaignId,
+        event: "campaign_archived",
+        archived: true,
+        allowsSchedulingOrPublishing: false
+      });
+
+      res.json({ ok: true, campaignId, archived: true });
+    } catch (error) {
+      res.status(error.statusCode || 500).json({ error: error.message });
+    }
+  });
+
   app.get("/api/campaigns", async (req, res) => {
     try {
+      const includeArchived = req.query.includeArchived === "1";
       let entries = [];
       try {
         entries = await readdir(paths.generatedRoot, { withFileTypes: true });
@@ -309,14 +348,23 @@ export function createDecisionApp({
       const campaigns = [];
       for (const entry of entries) {
         if (!entry.isDirectory() || !CAMPAIGN_ID_PATTERN.test(entry.name)) continue;
+        const campaignDir = path.join(paths.generatedRoot, entry.name);
+        const archived = await fileExists(path.join(campaignDir, "archived.flag"));
+        if (archived && !includeArchived) continue;
         const status = await readJsonIfExists(
-          path.join(paths.generatedRoot, entry.name, "workflow-status.ui.json")
+          path.join(campaignDir, "workflow-status.ui.json")
+        );
+        const bundle = await readJsonIfExists(
+          path.join(campaignDir, "draft-bundle.json")
         );
         campaigns.push({
           campaignId: entry.name,
           status: status?.status || "unknown",
           statusLabel: status?.statusLabel || "Unknown",
-          generatedAt: status?.freshness?.generatedAt || ""
+          generatedAt: status?.freshness?.generatedAt || "",
+          contentTypes: contentTypesFor(bundle),
+          decided: await decidedFor(campaignDir),
+          archived
         });
       }
       campaigns.sort((a, b) => (a.generatedAt < b.generatedAt ? 1 : -1));

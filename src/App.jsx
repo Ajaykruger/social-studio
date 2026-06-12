@@ -53,6 +53,16 @@ const TABS = [
   { id: "operator", label: "Operator" }
 ];
 
+function campaignOptionLabel(campaign) {
+  const contentTypes = Array.isArray(campaign.contentTypes)
+    ? campaign.contentTypes
+    : [];
+  const contentLabel = contentTypes.length
+    ? ` · ${contentTypes.join(", ")}`
+    : "";
+  return `${campaign.campaignId} - ${campaign.statusLabel}${contentLabel}`;
+}
+
 export default function App() {
   const [tab, setTab] = useState("create");
   const [campaignId, setCampaignId] = useState(activeCampaignId());
@@ -98,6 +108,8 @@ export default function App() {
   }
 
   const data = artifacts || {};
+  const awaitingCampaigns = campaigns.filter((campaign) => !campaign.decided);
+  const decidedCampaigns = campaigns.filter((campaign) => campaign.decided);
 
   return (
     <main className="min-h-screen">
@@ -146,17 +158,42 @@ export default function App() {
 
         {tab !== "create" && campaigns.length > 0 ? (
           <label className="grid gap-1 text-sm font-bold text-slate-950">
-            Campaign
+            <span className="flex flex-wrap items-center justify-between gap-2">
+              <span>Campaign</span>
+              <span className="flex items-center gap-3 text-xs font-bold text-slate-600">
+                <span className="inline-flex items-center gap-1">
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
+                  Awaiting
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  Decided
+                </span>
+              </span>
+            </span>
             <select
               className="min-h-12 rounded-md border border-slate-300 bg-white px-3 text-base font-normal"
               value={campaignId}
               onChange={(event) => setCampaignId(event.target.value)}
             >
-              {campaigns.map((campaign) => (
-                <option key={campaign.campaignId} value={campaign.campaignId}>
-                  {campaign.campaignId} - {campaign.statusLabel}
-                </option>
-              ))}
+              {awaitingCampaigns.length > 0 ? (
+                <optgroup label="Awaiting decision">
+                  {awaitingCampaigns.map((campaign) => (
+                    <option key={campaign.campaignId} value={campaign.campaignId}>
+                      {campaignOptionLabel(campaign)}
+                    </option>
+                  ))}
+                </optgroup>
+              ) : null}
+              {decidedCampaigns.length > 0 ? (
+                <optgroup label="Decided">
+                  {decidedCampaigns.map((campaign) => (
+                    <option key={campaign.campaignId} value={campaign.campaignId}>
+                      {campaignOptionLabel(campaign)}
+                    </option>
+                  ))}
+                </optgroup>
+              ) : null}
             </select>
           </label>
         ) : null}

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
@@ -133,6 +133,46 @@ async function writeReviewPacket(campaignDir) {
     path.join(packetDir, "review-packet.ui.json"),
     `${JSON.stringify(packet, null, 2)}\n`
   );
+}
+
+async function writeCampaignListEntry(
+  workspaceRoot,
+  campaignId,
+  {
+    requiredContentTypes = ["normal_post"],
+    status = "needs_review",
+    statusLabel = "Needs review",
+    generatedAt = "2026-06-12T12:00:00.000Z",
+    decidedBundle = "",
+    archived = false
+  } = {}
+) {
+  const campaignDir = path.join(workspaceRoot, "social-studio", "generated", campaignId);
+  await mkdir(campaignDir, { recursive: true });
+  await writeFile(
+    path.join(campaignDir, "draft-bundle.json"),
+    `${JSON.stringify({
+      campaignId,
+      assetId: `${campaignId}-draft-001`,
+      postizHandoff: { requiredContentTypes }
+    }, null, 2)}\n`
+  );
+  await writeFile(
+    path.join(campaignDir, "workflow-status.ui.json"),
+    `${JSON.stringify({
+      campaignId,
+      status,
+      statusLabel,
+      freshness: { generatedAt }
+    }, null, 2)}\n`
+  );
+  if (decidedBundle) {
+    await writeFile(path.join(campaignDir, decidedBundle), "{}\n");
+  }
+  if (archived) {
+    await writeFile(path.join(campaignDir, "archived.flag"), "archived\n");
+  }
+  return campaignDir;
 }
 
 async function readJson(filePath) {
@@ -480,6 +520,103 @@ test("decision api state endpoint exposes gates, bundles, and boundary", async (
       assert.equal(state.bundles.approved, false);
       assert.equal(state.boundary.scheduling, false);
       assert.equal(state.boundary.publishing, false);
+    });
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("campaign list includes content types and decided state while hiding archived campaigns", async () => {
+  const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "social-studio-list-"));
+  try {
+    await writeCampaignListEntry(workspaceRoot, "cc-awaiting-campaign", {
+      requiredContentTypes: ["ugc_video", "normal_post"],
+      generatedAt: "2026-06-12T12:00:00.000Z"
+    });
+    await writeCampaignListEntry(workspaceRoot, "cc-decided-campaign", {
+      requiredContentTypes: ["normal_post"],
+      status: "approved_waiting_postiz_dry_run",
+      statusLabel: "Approved, waiting for Postiz dry run",
+      generatedAt: "2026-06-12T13:00:00.000Z",
+      decidedBundle: "approved-bundle.json"
+    });
+    await writeCampaignListEntry(workspaceRoot, "cc-archived-campaign", {
+      requiredContentTypes: ["paid_ad_video"],
+      generatedAt: "2026-06-12T14:00:00.000Z",
+      decidedBundle: "revision-bundle.json",
+      archived: true
+    });
+
+    await withServer(workspaceRoot, async (baseUrl) => {
+      const listed = await (await fetch(`${baseUrl}/api/campaigns`)).json();
+      assert.deepEqual(
+        listed.campaigns.map((campaign) => campaign.campaignId),
+        ["cc-decided-campaign", "cc-awaiting-campaign"]
+      );
+      assert.deepEqual(
+        listed.campaigns.find((campaign) => campaign.campaignId === "cc-awaiting-campaign").contentTypes,
+        ["ugc_video", "normal_post"]
+      );
+      assert.equal(
+        listed.campaigns.find((campaign) => campaign.campaignId === "cc-awaiting-campaign").decided,
+        false
+      );
+      assert.equal(
+        listed.campaigns.find((campaign) => campaign.campaignId === "cc-decided-campaign").decided,
+        true
+      );
+
+      const withArchived = await (await fetch(`${baseUrl}/api/campaigns?includeArchived=1`)).json();
+      const archived = withArchived.campaigns.find(
+        (campaign) => campaign.campaignId === "cc-archived-campaign"
+      );
+      assert.equal(archived.archived, true);
+      assert.equal(archived.decided, true);
+      assert.deepEqual(archived.contentTypes, ["paid_ad_video"]);
+    });
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("campaign archive endpoint writes a flag, keeps artifacts, hides the campaign, and audits", async () => {
+  const { workspaceRoot, campaignDir } = await seedWorkspace();
+  try {
+    await withServer(workspaceRoot, async (baseUrl) => {
+      const response = await fetch(`${baseUrl}/api/campaigns/${CAMPAIGN_ID}/archive`, {
+        method: "POST"
+      });
+      const body = await response.json();
+      assert.equal(response.status, 200);
+      assert.equal(body.ok, true);
+      assert.equal(body.archived, true);
+
+      await access(path.join(campaignDir, "archived.flag"));
+      await access(path.join(campaignDir, "draft-bundle.json"));
+
+      const listed = await (await fetch(`${baseUrl}/api/campaigns`)).json();
+      assert.equal(
+        listed.campaigns.some((campaign) => campaign.campaignId === CAMPAIGN_ID),
+        false
+      );
+
+      const withArchived = await (await fetch(`${baseUrl}/api/campaigns?includeArchived=1`)).json();
+      assert.equal(
+        withArchived.campaigns.find((campaign) => campaign.campaignId === CAMPAIGN_ID).archived,
+        true
+      );
+
+      const auditLines = (
+        await readFile(
+          path.join(workspaceRoot, "social-studio", "audit", `${CAMPAIGN_ID}.decisions.jsonl`),
+          "utf8"
+        )
+      )
+        .trim()
+        .split("\n")
+        .map((line) => JSON.parse(line));
+      assert.equal(auditLines.at(-1).event, "campaign_archived");
+      assert.equal(auditLines.at(-1).allowsSchedulingOrPublishing, false);
     });
   } finally {
     await rm(workspaceRoot, { recursive: true, force: true });
