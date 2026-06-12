@@ -6,6 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const studioRoot = path.resolve(__dirname, "..");
 const projectRoot = path.resolve(studioRoot, "..");
+const windowsLocalPathPattern = /`?[A-Za-z]:\\[^`\r\n]+`?/g;
+const posixLocalPathPattern = /`?\/(?:home|tmp|var|private|Users|mnt|workspace|run)\/[^`\r\n]+`?/g;
 
 function readArg(name, fallback = "") {
   const prefix = `--${name}=`;
@@ -128,7 +130,8 @@ async function readVisualReviewSummary(visualReviewPath = "") {
       .split(/\r?\n/)
       .map((line) =>
         line
-          .replace(/`?[A-Za-z]:\\[^`\r\n]+`?/g, "[local file]")
+          .replace(windowsLocalPathPattern, "[local file]")
+          .replace(posixLocalPathPattern, "[local file]")
           .replace(/^-+\s*/, "")
           .trim()
       )
