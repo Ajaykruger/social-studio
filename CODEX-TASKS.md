@@ -89,7 +89,7 @@ see the Review tab unblock.
 
 ---
 
-## Task 3 — Post-decision artifact freshness
+## Task 3 [DONE a89cc15] — Post-decision artifact freshness
 
 **Goal:** after a decision on a Create-screen campaign, the
 `review-packet/review-packet.ui.json` still says "Needs review" (only the
