@@ -137,7 +137,7 @@ read the env in `main()`/`createDecisionApp` default).
 
 ---
 
-## Task 5 — Deployment package (files only, no actual deployment)
+## Task 5 [DONE 36aa525] — Deployment package (files only, no actual deployment)
 
 **Goal:** everything needed to put this on a Hetzner CX32 behind Cloudflare
 Access, as committed files + a runbook a non-coder can follow. Do NOT
