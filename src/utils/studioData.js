@@ -47,6 +47,14 @@ export async function submitDecision(campaignId, payload) {
   return postJson(`/api/campaigns/${campaignId}/decision`, payload, "decision");
 }
 
+export async function attachRenderedReel(campaignId, filePath) {
+  return postJson(
+    `/api/campaigns/${campaignId}/attach-reel`,
+    { filePath },
+    "rendered reel attach"
+  );
+}
+
 async function postJson(url, payload, label) {
   const response = await fetch(url, {
     method: "POST",

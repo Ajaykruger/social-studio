@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { submitDecision } from "../utils/studioData.js";
+import { attachRenderedReel, submitDecision } from "../utils/studioData.js";
 
 function statusPill(status) {
   if (status === "needs_review") return "bg-amber-100 text-amber-950";
@@ -56,7 +56,57 @@ function MediaPreview({ asset }) {
   );
 }
 
-function AssetCard({ asset }) {
+function AttachRenderedReelBox({ campaignId, onAttached }) {
+  const [filePath, setFilePath] = useState("");
+  const [attaching, setAttaching] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleAttach() {
+    if (attaching || !filePath.trim()) return;
+    setAttaching(true);
+    setError("");
+    try {
+      const response = await attachRenderedReel(campaignId, filePath.trim());
+      onAttached?.(response);
+    } catch (attachError) {
+      setError(attachError.message);
+    } finally {
+      setAttaching(false);
+    }
+  }
+
+  return (
+    <div className="grid gap-2 rounded-md border border-teal-200 bg-teal-50 p-3">
+      <p className="text-sm font-black text-teal-950">Attach rendered reel</p>
+      <label className="grid gap-1 text-sm font-bold text-teal-950">
+        Rendered MP4 path
+        <input
+          className="min-h-12 rounded-md border border-teal-300 bg-white px-3 text-base font-normal text-slate-950"
+          value={filePath}
+          onChange={(event) => setFilePath(event.target.value)}
+          placeholder="MoneyPrinterTurbo/storage/rendered-reel.mp4"
+        />
+      </label>
+      {error ? (
+        <p className="rounded-md border border-rose-200 bg-rose-50 p-2 text-sm font-bold leading-6 text-rose-950">
+          {error}
+        </p>
+      ) : null}
+      <button
+        type="button"
+        disabled={attaching || !filePath.trim()}
+        onClick={handleAttach}
+        className="min-h-12 rounded-md bg-teal-700 px-4 text-sm font-black text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-600"
+      >
+        {attaching ? "Attaching..." : "Attach rendered reel"}
+      </button>
+    </div>
+  );
+}
+
+function AssetCard({ asset, campaignId, onAttached }) {
+  const needsRenderedReel = asset.contentType === "ugc_video" && !asset.assetUrl;
+
   return (
     <article className="grid gap-2 rounded-md border border-slate-200 bg-white p-3">
       <div className="flex items-center justify-between gap-2">
@@ -66,6 +116,12 @@ function AssetCard({ asset }) {
         </span>
       </div>
       <MediaPreview asset={asset} />
+      {needsRenderedReel ? (
+        <AttachRenderedReelBox
+          campaignId={campaignId}
+          onAttached={onAttached}
+        />
+      ) : null}
       {asset.contactSheetUrl ? (
         <a
           className="text-sm font-bold text-teal-800 underline"
@@ -179,7 +235,12 @@ export default function ReviewDecisionScreen({
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {assets.map((asset) => (
-          <AssetCard key={asset.assetId || asset.label} asset={asset} />
+          <AssetCard
+            key={asset.assetId || asset.label}
+            asset={asset}
+            campaignId={campaignId}
+            onAttached={(response) => onDecided?.(response)}
+          />
         ))}
         {assets.length === 0 ? (
           <p className="text-sm leading-6 text-slate-600">

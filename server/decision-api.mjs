@@ -20,6 +20,7 @@ import {
 import { approvalEvidenceRequirementsFor } from "../social-studio/tools/record-review-decision.mjs";
 import { importProductFromUrl } from "./product-import.mjs";
 import { createCampaign, generateCreativePack } from "./generate-campaign.mjs";
+import { attachRenderedReel } from "./attach-reel.mjs";
 import { loadDotEnv } from "./env.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -234,6 +235,20 @@ export function createDecisionApp({
         manualPackageReady: Boolean(result.manualPackagePath),
         boundary: "Postiz draft upload only. No scheduling. No publishing."
       });
+    } catch (error) {
+      res.status(error.statusCode || 422).json({ error: error.message });
+    }
+  });
+
+  app.post("/api/campaigns/:campaignId/attach-reel", async (req, res) => {
+    try {
+      const campaignId = requireValidCampaignId(req.params.campaignId);
+      const result = await attachRenderedReel({
+        workspaceRoot,
+        campaignId,
+        filePath: req.body?.filePath
+      });
+      res.json(result);
     } catch (error) {
       res.status(error.statusCode || 422).json({ error: error.message });
     }
