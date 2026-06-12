@@ -32,7 +32,7 @@ README badge renders.
 
 ---
 
-## Task 2 — Attach-rendered-reel flow
+## Task 2 [DONE 800dceb] — Attach-rendered-reel flow
 
 **Goal:** a reel campaign created in the Create tab is currently blocked
 from approval (by design) because its `ugc_video` item has
