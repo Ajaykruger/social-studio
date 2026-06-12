@@ -173,7 +173,7 @@ passes; no real hostnames or secrets committed.
 
 ---
 
-## Task 6 (stretch) — Campaign list quality
+## Task 6 [DONE c5351e4] (stretch) — Campaign list quality
 
 Only if Tasks 1–5 are done and green:
 
