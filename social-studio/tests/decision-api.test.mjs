@@ -112,6 +112,45 @@ async function seedWorkspace() {
   return { workspaceRoot, campaignDir };
 }
 
+async function writeReviewPacket(campaignDir) {
+  const packetDir = path.join(campaignDir, "review-packet");
+  await mkdir(packetDir, { recursive: true });
+  const packet = {
+    campaignId: CAMPAIGN_ID,
+    assetId: `${CAMPAIGN_ID}-draft-001`,
+    status: "needs_review",
+    statusLabel: "Needs review",
+    decisionRequired: true,
+    notLiveConfirmed: true,
+    scheduleOrPublishReady: false,
+    caption: "Smooth base for cleaner salon work.",
+    hashtags: ["#CrystalClawz"],
+    visualReviewSummary: "Ready for human review.",
+    nextAction: "Review the draft, then record approve, needs_revision, or reject.",
+    assets: []
+  };
+  await writeFile(
+    path.join(packetDir, "review-packet.ui.json"),
+    `${JSON.stringify(packet, null, 2)}\n`
+  );
+}
+
+async function readJson(filePath) {
+  return JSON.parse(await readFile(filePath, "utf8"));
+}
+
+async function assertReviewPacketMatchesWorkflow(campaignDir, expectedStatus) {
+  const workflow = await readJson(path.join(campaignDir, "workflow-status.ui.json"));
+  const packet = await readJson(path.join(campaignDir, "review-packet", "review-packet.ui.json"));
+
+  assert.equal(workflow.status, expectedStatus);
+  assert.equal(packet.status, workflow.status);
+  assert.equal(packet.statusLabel, workflow.statusLabel);
+  assert.equal(packet.decisionRequired, false);
+  assert.equal(packet.nextAction, workflow.nextAction);
+  assert.equal(packet.scheduleOrPublishReady, false);
+}
+
 async function withServer(workspaceRoot, run) {
   const app = createDecisionApp({ workspaceRoot });
   const server = app.listen(0, "127.0.0.1");
@@ -253,6 +292,64 @@ test("decision api records needs_revision without creating a manual package", as
         await readFile(path.join(campaignDir, "revision-bundle.json"), "utf8")
       );
       assert.equal(revision.postizHandoff.status, "needs_review");
+    });
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("decision api refreshes review packet after approve", async () => {
+  const { workspaceRoot, campaignDir } = await seedWorkspace();
+  try {
+    await writeReviewPacket(campaignDir);
+    await withServer(workspaceRoot, async (baseUrl) => {
+      const result = await postDecision(baseUrl, {
+        decision: "approve",
+        reviewer: "Jen",
+        gates: ALL_GATES,
+        notes: "Reviewed all three assets on mobile."
+      });
+
+      assert.equal(result.status, 200);
+      await assertReviewPacketMatchesWorkflow(campaignDir, "approved_waiting_postiz_dry_run");
+    });
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("decision api refreshes review packet after needs_revision", async () => {
+  const { workspaceRoot, campaignDir } = await seedWorkspace();
+  try {
+    await writeReviewPacket(campaignDir);
+    await withServer(workspaceRoot, async (baseUrl) => {
+      const result = await postDecision(baseUrl, {
+        decision: "needs_revision",
+        reviewer: "Jen",
+        notes: "Hook is too slow; product must appear in the first three seconds."
+      });
+
+      assert.equal(result.status, 200);
+      await assertReviewPacketMatchesWorkflow(campaignDir, "needs_revision");
+    });
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("decision api refreshes review packet after reject", async () => {
+  const { workspaceRoot, campaignDir } = await seedWorkspace();
+  try {
+    await writeReviewPacket(campaignDir);
+    await withServer(workspaceRoot, async (baseUrl) => {
+      const result = await postDecision(baseUrl, {
+        decision: "reject",
+        reviewer: "Jen",
+        notes: "Product is not visible enough for this campaign to continue."
+      });
+
+      assert.equal(result.status, 200);
+      await assertReviewPacketMatchesWorkflow(campaignDir, "rejected");
     });
   } finally {
     await rm(workspaceRoot, { recursive: true, force: true });

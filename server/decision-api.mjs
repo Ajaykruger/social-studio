@@ -9,7 +9,7 @@
 // Binding is localhost-only by default. On a VPS it must sit behind an
 // authenticated proxy (Cloudflare Access / Tailscale) before HOST is changed.
 
-import { appendFile, mkdir, readdir, readFile, access } from "node:fs/promises";
+import { appendFile, mkdir, readdir, readFile, access, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import express from "express";
@@ -112,6 +112,30 @@ async function appendAuditLog(auditRoot, campaignId, entry) {
   await appendFile(path.join(auditRoot, `${campaignId}.decisions.jsonl`), line);
 }
 
+async function writeJson(filePath, value) {
+  await mkdir(path.dirname(filePath), { recursive: true });
+  await writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+async function refreshReviewPacketFromWorkflow(campaignDir) {
+  const packetPath = path.join(campaignDir, "review-packet", "review-packet.ui.json");
+  const workflowPath = path.join(campaignDir, "workflow-status.ui.json");
+  const packet = await readJsonIfExists(packetPath);
+  if (!packet) return false;
+
+  const workflow = await readJsonIfExists(workflowPath);
+  if (!workflow) return false;
+
+  await writeJson(packetPath, {
+    ...packet,
+    status: workflow.status,
+    statusLabel: workflow.statusLabel,
+    decisionRequired: false,
+    nextAction: workflow.nextAction
+  });
+  return true;
+}
+
 export function createDecisionApp({
   workspaceRoot = defaultWorkspaceRoot
 } = {}) {
@@ -209,6 +233,8 @@ export function createDecisionApp({
         approvedAt: decidedAt,
         notes: validated.notes
       });
+
+      await refreshReviewPacketFromWorkflow(campaignDir);
 
       await appendAuditLog(paths.auditRoot, campaignId, {
         at: decidedAt,
