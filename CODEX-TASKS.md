@@ -13,7 +13,7 @@ in `AGENTS.md` plus the acceptance criteria below.
 
 ---
 
-## Task 1 [DONE 2afd7d3] — GitHub Actions CI
+## Task 1 [DONE d589026] — GitHub Actions CI
 
 **Goal:** every push and PR runs the test suite and build, so later tasks
 cannot silently break the safety guarantees.
