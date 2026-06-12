@@ -1,0 +1,109 @@
+{
+  "packageType": "social_studio_workflow_status",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+  "source": {
+    "bundle": "draft-bundle.json",
+    "generatedAt": "2026-06-11T13:58:36.095Z"
+  },
+  "overall": {
+    "status": "needs_review",
+    "mvpComplete": false,
+    "reason": "MVP remains review-first and no live posting has been approved."
+  },
+  "readiness": {
+    "canCreatePostizDraft": false,
+    "canScheduleOrPublish": false,
+    "needsHumanReview": true
+  },
+  "safety": {
+    "noLivePosting": true,
+    "crossPostResults": null,
+    "secretsRequired": false
+  },
+  "stages": {
+    "brandContext": {
+      "status": "ready",
+      "label": "Brand context index exists.",
+      "evidence": ""
+    },
+    "moneyprinterDraft": {
+      "status": "ready",
+      "label": "MoneyPrinterTurbo draft asset is present.",
+      "evidence": ""
+    },
+    "humanReview": {
+      "status": "blocked",
+      "label": "Human review is still required.",
+      "evidence": ""
+    },
+    "postizManualPackage": {
+      "status": "ready",
+      "label": "Manual Postiz preview package exists for review only until approval.",
+      "evidence": ""
+    },
+    "postizApiDraft": {
+      "status": "blocked",
+      "label": "Postiz API draft dry-run is not ready.",
+      "evidence": ""
+    }
+  },
+  "blockers": [
+    "Human review approval is required before Postiz draft creation."
+  ],
+  "nextActions": [
+    "Complete human review of all generated assets and record approve, needs_revision, or reject.",
+    "Keep live scheduling and publishing disabled until there is separate final scheduling/publishing approval."
+  ],
+  "artifacts": {
+    "brandContext": true,
+    "manualPackage": true,
+    "moneyprinterVideo": true,
+    "postizDryRunPackage": false
+  },
+  "markdown": "# Crystal Clawz Social Studio Status\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nAsset: cc-rubber-base-demo-2026-06-10-draft-001\nOverall status: needs_review\n\n## Safety\n\n- Nothing has been posted live: yes\n- Live scheduling/publishing allowed: no\n- Postiz API draft creation ready: no\n\n## Artifact Freshness\n\n- Status generated: 2026-06-12T06:36:31.481Z\n- Source bundle generated: 2026-06-11T13:58:36.095Z\n- Source bundle: draft-bundle.json\n- Generated path: social-studio/generated/cc-rubber-base-demo-2026-06-10\n\n## Stages\n\n- brandContext: ready - Brand context index exists.\n- moneyprinterDraft: ready - MoneyPrinterTurbo draft asset is present.\n- humanReview: blocked - Human review is still required.\n- postizManualPackage: ready - Manual Postiz preview package exists for review only until approval.\n- postizApiDraft: blocked - Postiz API draft dry-run is not ready.\n\n## Blockers\n\n- Human review approval is required before Postiz draft creation.\n\n## Next Actions\n\n- Complete human review of all generated assets and record approve, needs_revision, or reject.\n- Keep live scheduling and publishing disabled until there is separate final scheduling/publishing approval.\n",
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "status": "needs_review",
+    "statusLabel": "Needs review",
+    "freshness": {
+      "generatedAt": "2026-06-12T06:36:31.481Z",
+      "sourceGeneratedAt": "2026-06-11T13:58:36.095Z",
+      "sourceBundle": "draft-bundle.json",
+      "generatedPath": "social-studio/generated/cc-rubber-base-demo-2026-06-10"
+    },
+    "noLivePosting": true,
+    "postizDraftReady": false,
+    "scheduleOrPublishReady": false,
+    "stages": [
+      {
+        "name": "Brand",
+        "status": "ready",
+        "label": "Brand context index exists."
+      },
+      {
+        "name": "MoneyPrinter",
+        "status": "ready",
+        "label": "MoneyPrinterTurbo draft asset is present."
+      },
+      {
+        "name": "Review",
+        "status": "blocked",
+        "label": "Human review is still required."
+      },
+      {
+        "name": "Postiz manual",
+        "status": "ready",
+        "label": "Manual Postiz preview package exists for review only until approval."
+      },
+      {
+        "name": "Postiz API draft",
+        "status": "blocked",
+        "label": "Postiz API draft dry-run is not ready."
+      }
+    ],
+    "blocker": "Human review approval is required before Postiz draft creation.",
+    "nextAction": "Complete human review of all generated assets and record approve, needs_revision, or reject."
+  }
+}

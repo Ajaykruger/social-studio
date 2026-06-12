@@ -1,0 +1,47 @@
+{
+  "brand": "Crystal Clawz",
+  "campaign": "French Rubber Base",
+  "audience": [
+    "South African nail technicians",
+    "Salon owners",
+    "Nail product buyers"
+  ],
+  "product_page": "https://crystalclawz.co.za/collections/french-rubber-base",
+  "default_platforms": [
+    "TikTok",
+    "Instagram Reels",
+    "YouTube Shorts",
+    "Shopify product content"
+  ],
+  "recommended_video": {
+    "aspect": "9:16",
+    "duration_seconds": 20,
+    "tone": "friendly, professional, practical",
+    "language_level": "South African Grade 10 English",
+    "structure": [
+      "benefit hook",
+      "product close-up",
+      "salon workflow benefit",
+      "shade or texture moment",
+      "call to action"
+    ]
+  },
+  "approved_angles": [
+    "smooth base for cleaner colour application",
+    "salon-ready base for French sets",
+    "practical product education for nail technicians",
+    "shade range and product close-up"
+  ],
+  "blocked_claims": [
+    "medical claims",
+    "fake testimonials",
+    "perfect results",
+    "works for every client",
+    "unverified awards or lab results"
+  ],
+  "preferred_ctas": [
+    "Shop Crystal Clawz French Rubber Base",
+    "Choose your next Rubber Base shade",
+    "Upgrade your next French set"
+  ]
+}

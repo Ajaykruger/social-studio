@@ -1,0 +1,18 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+  "contentType": "paid_ad_video",
+  "label": "Paid ad video",
+  "status": "needs_review",
+  "networkCallsAllowed": false,
+  "publishAllowed": false,
+  "postizStatus": "blocked_until_approved",
+  "media": {
+    "mediaType": "video",
+    "mimeType": "video/mp4",
+    "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+    "storyboardUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg",
+    "aspectRatio": "9:16"
+  },
+  "nextAction": "Review the paid ad video draft and storyboard, then record approve, needs_revision, or reject."
+}

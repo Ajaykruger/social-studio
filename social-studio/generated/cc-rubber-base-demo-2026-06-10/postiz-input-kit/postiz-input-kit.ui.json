@@ -1,0 +1,302 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "needs_real_values",
+  "networkCallsAllowed": false,
+  "secretsInUi": false,
+  "summary": {
+    "requiredPlatforms": 3,
+    "readyIntegrations": 0,
+    "requiredMediaAssets": 3,
+    "uploadedMediaReady": 0
+  },
+  "validation": {
+    "missingPlatforms": [
+      "instagram",
+      "facebook",
+      "tiktok"
+    ],
+    "requiredMediaAssets": [
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+        "label": "UGC video",
+        "contentType": "ugc_video",
+        "mediaType": "video",
+        "assetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+        "localInputFile": "uploaded-media.local.json",
+        "requiredFields": [
+          "id",
+          "path"
+        ]
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+        "label": "Paid ad video",
+        "contentType": "paid_ad_video",
+        "mediaType": "video",
+        "assetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+        "localInputFile": "uploaded-media.local.json",
+        "requiredFields": [
+          "id",
+          "path"
+        ]
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+        "label": "Normal post",
+        "contentType": "normal_post",
+        "mediaType": "image",
+        "assetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+        "localInputFile": "uploaded-media.local.json",
+        "requiredFields": [
+          "id",
+          "path"
+        ]
+      }
+    ],
+    "uploadedMediaReady": false,
+    "integrationsReady": false,
+    "inputSecretsReady": true,
+    "secretFieldCount": 0,
+    "secretFields": []
+  },
+  "operatorPreflight": {
+    "status": "needs_real_values",
+    "missingChecks": 6,
+    "valueShown": false,
+    "integrationChecks": [
+      {
+        "platform": "instagram",
+        "status": "missing",
+        "localInputFile": "integrations.local.json",
+        "requiredFields": [
+          "id",
+          "settings.__type"
+        ],
+        "missingFields": [
+          "id"
+        ],
+        "valueShown": false
+      },
+      {
+        "platform": "facebook",
+        "status": "missing",
+        "localInputFile": "integrations.local.json",
+        "requiredFields": [
+          "id",
+          "settings.__type"
+        ],
+        "missingFields": [
+          "id"
+        ],
+        "valueShown": false
+      },
+      {
+        "platform": "tiktok",
+        "status": "missing",
+        "localInputFile": "integrations.local.json",
+        "requiredFields": [
+          "id",
+          "settings.__type"
+        ],
+        "missingFields": [
+          "id"
+        ],
+        "valueShown": false
+      }
+    ],
+    "mediaChecks": [
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+        "label": "UGC video",
+        "contentType": "ugc_video",
+        "mediaType": "video",
+        "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+        "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+        "status": "missing",
+        "localInputFile": "uploaded-media.local.json",
+        "requiredFields": [
+          "id",
+          "path"
+        ],
+        "missingFields": [
+          "id",
+          "path"
+        ],
+        "valueShown": false
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+        "label": "Paid ad video",
+        "contentType": "paid_ad_video",
+        "mediaType": "video",
+        "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+        "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+        "status": "missing",
+        "localInputFile": "uploaded-media.local.json",
+        "requiredFields": [
+          "id",
+          "path"
+        ],
+        "missingFields": [
+          "id",
+          "path"
+        ],
+        "valueShown": false
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+        "label": "Normal post",
+        "contentType": "normal_post",
+        "mediaType": "image",
+        "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+        "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+        "status": "missing",
+        "localInputFile": "uploaded-media.local.json",
+        "requiredFields": [
+          "id",
+          "path"
+        ],
+        "missingFields": [
+          "id",
+          "path"
+        ],
+        "valueShown": false
+      }
+    ]
+  },
+  "operatorEditPlan": {
+    "valueShown": false,
+    "forbiddenFields": [
+      "Do not add API keys, access tokens, refresh tokens, cookies, passwords, or secrets.",
+      "Do not add scheduling or publishing fields.",
+      "Do not remove assetId or contentType from uploaded media records."
+    ],
+    "files": [
+      {
+        "id": "postiz_integrations",
+        "file": "integrations.local.json",
+        "purpose": "Fill one real Postiz channel integration record per required platform.",
+        "allowedFields": [
+          "platform",
+          "id",
+          "settings.__type"
+        ],
+        "records": [
+          {
+            "key": "instagram",
+            "label": "instagram",
+            "status": "missing",
+            "requiredFields": [
+              "id",
+              "settings.__type"
+            ],
+            "missingFields": [
+              "id"
+            ],
+            "valueShown": false
+          },
+          {
+            "key": "facebook",
+            "label": "facebook",
+            "status": "missing",
+            "requiredFields": [
+              "id",
+              "settings.__type"
+            ],
+            "missingFields": [
+              "id"
+            ],
+            "valueShown": false
+          },
+          {
+            "key": "tiktok",
+            "label": "tiktok",
+            "status": "missing",
+            "requiredFields": [
+              "id",
+              "settings.__type"
+            ],
+            "missingFields": [
+              "id"
+            ],
+            "valueShown": false
+          }
+        ]
+      },
+      {
+        "id": "postiz_uploaded_media",
+        "file": "uploaded-media.local.json",
+        "purpose": "Fill one real uploaded media reference per approved review asset.",
+        "allowedFields": [
+          "assetId",
+          "contentType",
+          "id",
+          "path"
+        ],
+        "records": [
+          {
+            "key": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+            "label": "UGC video",
+            "contentType": "ugc_video",
+            "mediaType": "video",
+            "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+            "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+            "status": "missing",
+            "requiredFields": [
+              "id",
+              "path"
+            ],
+            "missingFields": [
+              "id",
+              "path"
+            ],
+            "valueShown": false
+          },
+          {
+            "key": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+            "label": "Paid ad video",
+            "contentType": "paid_ad_video",
+            "mediaType": "video",
+            "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+            "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+            "status": "missing",
+            "requiredFields": [
+              "id",
+              "path"
+            ],
+            "missingFields": [
+              "id",
+              "path"
+            ],
+            "valueShown": false
+          },
+          {
+            "key": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+            "label": "Normal post",
+            "contentType": "normal_post",
+            "mediaType": "image",
+            "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+            "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+            "status": "missing",
+            "requiredFields": [
+              "id",
+              "path"
+            ],
+            "missingFields": [
+              "id",
+              "path"
+            ],
+            "valueShown": false
+          }
+        ]
+      }
+    ]
+  },
+  "files": {
+    "integrationsTemplate": "integrations.local.template.json",
+    "uploadedMediaTemplate": "uploaded-media.local.template.json",
+    "integrationsLocal": "integrations.local.json",
+    "uploadedMediaLocal": "uploaded-media.local.json"
+  },
+  "nextAction": "Edit integrations.local.json and uploaded-media.local.json with real local Postiz IDs and uploaded media values, then refresh readiness."
+}

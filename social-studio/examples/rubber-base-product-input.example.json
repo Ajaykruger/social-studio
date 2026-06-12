@@ -1,0 +1,29 @@
+{
+  "productId": "french-rubber-base",
+  "name": "French Rubber Base",
+  "category": "Rubber Base Gel",
+  "sourceUrl": "https://crystalclawz.co.za/collections/french-rubber-base",
+  "approvedBenefits": [
+    "smooth base",
+    "cleaner colour application",
+    "salon-ready base",
+    "useful for French sets",
+    "supports overlay work where the product page supports it"
+  ],
+  "blockedClaims": [
+    "medical or health claims",
+    "guaranteed perfect results",
+    "invented testimonials",
+    "unverified lab results",
+    "works for every client"
+  ],
+  "requiredVisuals": [
+    "product_closeup",
+    "shade_or_swatch",
+    "cta_end_frame"
+  ],
+  "mediaFolder": "",
+  "approvalNote": "Use only product-page-supported claims or human-approved Crystal Clawz wording.",
+  "lastReviewedAt": "",
+  "reviewedBy": ""
+}

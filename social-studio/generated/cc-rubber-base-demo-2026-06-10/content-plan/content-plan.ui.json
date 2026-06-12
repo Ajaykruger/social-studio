@@ -1,0 +1,56 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "needs_review",
+  "noLivePosting": true,
+  "postizDraftOnlyAfterApproval": true,
+  "assets": [
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+      "label": "UGC video",
+      "contentType": "ugc_video",
+      "generator": "MoneyPrinterTurbo",
+      "output": "vertical_video",
+      "platforms": [
+        "instagram",
+        "facebook",
+        "tiktok"
+      ],
+      "angle": "UGC video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+      "reviewRequired": true,
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+      "label": "Paid ad video",
+      "contentType": "paid_ad_video",
+      "generator": "MoneyPrinterTurbo",
+      "output": "vertical_video",
+      "platforms": [
+        "instagram",
+        "facebook",
+        "tiktok"
+      ],
+      "angle": "Paid ad video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+      "reviewRequired": true,
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+      "label": "Normal post",
+      "contentType": "normal_post",
+      "generator": "Manual or Canva-style post builder",
+      "output": "image_or_caption_post",
+      "platforms": [
+        "instagram",
+        "facebook",
+        "tiktok"
+      ],
+      "angle": "Normal post: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+      "reviewRequired": true,
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false
+    }
+  ]
+}

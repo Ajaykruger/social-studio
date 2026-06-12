@@ -1,0 +1,258 @@
+{
+  "packageType": "social_studio_content_plan",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "campaignName": "French Rubber Base Draft Demo",
+  "status": "needs_review",
+  "product": {
+    "name": "French Rubber Base",
+    "category": "Rubber Base Gel",
+    "url": "https://crystalclawz.co.za/collections/french-rubber-base"
+  },
+  "audience": "South African nail technicians",
+  "cta": "Shop Crystal Clawz French Rubber Base",
+  "safety": {
+    "noLivePosting": true,
+    "humanReviewRequired": true,
+    "postizDraftOnlyAfterApproval": true,
+    "secretsRequired": false
+  },
+  "assets": [
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+      "contentType": "ugc_video",
+      "label": "UGC video",
+      "stage": "planned",
+      "platforms": [
+        "instagram",
+        "facebook",
+        "tiktok"
+      ],
+      "generator": {
+        "primary": "MoneyPrinterTurbo",
+        "moneyPrinterTurboAllowed": true,
+        "notes": "Use local MoneyPrinterTurbo only, then route the MP4 through human review."
+      },
+      "output": {
+        "kind": "vertical_video",
+        "aspectRatios": [
+          "9:16"
+        ],
+        "postizFormat": "reel_or_short"
+      },
+      "angle": "UGC video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+      "claims": {
+        "approvedBenefits": [
+          "smooth base",
+          "cleaner colour application",
+          "salon-ready base",
+          "useful for French sets",
+          "supports overlay work where the product page supports it"
+        ],
+        "blockedClaims": [
+          "medical or health claims",
+          "guaranteed perfect results",
+          "invented testimonials",
+          "unverified lab results",
+          "works for every client"
+        ],
+        "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base"
+      },
+      "review": {
+        "required": true,
+        "status": "needs_review",
+        "reviewer": "pending-human-review",
+        "focus": [
+          "creator-style hook feels natural",
+          "product is visible early",
+          "claims stay inside approved benefits",
+          "caption and CTA match the product page"
+        ]
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "handoffMode": "manual_upload_or_dry_run_after_approval",
+        "draftCreationAllowed": false,
+        "scheduleAllowed": false,
+        "publishAllowed": false
+      }
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+      "contentType": "paid_ad_video",
+      "label": "Paid ad video",
+      "stage": "planned",
+      "platforms": [
+        "instagram",
+        "facebook",
+        "tiktok"
+      ],
+      "generator": {
+        "primary": "MoneyPrinterTurbo",
+        "moneyPrinterTurboAllowed": true,
+        "notes": "Use local MoneyPrinterTurbo only, then route the MP4 through human review."
+      },
+      "output": {
+        "kind": "vertical_video",
+        "aspectRatios": [
+          "9:16",
+          "4:5"
+        ],
+        "postizFormat": "ad_draft_video"
+      },
+      "angle": "Paid ad video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+      "claims": {
+        "approvedBenefits": [
+          "smooth base",
+          "cleaner colour application",
+          "salon-ready base",
+          "useful for French sets",
+          "supports overlay work where the product page supports it"
+        ],
+        "blockedClaims": [
+          "medical or health claims",
+          "guaranteed perfect results",
+          "invented testimonials",
+          "unverified lab results",
+          "works for every client"
+        ],
+        "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base"
+      },
+      "review": {
+        "required": true,
+        "status": "needs_review",
+        "reviewer": "pending-human-review",
+        "focus": [
+          "first three seconds show the problem or product clearly",
+          "benefit claim is source-backed",
+          "offer and CTA are explicit",
+          "visual pacing works for a paid placement"
+        ]
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "handoffMode": "manual_upload_or_dry_run_after_approval",
+        "draftCreationAllowed": false,
+        "scheduleAllowed": false,
+        "publishAllowed": false
+      }
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+      "contentType": "normal_post",
+      "label": "Normal post",
+      "stage": "planned",
+      "platforms": [
+        "instagram",
+        "facebook",
+        "tiktok"
+      ],
+      "generator": {
+        "primary": "Manual or Canva-style post builder",
+        "moneyPrinterTurboAllowed": false,
+        "notes": "Build manually or with a design tool, then route the asset through human review."
+      },
+      "output": {
+        "kind": "image_or_caption_post",
+        "aspectRatios": [
+          "1:1",
+          "4:5"
+        ],
+        "postizFormat": "feed_post_draft"
+      },
+      "angle": "Normal post: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+      "claims": {
+        "approvedBenefits": [
+          "smooth base",
+          "cleaner colour application",
+          "salon-ready base",
+          "useful for French sets",
+          "supports overlay work where the product page supports it"
+        ],
+        "blockedClaims": [
+          "medical or health claims",
+          "guaranteed perfect results",
+          "invented testimonials",
+          "unverified lab results",
+          "works for every client"
+        ],
+        "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base"
+      },
+      "review": {
+        "required": true,
+        "status": "needs_review",
+        "reviewer": "pending-human-review",
+        "focus": [
+          "single clear product point",
+          "caption is useful without overclaiming",
+          "image or carousel frame has readable product context",
+          "CTA is clear"
+        ]
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "handoffMode": "manual_upload_or_dry_run_after_approval",
+        "draftCreationAllowed": false,
+        "scheduleAllowed": false,
+        "publishAllowed": false
+      }
+    }
+  ],
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "status": "needs_review",
+    "noLivePosting": true,
+    "postizDraftOnlyAfterApproval": true,
+    "assets": [
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+        "label": "UGC video",
+        "contentType": "ugc_video",
+        "generator": "MoneyPrinterTurbo",
+        "output": "vertical_video",
+        "platforms": [
+          "instagram",
+          "facebook",
+          "tiktok"
+        ],
+        "angle": "UGC video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+        "reviewRequired": true,
+        "postizStatus": "blocked_until_approved",
+        "publishAllowed": false
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+        "label": "Paid ad video",
+        "contentType": "paid_ad_video",
+        "generator": "MoneyPrinterTurbo",
+        "output": "vertical_video",
+        "platforms": [
+          "instagram",
+          "facebook",
+          "tiktok"
+        ],
+        "angle": "Paid ad video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+        "reviewRequired": true,
+        "postizStatus": "blocked_until_approved",
+        "publishAllowed": false
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+        "label": "Normal post",
+        "contentType": "normal_post",
+        "generator": "Manual or Canva-style post builder",
+        "output": "image_or_caption_post",
+        "platforms": [
+          "instagram",
+          "facebook",
+          "tiktok"
+        ],
+        "angle": "Normal post: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+        "reviewRequired": true,
+        "postizStatus": "blocked_until_approved",
+        "publishAllowed": false
+      }
+    ]
+  },
+  "markdown": "# Crystal Clawz Content Plan\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nStatus: needs_review\n\n## Safety\n\n- Nothing has been posted live: yes\n- Postiz draft only after approval: yes\n\n## Planned Assets\n\n### UGC video\n\n- Asset id: cc-rubber-base-demo-2026-06-10-ugc-video-01\n- Generator: MoneyPrinterTurbo\n- Output: vertical_video\n- Platforms: instagram, facebook, tiktok\n- Postiz: blocked until human approval\n- Angle: UGC video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".\n\n### Paid ad video\n\n- Asset id: cc-rubber-base-demo-2026-06-10-paid-ad-video-02\n- Generator: MoneyPrinterTurbo\n- Output: vertical_video\n- Platforms: instagram, facebook, tiktok\n- Postiz: blocked until human approval\n- Angle: Paid ad video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".\n\n### Normal post\n\n- Asset id: cc-rubber-base-demo-2026-06-10-normal-post-03\n- Generator: Manual or Canva-style post builder\n- Output: image_or_caption_post\n- Platforms: instagram, facebook, tiktok\n- Postiz: blocked until human approval\n- Angle: Normal post: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".\n\n"
+}

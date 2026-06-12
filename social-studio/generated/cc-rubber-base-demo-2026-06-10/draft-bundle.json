@@ -1,0 +1,68 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+  "generatedAt": "2026-06-11T13:58:36.095Z",
+  "moneyprinterRequest": {
+    "video_subject": "French Rubber Base for South African nail technicians",
+    "video_script_prompt": "Create a short, practical, salon-focused script for French Rubber Base. Audience: South African nail technicians. Pain point: French and colour work can look messy when the base is uneven. CTA: Shop Crystal Clawz French Rubber Base. Approved benefits: smooth base; cleaner colour application; salon-ready base; useful for French sets; supports overlay work where the product page supports it. Blocked claims: medical or health claims; guaranteed perfect results; invented testimonials; unverified lab results; works for every client. Do not invent testimonials, medical claims, lab results, or guaranteed outcomes.",
+    "video_aspect": "9:16",
+    "video_source": "local",
+    "video_count": 1,
+    "video_clip_duration": 5,
+    "voice_name": "",
+    "subtitle_enabled": true
+  },
+  "reviewStatus": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "assetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+    "status": "needs_review",
+    "reviewer": "pending-human-review",
+    "checks": {
+      "brandFit": false,
+      "claimSafe": false,
+      "productVisible": false,
+      "captionReady": false,
+      "ctaReady": false,
+      "platformReady": false,
+      "notLive": true
+    },
+    "notes": "Draft bundle prepared. Human reviewer must approve for Postiz draft upload only.",
+    "approval": {
+      "approvedBy": "",
+      "approvedAt": "",
+      "approvalEvidence": ""
+    }
+  },
+  "postizHandoff": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "assetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+    "handoffMode": "manual_upload",
+    "platforms": [
+      "instagram",
+      "facebook",
+      "tiktok"
+    ],
+    "media": {
+      "localPath": "C:\\path\\to\\CC UCG\\MoneyPrinterTurbo\\storage\\tasks\\2e7a2913-c5de-4e96-8da4-b1b385313687\\final-1.mp4",
+      "thumbnailPath": "C:\\path\\to\\CC UCG\\social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\moneyprinter-final-thumb.jpg",
+      "mediaType": "video",
+      "aspectRatio": "9:16"
+    },
+    "caption": "Smooth base for cleaner salon work. Shop Crystal Clawz French Rubber Base.",
+    "hashtags": [
+      "#CrystalClawz",
+      "#NailTechSA",
+      "#RubberBaseGel",
+      "#FrenchRubberBase",
+      "#SalonReady"
+    ],
+    "scheduledFor": "",
+    "status": "needs_review",
+    "review": {
+      "approvedBy": "pending-human-review",
+      "approvedAt": "",
+      "notLiveConfirmed": true,
+      "notes": "Preview package only. Do not upload or schedule until review status is approved."
+    }
+  }
+}

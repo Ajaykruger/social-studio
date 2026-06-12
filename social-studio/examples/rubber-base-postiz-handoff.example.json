@@ -1,0 +1,23 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-video-001",
+  "handoffMode": "manual_upload",
+  "platforms": ["instagram", "facebook", "tiktok"],
+  "media": {
+    "localPath": "C:\\path\\to\\Codex\\2026-06-09\\what-project-were-we-discussing-in\\outputs\\CrystalClawz_FrenchRubberBase_ProductImage_Demo.mp4",
+    "thumbnailPath": "C:\\path\\to\\Codex\\2026-06-09\\what-project-were-we-discussing-in\\outputs\\CrystalClawz_FrenchRubberBase_ProductImage_Demo_thumb.jpg",
+    "mediaType": "video",
+    "durationSeconds": 15,
+    "aspectRatio": "9:16"
+  },
+  "caption": "A smooth base helps French and colour work look cleaner. Shop Crystal Clawz French Rubber Base for salon-ready sets.",
+  "hashtags": ["#CrystalClawz", "#NailTechSA", "#RubberBaseGel", "#FrenchRubberBase", "#SalonReady"],
+  "scheduledFor": "",
+  "status": "needs_review",
+  "review": {
+    "approvedBy": "pending-human-review",
+    "approvedAt": "",
+    "notLiveConfirmed": true,
+    "notes": "Example handoff preview only. Must be reviewed before any real scheduling."
+  }
+}

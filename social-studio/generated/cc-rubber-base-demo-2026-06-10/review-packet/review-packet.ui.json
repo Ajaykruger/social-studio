@@ -1,0 +1,22 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+  "status": "needs_review",
+  "statusLabel": "Needs review",
+  "decisionRequired": true,
+  "notLiveConfirmed": true,
+  "scheduleOrPublishReady": false,
+  "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+  "contactSheetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/contact-sheet.jpg",
+  "thumbnailUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/moneyprinter-final-thumb.jpg",
+  "caption": "Smooth base for cleaner salon work. Shop Crystal Clawz French Rubber Base.",
+  "hashtags": [
+    "#CrystalClawz",
+    "#NailTechSA",
+    "#RubberBaseGel",
+    "#FrenchRubberBase",
+    "#SalonReady"
+  ],
+  "visualReviewSummary": "The video is vertical and branded with Crystal Clawz text. Product bottle imagery is visible across the reviewed frames. The draft uses static product-card scenes, not real creator/UGC footage. On-frame text is readable in the contact sheet but still fairly text-heavy for Reels or TikTok. The draft is suitable for workflow proof and manual review. It should not be treated as final approved creative yet.",
+  "nextAction": "Review the MP4 and contact sheet, then record approve, needs_revision, or reject."
+}

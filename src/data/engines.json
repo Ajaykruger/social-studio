@@ -1,0 +1,23 @@
+[
+  {
+    "id": "flow-agent-mode",
+    "emoji": "🌊",
+    "name": "Flow / Gemini Agent Mode",
+    "promptStyle": "primary-flow",
+    "structureNotes": "Generate reference assets first, upload them into one Flow project, tag them with @ names, then create clips conversationally."
+  },
+  {
+    "id": "full-workflow",
+    "emoji": "🔁",
+    "name": "Flow + fallback prompts",
+    "promptStyle": "primary-plus-fallback",
+    "structureNotes": "Main workflow for Flow / Gemini Agent Mode, plus Seedance-style prompts if Jenn needs another tool."
+  },
+  {
+    "id": "fallback-only",
+    "emoji": "🎥",
+    "name": "Fallback prompts only",
+    "promptStyle": "fallback",
+    "structureNotes": "Still creates the Flow setup pack, but keeps the clip output focused on Seedance-style structured prompts."
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "campaignName": "French Rubber Base Draft Demo",
+  "product": {
+    "name": "French Rubber Base",
+    "category": "Rubber Base Gel",
+    "url": "https://crystalclawz.co.za/collections/french-rubber-base"
+  },
+  "audience": "South African nail technicians",
+  "painPoint": "French and colour work can look messy when the base is uneven",
+  "contentType": "ugc_video",
+  "platforms": ["instagram", "facebook", "tiktok"],
+  "cta": "Shop Crystal Clawz French Rubber Base",
+  "tone": "Friendly, professional, practical, salon-focused",
+  "claimSource": {
+    "sourceType": "product_page",
+    "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+    "approvedBenefits": [
+      "smooth base",
+      "cleaner colour application",
+      "salon-ready base"
+    ],
+    "blockedClaims": [
+      "medical or health claims",
+      "guaranteed perfect results",
+      "invented testimonials"
+    ]
+  },
+  "reviewer": "pending-human-review",
+  "dueDate": "",
+  "status": "brief"
+}

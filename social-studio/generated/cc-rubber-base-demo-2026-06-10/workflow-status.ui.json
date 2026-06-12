@@ -1,0 +1,43 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "needs_review",
+  "statusLabel": "Needs review",
+  "freshness": {
+    "generatedAt": "2026-06-12T06:36:31.481Z",
+    "sourceGeneratedAt": "2026-06-11T13:58:36.095Z",
+    "sourceBundle": "draft-bundle.json",
+    "generatedPath": "social-studio/generated/cc-rubber-base-demo-2026-06-10"
+  },
+  "noLivePosting": true,
+  "postizDraftReady": false,
+  "scheduleOrPublishReady": false,
+  "stages": [
+    {
+      "name": "Brand",
+      "status": "ready",
+      "label": "Brand context index exists."
+    },
+    {
+      "name": "MoneyPrinter",
+      "status": "ready",
+      "label": "MoneyPrinterTurbo draft asset is present."
+    },
+    {
+      "name": "Review",
+      "status": "blocked",
+      "label": "Human review is still required."
+    },
+    {
+      "name": "Postiz manual",
+      "status": "ready",
+      "label": "Manual Postiz preview package exists for review only until approval."
+    },
+    {
+      "name": "Postiz API draft",
+      "status": "blocked",
+      "label": "Postiz API draft dry-run is not ready."
+    }
+  ],
+  "blocker": "Human review approval is required before Postiz draft creation.",
+  "nextAction": "Complete human review of all generated assets and record approve, needs_revision, or reject."
+}

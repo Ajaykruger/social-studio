@@ -1,0 +1,182 @@
+{
+  "packageType": "social_studio_production_queue",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "needs_review",
+  "safety": {
+    "noLivePosting": true,
+    "networkCallsAllowed": false,
+    "postizBlockedUntilApproval": true,
+    "scheduleAllowed": false,
+    "publishAllowed": false
+  },
+  "summary": {
+    "totalAssets": 3,
+    "generatedAssets": 3,
+    "needsReview": 3,
+    "packetReady": 0,
+    "publishAllowed": 0
+  },
+  "items": [
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+      "contentType": "ugc_video",
+      "label": "UGC video",
+      "packetType": "moneyprinter_video_request",
+      "generator": "MoneyPrinterTurbo",
+      "state": "generated_needs_review",
+      "generated": {
+        "currentDraftAssetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+        "reviewAssetId": "",
+        "mediaPresent": true,
+        "mediaType": "video",
+        "videoUrl": "",
+        "imageUrl": "",
+        "storyboardUrl": "",
+        "taskId": ""
+      },
+      "review": {
+        "required": true,
+        "status": "needs_review",
+        "reviewer": "pending-human-review"
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "draftCreationAllowed": false,
+        "scheduleAllowed": false,
+        "publishAllowed": false
+      },
+      "nextAction": "Review the generated MP4/contact sheet and record approve, needs_revision, or reject."
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+      "contentType": "paid_ad_video",
+      "label": "Paid ad video",
+      "packetType": "moneyprinter_video_request",
+      "generator": "MoneyPrinterTurbo",
+      "state": "generated_needs_review",
+      "generated": {
+        "currentDraftAssetId": "",
+        "reviewAssetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+        "mediaPresent": true,
+        "mediaType": "video",
+        "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+        "imageUrl": "",
+        "storyboardUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg",
+        "taskId": ""
+      },
+      "review": {
+        "required": true,
+        "status": "needs_review",
+        "reviewer": "pending-human-review"
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "draftCreationAllowed": false,
+        "scheduleAllowed": false,
+        "publishAllowed": false
+      },
+      "nextAction": "Review the generated paid ad video draft and storyboard, then record approve, needs_revision, or reject."
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+      "contentType": "normal_post",
+      "label": "Normal post",
+      "packetType": "static_post_copy_brief",
+      "generator": "Manual or Canva-style post builder",
+      "state": "generated_needs_review",
+      "generated": {
+        "currentDraftAssetId": "",
+        "reviewAssetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+        "mediaPresent": true,
+        "mediaType": "image",
+        "videoUrl": "",
+        "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+        "storyboardUrl": "",
+        "taskId": ""
+      },
+      "review": {
+        "required": true,
+        "status": "needs_review",
+        "reviewer": "pending-human-review"
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "draftCreationAllowed": false,
+        "scheduleAllowed": false,
+        "publishAllowed": false
+      },
+      "nextAction": "Review the generated static post image and caption, then record approve, needs_revision, or reject."
+    }
+  ],
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "status": "needs_review",
+    "noLivePosting": true,
+    "postizBlockedUntilApproval": true,
+    "summary": {
+      "totalAssets": 3,
+      "generatedAssets": 3,
+      "needsReview": 3,
+      "packetReady": 0,
+      "publishAllowed": 0
+    },
+    "items": [
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+        "label": "UGC video",
+        "contentType": "ugc_video",
+        "packetType": "moneyprinter_video_request",
+        "generator": "MoneyPrinterTurbo",
+        "state": "generated_needs_review",
+        "mediaPresent": true,
+        "reviewAssetId": "",
+        "mediaType": "video",
+        "videoUrl": "",
+        "imageUrl": "",
+        "storyboardUrl": "",
+        "reviewStatus": "needs_review",
+        "postizStatus": "blocked_until_approved",
+        "publishAllowed": false,
+        "nextAction": "Review the generated MP4/contact sheet and record approve, needs_revision, or reject."
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+        "label": "Paid ad video",
+        "contentType": "paid_ad_video",
+        "packetType": "moneyprinter_video_request",
+        "generator": "MoneyPrinterTurbo",
+        "state": "generated_needs_review",
+        "mediaPresent": true,
+        "reviewAssetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+        "mediaType": "video",
+        "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+        "imageUrl": "",
+        "storyboardUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg",
+        "reviewStatus": "needs_review",
+        "postizStatus": "blocked_until_approved",
+        "publishAllowed": false,
+        "nextAction": "Review the generated paid ad video draft and storyboard, then record approve, needs_revision, or reject."
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+        "label": "Normal post",
+        "contentType": "normal_post",
+        "packetType": "static_post_copy_brief",
+        "generator": "Manual or Canva-style post builder",
+        "state": "generated_needs_review",
+        "mediaPresent": true,
+        "reviewAssetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+        "mediaType": "image",
+        "videoUrl": "",
+        "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+        "storyboardUrl": "",
+        "reviewStatus": "needs_review",
+        "postizStatus": "blocked_until_approved",
+        "publishAllowed": false,
+        "nextAction": "Review the generated static post image and caption, then record approve, needs_revision, or reject."
+      }
+    ]
+  },
+  "markdown": "# Crystal Clawz Production Queue\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nStatus: needs_review\n\n## Summary\n\n- Total assets: 3\n- Generated assets: 3\n- Packet ready: 0\n- Publish allowed: 0\n\n## Queue\n\n### UGC video\n\n- State: generated_needs_review\n- Packet: moneyprinter_video_request\n- Review: needs_review\n- Postiz: blocked_until_approved\n- Next: Review the generated MP4/contact sheet and record approve, needs_revision, or reject.\n\n### Paid ad video\n\n- State: generated_needs_review\n- Packet: moneyprinter_video_request\n- Review: needs_review\n- Postiz: blocked_until_approved\n- Next: Review the generated paid ad video draft and storyboard, then record approve, needs_revision, or reject.\n\n### Normal post\n\n- State: generated_needs_review\n- Packet: static_post_copy_brief\n- Review: needs_review\n- Postiz: blocked_until_approved\n- Next: Review the generated static post image and caption, then record approve, needs_revision, or reject.\n\n"
+}

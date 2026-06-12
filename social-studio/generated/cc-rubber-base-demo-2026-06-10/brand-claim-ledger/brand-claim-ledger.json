@@ -1,0 +1,251 @@
+{
+  "packageType": "social_studio_brand_claim_ledger",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "campaignName": "French Rubber Base Draft Demo",
+  "status": "needs_review",
+  "safety": {
+    "noLivePosting": true,
+    "postizBlockedUntilApproval": true,
+    "scheduleAllowed": false,
+    "publishAllowed": false
+  },
+  "brandRules": [
+    "Speak to South African nail technicians, salon owners, resellers, and students.",
+    "Keep the voice friendly, professional, practical, and clear.",
+    "Use product-page or human-approved claims only.",
+    "Do not invent reviews, awards, lab results, testimonials, before-and-after proof, or medical-style claims.",
+    "Every generated post or video must remain draft-only until a human reviewer approves it.",
+    "human reviewer is named"
+  ],
+  "summary": {
+    "totalAssets": 3,
+    "assetsNeedingHumanClaimCheck": 3,
+    "publishAllowed": 0
+  },
+  "assets": [
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+      "label": "UGC video",
+      "contentType": "ugc_video",
+      "platforms": [
+        "instagram",
+        "facebook",
+        "tiktok"
+      ],
+      "angle": "UGC video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+      "claimRules": {
+        "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+        "approvedBenefits": [
+          "smooth base",
+          "cleaner colour application",
+          "salon-ready base",
+          "useful for French sets",
+          "supports overlay work where the product page supports it"
+        ],
+        "blockedClaims": [
+          "medical or health claims",
+          "guaranteed perfect results",
+          "invented testimonials",
+          "unverified lab results",
+          "works for every client"
+        ],
+        "approvalNote": "Use only product-page-supported claims or human-approved Crystal Clawz wording."
+      },
+      "requiredVisuals": [
+        "product_closeup",
+        "shade_or_swatch",
+        "cta_end_frame"
+      ],
+      "reviewChecks": {
+        "brandFit": false,
+        "claimSafe": false,
+        "productVisible": false,
+        "captionReady": false,
+        "ctaReady": false,
+        "platformReady": false,
+        "notLive": true
+      },
+      "review": {
+        "required": true,
+        "status": "needs_review",
+        "reviewer": "pending-human-review"
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "publishAllowed": false
+      }
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+      "label": "Paid ad video",
+      "contentType": "paid_ad_video",
+      "platforms": [
+        "instagram",
+        "facebook",
+        "tiktok"
+      ],
+      "angle": "Paid ad video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+      "claimRules": {
+        "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+        "approvedBenefits": [
+          "smooth base",
+          "cleaner colour application",
+          "salon-ready base",
+          "useful for French sets",
+          "supports overlay work where the product page supports it"
+        ],
+        "blockedClaims": [
+          "medical or health claims",
+          "guaranteed perfect results",
+          "invented testimonials",
+          "unverified lab results",
+          "works for every client"
+        ],
+        "approvalNote": "Use only product-page-supported claims or human-approved Crystal Clawz wording."
+      },
+      "requiredVisuals": [
+        "product_closeup",
+        "shade_or_swatch",
+        "cta_end_frame"
+      ],
+      "reviewChecks": {
+        "brandFit": false,
+        "claimSafe": false,
+        "productVisible": false,
+        "captionReady": false,
+        "ctaReady": false,
+        "platformReady": false,
+        "notLive": true
+      },
+      "review": {
+        "required": true,
+        "status": "needs_review",
+        "reviewer": "pending-human-review"
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "publishAllowed": false
+      }
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+      "label": "Normal post",
+      "contentType": "normal_post",
+      "platforms": [
+        "instagram",
+        "facebook",
+        "tiktok"
+      ],
+      "angle": "Normal post: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+      "claimRules": {
+        "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+        "approvedBenefits": [
+          "smooth base",
+          "cleaner colour application",
+          "salon-ready base",
+          "useful for French sets",
+          "supports overlay work where the product page supports it"
+        ],
+        "blockedClaims": [
+          "medical or health claims",
+          "guaranteed perfect results",
+          "invented testimonials",
+          "unverified lab results",
+          "works for every client"
+        ],
+        "approvalNote": "Use only product-page-supported claims or human-approved Crystal Clawz wording."
+      },
+      "requiredVisuals": [
+        "product_closeup",
+        "shade_or_swatch",
+        "cta_end_frame"
+      ],
+      "reviewChecks": {
+        "brandFit": false,
+        "claimSafe": false,
+        "productVisible": false,
+        "captionReady": false,
+        "ctaReady": false,
+        "platformReady": false,
+        "notLive": true
+      },
+      "review": {
+        "required": true,
+        "status": "needs_review",
+        "reviewer": "pending-human-review"
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "publishAllowed": false
+      }
+    }
+  ],
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "status": "needs_review",
+    "noLivePosting": true,
+    "postizBlockedUntilApproval": true,
+    "summary": {
+      "totalAssets": 3,
+      "assetsNeedingHumanClaimCheck": 3,
+      "publishAllowed": 0
+    },
+    "brandRules": [
+      "Speak to South African nail technicians, salon owners, resellers, and students.",
+      "Keep the voice friendly, professional, practical, and clear.",
+      "Use product-page or human-approved claims only.",
+      "Do not invent reviews, awards, lab results, testimonials, before-and-after proof, or medical-style claims.",
+      "Every generated post or video must remain draft-only until a human reviewer approves it.",
+      "human reviewer is named"
+    ],
+    "assets": [
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+        "label": "UGC video",
+        "contentType": "ugc_video",
+        "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+        "approvedBenefitCount": 5,
+        "blockedClaimCount": 5,
+        "requiredVisuals": [
+          "product_closeup",
+          "shade_or_swatch",
+          "cta_end_frame"
+        ],
+        "reviewStatus": "needs_review",
+        "publishAllowed": false
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+        "label": "Paid ad video",
+        "contentType": "paid_ad_video",
+        "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+        "approvedBenefitCount": 5,
+        "blockedClaimCount": 5,
+        "requiredVisuals": [
+          "product_closeup",
+          "shade_or_swatch",
+          "cta_end_frame"
+        ],
+        "reviewStatus": "needs_review",
+        "publishAllowed": false
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+        "label": "Normal post",
+        "contentType": "normal_post",
+        "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+        "approvedBenefitCount": 5,
+        "blockedClaimCount": 5,
+        "requiredVisuals": [
+          "product_closeup",
+          "shade_or_swatch",
+          "cta_end_frame"
+        ],
+        "reviewStatus": "needs_review",
+        "publishAllowed": false
+      }
+    ]
+  },
+  "markdown": "# Crystal Clawz Brand Claim Ledger\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nStatus: needs_review\n\n## Brand Rules\n\n- Speak to South African nail technicians, salon owners, resellers, and students.\n- Keep the voice friendly, professional, practical, and clear.\n- Use product-page or human-approved claims only.\n- Do not invent reviews, awards, lab results, testimonials, before-and-after proof, or medical-style claims.\n- Every generated post or video must remain draft-only until a human reviewer approves it.\n- human reviewer is named\n\n## Assets\n\n### UGC video\n\n- Source: https://crystalclawz.co.za/collections/french-rubber-base\n- Approved benefits: smooth base; cleaner colour application; salon-ready base; useful for French sets; supports overlay work where the product page supports it\n- Blocked claims: medical or health claims; guaranteed perfect results; invented testimonials; unverified lab results; works for every client\n- Required visuals: product_closeup, shade_or_swatch, cta_end_frame\n- Review: needs_review\n\n### Paid ad video\n\n- Source: https://crystalclawz.co.za/collections/french-rubber-base\n- Approved benefits: smooth base; cleaner colour application; salon-ready base; useful for French sets; supports overlay work where the product page supports it\n- Blocked claims: medical or health claims; guaranteed perfect results; invented testimonials; unverified lab results; works for every client\n- Required visuals: product_closeup, shade_or_swatch, cta_end_frame\n- Review: needs_review\n\n### Normal post\n\n- Source: https://crystalclawz.co.za/collections/french-rubber-base\n- Approved benefits: smooth base; cleaner colour application; salon-ready base; useful for French sets; supports overlay work where the product page supports it\n- Blocked claims: medical or health claims; guaranteed perfect results; invented testimonials; unverified lab results; works for every client\n- Required visuals: product_closeup, shade_or_swatch, cta_end_frame\n- Review: needs_review\n\n"
+}

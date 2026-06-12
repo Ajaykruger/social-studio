@@ -1,0 +1,47 @@
+{
+  "video_subject": "French Rubber Base for South African nail technicians",
+  "video_script": "A smooth base helps French and colour work look cleaner. French Rubber Base gives nail technicians a salon-ready base for neat sets. Shop Crystal Clawz French Rubber Base.",
+  "video_terms": [
+    "French Rubber Base",
+    "Crystal Clawz",
+    "nail technician"
+  ],
+  "video_aspect": "9:16",
+  "video_concat_mode": "sequential",
+  "video_transition_mode": "None",
+  "video_clip_duration": 5,
+  "video_count": 1,
+  "video_source": "local",
+  "video_materials": [
+    {
+      "provider": "local",
+      "url": "C:\\path\\to\\CC UCG\\MoneyPrinterTurbo\\storage\\local_videos\\01_hook.mp4",
+      "duration": 5
+    },
+    {
+      "provider": "local",
+      "url": "C:\\path\\to\\CC UCG\\MoneyPrinterTurbo\\storage\\local_videos\\02_range.mp4",
+      "duration": 5
+    },
+    {
+      "provider": "local",
+      "url": "C:\\path\\to\\CC UCG\\MoneyPrinterTurbo\\storage\\local_videos\\03_six_in_one.mp4",
+      "duration": 5
+    },
+    {
+      "provider": "local",
+      "url": "C:\\path\\to\\CC UCG\\MoneyPrinterTurbo\\storage\\local_videos\\04_texture.mp4",
+      "duration": 5
+    },
+    {
+      "provider": "local",
+      "url": "C:\\path\\to\\CC UCG\\MoneyPrinterTurbo\\storage\\local_videos\\05_cta.mp4",
+      "duration": 5
+    }
+  ],
+  "custom_audio_file": "C:\\path\\to\\CC UCG\\MoneyPrinterTurbo\\storage\\local_videos\\crystalclawz_rubber_base_bgm_15s.mp3",
+  "subtitle_enabled": false,
+  "bgm_type": "none",
+  "voice_name": "",
+  "n_threads": 2
+}

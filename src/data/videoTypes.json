@@ -1,0 +1,50 @@
+[
+  {
+    "id": "problem-solution",
+    "emoji": "🧩",
+    "name": "Problem/Solution",
+    "description": "Start with a relatable problem, end with the product as the fix",
+    "hookStyle": "pain-point-first",
+    "clipStructureHint": "Clip 1: problem. Clip 2: frustration. Clip 3: discovery. Clip 4: result."
+  },
+  {
+    "id": "nail-tech-testimonial",
+    "emoji": "🗣️",
+    "name": "Nail Tech Testimonial",
+    "description": "Make the product feel trusted through a simple nail tech story",
+    "hookStyle": "proof-first",
+    "clipStructureHint": "Clip 1: honest claim. Clip 2: old struggle. Clip 3: product use. Clip 4: confident result."
+  },
+  {
+    "id": "product-demo",
+    "emoji": "🎬",
+    "name": "Product Demo",
+    "description": "Show the product in action with clear steps and visual proof",
+    "hookStyle": "demo-first",
+    "clipStructureHint": "Clip 1: show product. Clip 2: apply. Clip 3: close-up. Clip 4: final look."
+  },
+  {
+    "id": "founder-educator-talk",
+    "emoji": "👩‍🏫",
+    "name": "Founder/Educator Talk",
+    "description": "Use a warm educator voice to explain why the product matters",
+    "hookStyle": "educator-first",
+    "clipStructureHint": "Clip 1: direct advice. Clip 2: common mistake. Clip 3: better method. Clip 4: CTA."
+  },
+  {
+    "id": "sale-announcement",
+    "emoji": "🏷️",
+    "name": "Sale Announcement",
+    "description": "Create urgency while still keeping the product clear and useful",
+    "hookStyle": "offer-first",
+    "clipStructureHint": "Clip 1: offer. Clip 2: product value. Clip 3: who it helps. Clip 4: shop now."
+  },
+  {
+    "id": "training-confidence",
+    "emoji": "🌱",
+    "name": "Training Confidence",
+    "description": "Help a beginner feel calm, capable, and ready to take action",
+    "hookStyle": "confidence-first",
+    "clipStructureHint": "Clip 1: fear. Clip 2: reassurance. Clip 3: training moment. Clip 4: next step."
+  }
+]

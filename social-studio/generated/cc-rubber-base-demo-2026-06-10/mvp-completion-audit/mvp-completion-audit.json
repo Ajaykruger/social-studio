@@ -1,0 +1,198 @@
+{
+  "packageType": "social_studio_mvp_completion_audit",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "incomplete",
+  "mvpComplete": false,
+  "goalText": "Build a Crystal Clawz Social Studio MVP that wires Postiz, MoneyPrinterTurbo, and brand files into a review-first content workflow.",
+  "summary": {
+    "totalRequirements": 14,
+    "completeRequirements": 10,
+    "blockedRequirements": 4
+  },
+  "requirements": [
+    {
+      "id": "brand_brain_and_brief",
+      "label": "Brand brain and MVP brief",
+      "status": "complete",
+      "detail": "Brand context and MVP plan are available."
+    },
+    {
+      "id": "agent_skill_loop",
+      "label": "Scoped agents, skills, and build-check-edit loop",
+      "status": "complete",
+      "detail": "MVP plan names the plugins, skills, agent lanes, and build-check-edit loop."
+    },
+    {
+      "id": "content_workflow_coverage",
+      "label": "UGC, ad video, and post workflow coverage",
+      "status": "complete",
+      "detail": "UGC video, paid ad video, and normal post assets are planned through review."
+    },
+    {
+      "id": "moneyprinter_draft",
+      "label": "MoneyPrinterTurbo draft media",
+      "status": "complete",
+      "detail": "Draft video and review packet are available."
+    },
+    {
+      "id": "postiz_review_first_handoff",
+      "label": "Postiz review-first handoff",
+      "status": "complete",
+      "detail": "Postiz handoff remains manual, local, and command-only."
+    },
+    {
+      "id": "no_live_posting",
+      "label": "No live posting enabled",
+      "status": "complete",
+      "detail": "Scheduling and publishing remain disabled."
+    },
+    {
+      "id": "verified_build_and_scans",
+      "label": "Verified tests, build, and scans",
+      "status": "complete",
+      "detail": "Latest readiness audit includes passing verification flags."
+    },
+    {
+      "id": "postiz_input_safety",
+      "label": "Postiz local input safety",
+      "status": "complete",
+      "detail": "Local Postiz input files are checked for API keys, tokens, and secrets."
+    },
+    {
+      "id": "postiz_local_input_validation",
+      "label": "Postiz local input validation",
+      "status": "complete",
+      "detail": "Local Postiz input validation report is present, redacted, and safe."
+    },
+    {
+      "id": "rollback_not_live_proof",
+      "label": "Rollback and not-live proof",
+      "status": "complete",
+      "detail": "Rollback and not-live proof is documented for the draft-only handoff."
+    },
+    {
+      "id": "human_approval_recorded",
+      "label": "Human approval recorded",
+      "status": "blocked",
+      "detail": "Record human approval first."
+    },
+    {
+      "id": "real_postiz_inputs",
+      "label": "Real local Postiz input values",
+      "status": "blocked",
+      "detail": "Real Postiz integration IDs and uploaded media references are still required."
+    },
+    {
+      "id": "postiz_dry_run_package",
+      "label": "Postiz draft dry-run package",
+      "status": "blocked",
+      "detail": "Dry-run package has not been created."
+    },
+    {
+      "id": "approved_mvp_complete",
+      "label": "Approved draft-only MVP complete",
+      "status": "blocked",
+      "detail": "The MVP is not complete until every requirement above is complete."
+    }
+  ],
+  "nextAction": "Record human approval before treating the MVP as complete.",
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "status": "incomplete",
+    "mvpComplete": false,
+    "summary": {
+      "totalRequirements": 14,
+      "completeRequirements": 10,
+      "blockedRequirements": 4
+    },
+    "nextAction": "Record human approval before treating the MVP as complete.",
+    "requirements": [
+      {
+        "id": "brand_brain_and_brief",
+        "label": "Brand brain and MVP brief",
+        "status": "complete",
+        "detail": "Brand context and MVP plan are available."
+      },
+      {
+        "id": "agent_skill_loop",
+        "label": "Scoped agents, skills, and build-check-edit loop",
+        "status": "complete",
+        "detail": "MVP plan names the plugins, skills, agent lanes, and build-check-edit loop."
+      },
+      {
+        "id": "content_workflow_coverage",
+        "label": "UGC, ad video, and post workflow coverage",
+        "status": "complete",
+        "detail": "UGC video, paid ad video, and normal post assets are planned through review."
+      },
+      {
+        "id": "moneyprinter_draft",
+        "label": "MoneyPrinterTurbo draft media",
+        "status": "complete",
+        "detail": "Draft video and review packet are available."
+      },
+      {
+        "id": "postiz_review_first_handoff",
+        "label": "Postiz review-first handoff",
+        "status": "complete",
+        "detail": "Postiz handoff remains manual, local, and command-only."
+      },
+      {
+        "id": "no_live_posting",
+        "label": "No live posting enabled",
+        "status": "complete",
+        "detail": "Scheduling and publishing remain disabled."
+      },
+      {
+        "id": "verified_build_and_scans",
+        "label": "Verified tests, build, and scans",
+        "status": "complete",
+        "detail": "Latest readiness audit includes passing verification flags."
+      },
+      {
+        "id": "postiz_input_safety",
+        "label": "Postiz local input safety",
+        "status": "complete",
+        "detail": "Local Postiz input files are checked for API keys, tokens, and secrets."
+      },
+      {
+        "id": "postiz_local_input_validation",
+        "label": "Postiz local input validation",
+        "status": "complete",
+        "detail": "Local Postiz input validation report is present, redacted, and safe."
+      },
+      {
+        "id": "rollback_not_live_proof",
+        "label": "Rollback and not-live proof",
+        "status": "complete",
+        "detail": "Rollback and not-live proof is documented for the draft-only handoff."
+      },
+      {
+        "id": "human_approval_recorded",
+        "label": "Human approval recorded",
+        "status": "blocked",
+        "detail": "Record human approval first."
+      },
+      {
+        "id": "real_postiz_inputs",
+        "label": "Real local Postiz input values",
+        "status": "blocked",
+        "detail": "Real Postiz integration IDs and uploaded media references are still required."
+      },
+      {
+        "id": "postiz_dry_run_package",
+        "label": "Postiz draft dry-run package",
+        "status": "blocked",
+        "detail": "Dry-run package has not been created."
+      },
+      {
+        "id": "approved_mvp_complete",
+        "label": "Approved draft-only MVP complete",
+        "status": "blocked",
+        "detail": "The MVP is not complete until every requirement above is complete."
+      }
+    ]
+  },
+  "markdown": "# MVP Completion Audit\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nStatus: incomplete\nMVP complete: no\n\n## Objective\n\nBuild a Crystal Clawz Social Studio MVP that wires Postiz, MoneyPrinterTurbo, and brand files into a review-first content workflow.\n\n## Requirements\n\n- Brand brain and MVP brief: complete - Brand context and MVP plan are available.\n- Scoped agents, skills, and build-check-edit loop: complete - MVP plan names the plugins, skills, agent lanes, and build-check-edit loop.\n- UGC, ad video, and post workflow coverage: complete - UGC video, paid ad video, and normal post assets are planned through review.\n- MoneyPrinterTurbo draft media: complete - Draft video and review packet are available.\n- Postiz review-first handoff: complete - Postiz handoff remains manual, local, and command-only.\n- No live posting enabled: complete - Scheduling and publishing remain disabled.\n- Verified tests, build, and scans: complete - Latest readiness audit includes passing verification flags.\n- Postiz local input safety: complete - Local Postiz input files are checked for API keys, tokens, and secrets.\n- Postiz local input validation: complete - Local Postiz input validation report is present, redacted, and safe.\n- Rollback and not-live proof: complete - Rollback and not-live proof is documented for the draft-only handoff.\n- Human approval recorded: blocked - Record human approval first.\n- Real local Postiz input values: blocked - Real Postiz integration IDs and uploaded media references are still required.\n- Postiz draft dry-run package: blocked - Dry-run package has not been created.\n- Approved draft-only MVP complete: blocked - The MVP is not complete until every requirement above is complete.\n\n## Next Action\n\n- Record human approval before treating the MVP as complete.\n\n"
+}

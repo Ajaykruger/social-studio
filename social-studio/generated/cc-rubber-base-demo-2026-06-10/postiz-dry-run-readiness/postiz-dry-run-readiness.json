@@ -1,0 +1,109 @@
+{
+  "packageType": "social_studio_postiz_dry_run_readiness",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "blocked_by_human_review",
+  "dryRunOnly": true,
+  "networkCallsAllowed": false,
+  "noLivePosting": true,
+  "summary": {
+    "totalSteps": 6,
+    "readySteps": 2,
+    "blockedSteps": 4,
+    "requiredMediaAssets": 3,
+    "uploadedMediaReady": 0
+  },
+  "nextAction": "Complete human review before building any Postiz draft payload.",
+  "steps": [
+    {
+      "id": "human_approval",
+      "label": "Human approval recorded",
+      "status": "blocked",
+      "detail": "Complete review and record approve, needs_revision, or reject first."
+    },
+    {
+      "id": "manual_package",
+      "label": "Manual Postiz package",
+      "status": "ready",
+      "detail": "Manual upload package is available for review."
+    },
+    {
+      "id": "local_input_safety",
+      "label": "Local Postiz input safety",
+      "status": "ready",
+      "detail": "Local Postiz input files contain IDs/media references only, not API keys or tokens."
+    },
+    {
+      "id": "uploaded_media",
+      "label": "Uploaded Postiz media",
+      "status": "blocked",
+      "detail": "Real uploaded media id/path values are required for every approved asset (0/3 ready)."
+    },
+    {
+      "id": "integrations",
+      "label": "Postiz integration IDs",
+      "status": "blocked",
+      "detail": "Real Postiz integration IDs are required."
+    },
+    {
+      "id": "dry_run_package",
+      "label": "Postiz dry-run package",
+      "status": "blocked",
+      "detail": "Dry-run package has not been created."
+    }
+  ],
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "status": "blocked_by_human_review",
+    "dryRunOnly": true,
+    "networkCallsAllowed": false,
+    "noLivePosting": true,
+    "summary": {
+      "totalSteps": 6,
+      "readySteps": 2,
+      "blockedSteps": 4,
+      "requiredMediaAssets": 3,
+      "uploadedMediaReady": 0
+    },
+    "nextAction": "Complete human review before building any Postiz draft payload.",
+    "steps": [
+      {
+        "id": "human_approval",
+        "label": "Human approval recorded",
+        "status": "blocked",
+        "detail": "Complete review and record approve, needs_revision, or reject first."
+      },
+      {
+        "id": "manual_package",
+        "label": "Manual Postiz package",
+        "status": "ready",
+        "detail": "Manual upload package is available for review."
+      },
+      {
+        "id": "local_input_safety",
+        "label": "Local Postiz input safety",
+        "status": "ready",
+        "detail": "Local Postiz input files contain IDs/media references only, not API keys or tokens."
+      },
+      {
+        "id": "uploaded_media",
+        "label": "Uploaded Postiz media",
+        "status": "blocked",
+        "detail": "Real uploaded media id/path values are required for every approved asset (0/3 ready)."
+      },
+      {
+        "id": "integrations",
+        "label": "Postiz integration IDs",
+        "status": "blocked",
+        "detail": "Real Postiz integration IDs are required."
+      },
+      {
+        "id": "dry_run_package",
+        "label": "Postiz dry-run package",
+        "status": "blocked",
+        "detail": "Dry-run package has not been created."
+      }
+    ]
+  },
+  "markdown": "# Postiz Dry-Run Readiness\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nStatus: blocked_by_human_review\n\n## Safety\n\n- Dry-run only: yes\n- Network calls allowed: no\n- Nothing has been posted live: yes\n\n## Checklist\n\n- Human approval recorded: blocked - Complete review and record approve, needs_revision, or reject first.\n- Manual Postiz package: ready - Manual upload package is available for review.\n- Local Postiz input safety: ready - Local Postiz input files contain IDs/media references only, not API keys or tokens.\n- Uploaded Postiz media: blocked - Real uploaded media id/path values are required for every approved asset (0/3 ready).\n- Postiz integration IDs: blocked - Real Postiz integration IDs are required.\n- Postiz dry-run package: blocked - Dry-run package has not been created.\n\n## Next Action\n\n- Complete human review before building any Postiz draft payload.\n\n"
+}

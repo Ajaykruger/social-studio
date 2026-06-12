@@ -1,0 +1,21 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-video-001",
+  "status": "needs_review",
+  "reviewer": "pending-human-review",
+  "checks": {
+    "brandFit": false,
+    "claimSafe": false,
+    "productVisible": false,
+    "captionReady": false,
+    "ctaReady": false,
+    "platformReady": false,
+    "notLive": true
+  },
+  "notes": "Initial fixture. Human reviewer must update checks before approval.",
+  "approval": {
+    "approvedBy": "",
+    "approvedAt": "",
+    "approvalEvidence": ""
+  }
+}

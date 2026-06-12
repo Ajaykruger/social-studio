@@ -1,0 +1,48 @@
+{
+  "packageType": "social_studio_paid_ad_video_review_asset",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+  "contentType": "paid_ad_video",
+  "label": "Paid ad video",
+  "status": "needs_review",
+  "networkCallsAllowed": false,
+  "publishAllowed": false,
+  "postizStatus": "blocked_until_approved",
+  "review": {
+    "required": true,
+    "status": "needs_review",
+    "reviewer": "pending-human-review"
+  },
+  "media": {
+    "mediaType": "video",
+    "mimeType": "video/mp4",
+    "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+    "storyboardUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg",
+    "aspectRatio": "9:16"
+  },
+  "moneyprinterRequest": {
+    "subject": "French Rubber Base - Paid ad video",
+    "source": "local"
+  },
+  "nextAction": "Review the paid ad video draft and storyboard, then record approve, needs_revision, or reject.",
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+    "contentType": "paid_ad_video",
+    "label": "Paid ad video",
+    "status": "needs_review",
+    "networkCallsAllowed": false,
+    "publishAllowed": false,
+    "postizStatus": "blocked_until_approved",
+    "media": {
+      "mediaType": "video",
+      "mimeType": "video/mp4",
+      "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+      "storyboardUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg",
+      "aspectRatio": "9:16"
+    },
+    "nextAction": "Review the paid ad video draft and storyboard, then record approve, needs_revision, or reject."
+  },
+  "markdown": "# Paid Ad Video Review Asset\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nAsset: cc-rubber-base-demo-2026-06-10-paid-ad-video-02\nStatus: needs_review\n\n## Media\n\n- Video: /social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4\n- Storyboard: /social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg\n\n## Safety\n\n- Network calls allowed: false\n- Publish allowed: false\n- Postiz status: blocked_until_approved\n"
+}

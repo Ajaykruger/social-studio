@@ -1,0 +1,23 @@
+[
+  {
+    "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+    "contentType": "ugc_video",
+    "label": "UGC video",
+    "id": "TODO_POSTIZ_UGC_VIDEO_UPLOADED_MEDIA_ID",
+    "path": "TODO_POSTIZ_UGC_VIDEO_UPLOADED_MEDIA_MP4_PATH"
+  },
+  {
+    "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+    "contentType": "paid_ad_video",
+    "label": "Paid ad video",
+    "id": "TODO_POSTIZ_PAID_AD_VIDEO_UPLOADED_MEDIA_ID",
+    "path": "TODO_POSTIZ_PAID_AD_VIDEO_UPLOADED_MEDIA_MP4_PATH"
+  },
+  {
+    "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+    "contentType": "normal_post",
+    "label": "Normal post",
+    "id": "TODO_POSTIZ_NORMAL_POST_UPLOADED_MEDIA_ID",
+    "path": "TODO_POSTIZ_NORMAL_POST_UPLOADED_MEDIA_PATH"
+  }
+]

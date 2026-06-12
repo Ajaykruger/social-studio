@@ -1,0 +1,26 @@
+[
+  {
+    "id": "google-imagen",
+    "name": "Google Imagen",
+    "promptName": "Imagen image prompt",
+    "notes": "Use for clean commercial reference images before uploading assets into Flow."
+  },
+  {
+    "id": "nano-banana",
+    "name": "Nano Banana",
+    "promptName": "Nano Banana image prompt",
+    "notes": "Use for quick UGC-style reference images with simple natural wording."
+  },
+  {
+    "id": "gemini-image",
+    "name": "Gemini image",
+    "promptName": "Gemini image prompt",
+    "notes": "Use when Jenn wants the same Gemini ecosystem before moving assets into Flow."
+  },
+  {
+    "id": "generic-image",
+    "name": "Any image tool",
+    "promptName": "Universal image prompt",
+    "notes": "Use when another image generator is available."
+  }
+]

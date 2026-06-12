@@ -1,0 +1,34 @@
+[
+  {
+    "id": "jenn-educator",
+    "emoji": "educator",
+    "name": "Jenn / educator style",
+    "style": "Confident South African nail educator. Warm, direct, knowledgeable.",
+    "voiceNote": "Speaks clearly and simply. Uses 'nail tech' not 'nail technician'.",
+    "flowAvatarPromptHint": "A South African woman in her 30s, professional but approachable, seated at a nail station, natural makeup, wearing a black apron"
+  },
+  {
+    "id": "ai-nail-tech",
+    "emoji": "pro",
+    "name": "AI nail tech",
+    "style": "Professional salon nail tech with a calm, capable presence.",
+    "voiceNote": "Speaks like a working nail tech explaining one useful lesson.",
+    "flowAvatarPromptHint": "A professional South African nail tech in salon wear, friendly expression, hands near a clean nail desk"
+  },
+  {
+    "id": "ai-customer",
+    "emoji": "customer",
+    "name": "AI customer",
+    "style": "Relatable customer who explains the problem in simple language.",
+    "voiceNote": "Speaks naturally and clearly, with honest everyday wording.",
+    "flowAvatarPromptHint": "A South African customer in her late 20s, relaxed and friendly, sitting near a neat nail station"
+  },
+  {
+    "id": "beginner-student",
+    "emoji": "student",
+    "name": "Beginner student",
+    "style": "New nail tech who wants confidence without feeling judged.",
+    "voiceNote": "Speaks with simple, curious, practical wording.",
+    "flowAvatarPromptHint": "A beginner South African nail student, focused and hopeful, practising at a tidy training table"
+  }
+]

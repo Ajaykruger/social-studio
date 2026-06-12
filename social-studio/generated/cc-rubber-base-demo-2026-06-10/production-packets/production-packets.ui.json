@@ -1,0 +1,104 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "needs_review",
+  "noLivePosting": true,
+  "networkCallsAllowed": false,
+  "postizBlockedUntilApproval": true,
+  "assets": [
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+      "label": "UGC video",
+      "contentType": "ugc_video",
+      "packetType": "moneyprinter_video_request",
+      "generator": "MoneyPrinterTurbo",
+      "networkCallsAllowed": false,
+      "reviewStatus": "needs_review",
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false,
+      "details": {
+        "platforms": [
+          "instagram",
+          "facebook",
+          "tiktok"
+        ],
+        "formats": [
+          "9:16"
+        ],
+        "postizFormat": "reel_or_short",
+        "promptSummary": "UGC video: UGC video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\". Product: French Rubber Base. Audience: Sout...",
+        "captionDraft": "",
+        "designBrief": "",
+        "reviewFocus": [
+          "creator-style hook feels natural",
+          "product is visible early",
+          "claims stay inside approved benefits",
+          "caption and CTA match the product page"
+        ]
+      }
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+      "label": "Paid ad video",
+      "contentType": "paid_ad_video",
+      "packetType": "moneyprinter_video_request",
+      "generator": "MoneyPrinterTurbo",
+      "networkCallsAllowed": false,
+      "reviewStatus": "needs_review",
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false,
+      "details": {
+        "platforms": [
+          "instagram",
+          "facebook",
+          "tiktok"
+        ],
+        "formats": [
+          "9:16",
+          "4:5"
+        ],
+        "postizFormat": "ad_draft_video",
+        "promptSummary": "Paid ad video: Paid ad video: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\". Product: French Rubber Base. Audien...",
+        "captionDraft": "",
+        "designBrief": "",
+        "reviewFocus": [
+          "first three seconds show the problem or product clearly",
+          "benefit claim is source-backed",
+          "offer and CTA are explicit",
+          "visual pacing works for a paid placement"
+        ]
+      }
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+      "label": "Normal post",
+      "contentType": "normal_post",
+      "packetType": "static_post_copy_brief",
+      "generator": "Manual or Canva-style post builder",
+      "networkCallsAllowed": false,
+      "reviewStatus": "needs_review",
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false,
+      "details": {
+        "platforms": [
+          "instagram",
+          "facebook",
+          "tiktok"
+        ],
+        "formats": [
+          "1:1",
+          "4:5"
+        ],
+        "postizFormat": "feed_post_draft",
+        "promptSummary": "",
+        "captionDraft": "French Rubber Base helps with smooth base. Shop Crystal Clawz French Rubber Base.",
+        "designBrief": "Normal post: Normal post: show French Rubber Base helping South African nail technicians with french and colour work can look messy when the base is uneven using the approved benefit \"smooth base\".",
+        "reviewFocus": [
+          "single clear product point",
+          "caption is useful without overclaiming",
+          "image or carousel frame has readable product context",
+          "CTA is clear"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+  "status": "needs_review",
+  "reviewer": "pending-human-review",
+  "checks": {
+    "brandFit": false,
+    "claimSafe": false,
+    "productVisible": false,
+    "captionReady": false,
+    "ctaReady": false,
+    "platformReady": false,
+    "notLive": true
+  },
+  "notes": "Draft bundle prepared. Human reviewer must approve for Postiz draft upload only.",
+  "approval": {
+    "approvedBy": "",
+    "approvedAt": "",
+    "approvalEvidence": ""
+  }
+}

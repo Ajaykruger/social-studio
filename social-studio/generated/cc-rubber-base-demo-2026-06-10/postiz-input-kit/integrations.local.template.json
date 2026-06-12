@@ -1,0 +1,32 @@
+[
+  {
+    "platform": "instagram",
+    "id": "TODO_POSTIZ_INSTAGRAM_INTEGRATION_ID",
+    "settings": {
+      "__type": "instagram",
+      "post_type": "reel"
+    }
+  },
+  {
+    "platform": "facebook",
+    "id": "TODO_POSTIZ_FACEBOOK_INTEGRATION_ID",
+    "settings": {
+      "__type": "facebook"
+    }
+  },
+  {
+    "platform": "tiktok",
+    "id": "TODO_POSTIZ_TIKTOK_INTEGRATION_ID",
+    "settings": {
+      "__type": "tiktok",
+      "privacy_level": "PUBLIC_TO_EVERYONE",
+      "duet": false,
+      "stitch": false,
+      "comment": true,
+      "autoAddMusic": false,
+      "brand_content_toggle": false,
+      "brand_organic_toggle": true,
+      "content_posting_method": "DIRECT_POST"
+    }
+  }
+]

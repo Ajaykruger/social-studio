@@ -1,0 +1,131 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "blocked_by_human_review",
+  "commandOnly": true,
+  "networkCallsAllowed": false,
+  "liveActionsEnabled": false,
+  "summary": {
+    "totalCommands": 4,
+    "readyCommands": 0,
+    "availableCommands": 0,
+    "blockedCommands": 4
+  },
+  "prerequisiteChecklist": [
+    {
+      "id": "human_approval",
+      "label": "Human approval recorded",
+      "status": "blocked",
+      "detail": "Record a real human approval before building any Postiz dry-run payload."
+    },
+    {
+      "id": "real_postiz_inputs",
+      "label": "Real local Postiz inputs",
+      "status": "blocked",
+      "detail": "Fill integrations.local.json and uploaded-media.local.json with real local IDs/media references."
+    },
+    {
+      "id": "dry_run_only",
+      "label": "Dry-run only",
+      "status": "ready",
+      "detail": "This command center only prepares local dry-run payloads."
+    },
+    {
+      "id": "live_actions_off",
+      "label": "Live actions off",
+      "status": "ready",
+      "detail": "The app does not run Postiz API calls, scheduling, or publishing."
+    }
+  ],
+  "nextAction": "Record human approval before validating existing local Postiz inputs.",
+  "commands": [
+    {
+      "id": "prepare_local_postiz_inputs",
+      "label": "Prepare local Postiz inputs",
+      "guardrail": "Local input files already exist. Edit integrations.local.json and uploaded-media.local.json, then validate them. The prepare command refuses to overwrite existing local files.",
+      "command": "node social-studio\\tools\\prepare-postiz-local-inputs.mjs `\n  --integrations-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.template.json\" `\n  --uploaded-media-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.template.json\" `\n  --integrations-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\"",
+      "requires": [
+        "local_templates"
+      ],
+      "writes": [
+        "integrations.local.json",
+        "uploaded-media.local.json"
+      ],
+      "never": [
+        "Never calls the Postiz API.",
+        "Never schedules or publishes social content.",
+        "Never writes API keys, tokens, or secrets."
+      ],
+      "status": "blocked",
+      "copyEnabled": false
+    },
+    {
+      "id": "validate_postiz_inputs",
+      "label": "Validate Postiz inputs",
+      "guardrail": "Uses local files only. Does not call Postiz. Exits blocked until every real ID/media reference is present.",
+      "command": "node social-studio\\tools\\validate-postiz-local-inputs.mjs `\n  --bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\"",
+      "requires": [
+        "integrations.local.json",
+        "uploaded-media.local.json"
+      ],
+      "writes": [
+        "postiz-local-input-validation.json",
+        "postiz-local-input-validation.ui.json",
+        "postiz-local-input-validation.md"
+      ],
+      "never": [
+        "Never calls the Postiz API.",
+        "Never schedules or publishes social content.",
+        "Never writes API keys, tokens, or secrets."
+      ],
+      "status": "blocked",
+      "copyEnabled": false
+    },
+    {
+      "id": "refresh_postiz_readiness",
+      "label": "Refresh Postiz readiness",
+      "guardrail": "Reads approved bundle and local Postiz references. Does not call Postiz.",
+      "command": "node social-studio\\tools\\build-postiz-dry-run-readiness.mjs `\n  --workflow-status=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\workflow-status.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --approved-bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --postiz-input-kit=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\postiz-input-kit.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --postiz-dry-run=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-draft.dry-run.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-dry-run-readiness\"",
+      "requires": [
+        "approved-bundle.json",
+        "integrations.local.json",
+        "uploaded-media.local.json"
+      ],
+      "writes": [
+        "postiz-dry-run-readiness.json",
+        "postiz-dry-run-readiness.ui.json",
+        "postiz-dry-run-readiness.md"
+      ],
+      "never": [
+        "Never calls the Postiz API.",
+        "Never schedules or publishes social content.",
+        "Never writes API keys, tokens, or secrets."
+      ],
+      "status": "blocked",
+      "copyEnabled": false
+    },
+    {
+      "id": "build_postiz_dry_run",
+      "label": "Build Postiz dry-run",
+      "guardrail": "Requires approved-bundle.json and real local Postiz media/integration values. Writes a dry-run payload only.",
+      "command": "node social-studio\\tools\\run-postiz-dry-run-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --review-packet=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-packet\\review-packet.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --content-plan=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\content-plan\\content-plan.json\" `\n  --brand-claim-ledger=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\brand-claim-ledger\\brand-claim-ledger.json\" `\n  --production-packets=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-packets\\production-packets.json\" `\n  --production-queue=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-queue\\production-queue.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --human-approval-handoff=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\human-approval-handoff\\human-approval-handoff.ui.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --tests-passing=true `\n  --build-passing=true `\n  --secret-scan-passing=true `\n  --path-leak-scan-passing=true",
+      "requires": [
+        "approved-bundle.json",
+        "real Postiz local inputs",
+        "passing verification flags"
+      ],
+      "writes": [
+        "postiz-draft.dry-run.json",
+        "workflow-status.json",
+        "mvp-completion-audit.json"
+      ],
+      "never": [
+        "Never calls the Postiz API.",
+        "Never schedules social content.",
+        "Never publishes social content.",
+        "Never writes API keys, tokens, or secrets."
+      ],
+      "status": "blocked",
+      "copyEnabled": false
+    }
+  ]
+}

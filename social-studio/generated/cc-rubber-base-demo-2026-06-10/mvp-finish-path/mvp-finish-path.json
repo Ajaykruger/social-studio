@@ -1,0 +1,349 @@
+{
+  "packageType": "social_studio_mvp_finish_path",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "waiting_for_human_approval",
+  "commandOnly": true,
+  "networkCallsAllowed": false,
+  "liveActionsEnabled": false,
+  "summary": {
+    "totalSteps": 5,
+    "completeSteps": 0,
+    "availableSteps": 1,
+    "blockedSteps": 4,
+    "currentStep": "Review and record decision"
+  },
+  "steps": [
+    {
+      "id": "review_and_decide",
+      "label": "Review and record decision",
+      "status": "available",
+      "detail": "3 generated assets need a real review decision.",
+      "action": "Review all generated assets, then copy approve or edit notes before running needs_revision or reject.",
+      "preflightChecks": [
+        "Open the human approval handoff.",
+        "Review every generated asset and evidence item.",
+        "Confirm artifact freshness before copying a decision command."
+      ],
+      "expectedOutputs": [
+        "approved-bundle.json if approve is copied",
+        "approved manual Postiz draft package if approve is copied",
+        "needs_revision or rejected state if that decision is copied"
+      ],
+      "commands": [
+        {
+          "id": "approve",
+          "label": "Approve",
+          "status": "available",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --manual-package-dir=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --decision=approve `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rollback and not-live proof reviewed; Approved for Postiz draft upload only\" `\n  --notes=\"Approved for Postiz draft upload only. Do not publish without separate approval.\"",
+          "copyEnabled": true,
+          "requiresNoteEdit": false
+        },
+        {
+          "id": "needs_revision",
+          "label": "Needs revision",
+          "status": "available",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=needs_revision `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Revision notes describe exactly what must change; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific revision notes before running.\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": true,
+          "disabledReason": "notes"
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "status": "available",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=reject `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rejection notes describe why the campaign should stop; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific rejection notes before running.\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": true,
+          "disabledReason": "notes"
+        }
+      ]
+    },
+    {
+      "id": "fill_local_postiz_inputs",
+      "label": "Fill real local Postiz inputs",
+      "status": "blocked",
+      "detail": "Local Postiz integration IDs and uploaded media references are still needed.",
+      "action": "Fill only local Postiz IDs and uploaded media references. Do not paste API keys or tokens.",
+      "preflightChecks": [
+        "Confirm human approval is recorded.",
+        "Use only local Postiz integration IDs and uploaded media references.",
+        "Do not paste API keys, access tokens, refresh tokens, cookies, passwords, or secrets."
+      ],
+      "expectedOutputs": [
+        "integrations.local.json",
+        "uploaded-media.local.json",
+        "postiz-local-input-validation.ui.json"
+      ],
+      "commands": [
+        {
+          "id": "prepare_local_postiz_inputs",
+          "label": "Prepare local Postiz inputs",
+          "status": "blocked",
+          "command": "node social-studio\\tools\\prepare-postiz-local-inputs.mjs `\n  --integrations-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.template.json\" `\n  --uploaded-media-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.template.json\" `\n  --integrations-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": false,
+          "disabledReason": "prerequisites"
+        },
+        {
+          "id": "validate_postiz_inputs",
+          "label": "Validate Postiz inputs",
+          "status": "blocked",
+          "command": "node social-studio\\tools\\validate-postiz-local-inputs.mjs `\n  --bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": false,
+          "disabledReason": "prerequisites"
+        }
+      ]
+    },
+    {
+      "id": "refresh_postiz_readiness",
+      "label": "Refresh Postiz readiness",
+      "status": "blocked",
+      "detail": "Postiz readiness must be refreshed after local input values are ready.",
+      "action": "Refresh dry-run readiness from the local input files.",
+      "preflightChecks": [
+        "Confirm approved-bundle.json exists.",
+        "Confirm local Postiz input validation is passing.",
+        "Confirm the manual approved package manifest exists."
+      ],
+      "expectedOutputs": [
+        "postiz-dry-run-readiness.json",
+        "postiz-dry-run-readiness.ui.json",
+        "postiz-dry-run-readiness.md"
+      ],
+      "commands": [
+        {
+          "id": "refresh_postiz_readiness",
+          "label": "Refresh Postiz readiness",
+          "status": "blocked",
+          "command": "node social-studio\\tools\\build-postiz-dry-run-readiness.mjs `\n  --workflow-status=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\workflow-status.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --approved-bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --postiz-input-kit=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\postiz-input-kit.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --postiz-dry-run=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-draft.dry-run.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-dry-run-readiness\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": false,
+          "disabledReason": "prerequisites"
+        }
+      ]
+    },
+    {
+      "id": "build_postiz_dry_run",
+      "label": "Build Postiz dry-run package",
+      "status": "blocked",
+      "detail": "The Postiz dry-run payload is not created yet.",
+      "action": "Build the Postiz dry-run payload. It writes local JSON only and does not call Postiz.",
+      "preflightChecks": [
+        "Confirm Postiz readiness status is ready_for_dry_run.",
+        "Confirm tests, build, secret scan, and path leak scan flags are true.",
+        "Confirm this command is dry-run only and network calls remain off."
+      ],
+      "expectedOutputs": [
+        "postiz-draft.dry-run.json",
+        "workflow-status.json",
+        "mvp-completion-audit.json"
+      ],
+      "commands": [
+        {
+          "id": "build_postiz_dry_run",
+          "label": "Build Postiz dry-run",
+          "status": "blocked",
+          "command": "node social-studio\\tools\\run-postiz-dry-run-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --review-packet=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-packet\\review-packet.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --content-plan=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\content-plan\\content-plan.json\" `\n  --brand-claim-ledger=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\brand-claim-ledger\\brand-claim-ledger.json\" `\n  --production-packets=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-packets\\production-packets.json\" `\n  --production-queue=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-queue\\production-queue.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --human-approval-handoff=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\human-approval-handoff\\human-approval-handoff.ui.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --tests-passing=true `\n  --build-passing=true `\n  --secret-scan-passing=true `\n  --path-leak-scan-passing=true",
+          "copyEnabled": false,
+          "requiresNoteEdit": false,
+          "disabledReason": "prerequisites"
+        }
+      ]
+    },
+    {
+      "id": "confirm_mvp_completion",
+      "label": "Confirm MVP completion",
+      "status": "blocked",
+      "detail": "The completion audit must be refreshed after approval, real inputs, and dry-run package are ready.",
+      "action": "Refresh the MVP completion audit after the dry-run package exists.",
+      "preflightChecks": [
+        "Confirm human approval is recorded.",
+        "Confirm real local Postiz inputs are validated.",
+        "Confirm postiz-draft.dry-run.json exists."
+      ],
+      "expectedOutputs": [
+        "mvp-completion-audit.json",
+        "mvp-completion-audit.ui.json",
+        "approved_mvp_complete requirement becomes complete"
+      ],
+      "commands": []
+    }
+  ],
+  "nextAction": "Review all generated assets, then copy approve or edit notes before running needs_revision or reject.",
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "status": "waiting_for_human_approval",
+    "commandOnly": true,
+    "networkCallsAllowed": false,
+    "liveActionsEnabled": false,
+    "summary": {
+      "totalSteps": 5,
+      "completeSteps": 0,
+      "availableSteps": 1,
+      "blockedSteps": 4,
+      "currentStep": "Review and record decision"
+    },
+    "nextAction": "Review all generated assets, then copy approve or edit notes before running needs_revision or reject.",
+    "steps": [
+      {
+        "id": "review_and_decide",
+        "label": "Review and record decision",
+        "status": "available",
+        "detail": "3 generated assets need a real review decision.",
+        "action": "Review all generated assets, then copy approve or edit notes before running needs_revision or reject.",
+        "preflightChecks": [
+          "Open the human approval handoff.",
+          "Review every generated asset and evidence item.",
+          "Confirm artifact freshness before copying a decision command."
+        ],
+        "expectedOutputs": [
+          "approved-bundle.json if approve is copied",
+          "approved manual Postiz draft package if approve is copied",
+          "needs_revision or rejected state if that decision is copied"
+        ],
+        "commands": [
+          {
+            "id": "approve",
+            "label": "Approve",
+            "status": "available",
+            "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --manual-package-dir=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --decision=approve `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rollback and not-live proof reviewed; Approved for Postiz draft upload only\" `\n  --notes=\"Approved for Postiz draft upload only. Do not publish without separate approval.\"",
+            "copyEnabled": true,
+            "requiresNoteEdit": false
+          },
+          {
+            "id": "needs_revision",
+            "label": "Needs revision",
+            "status": "available",
+            "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=needs_revision `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Revision notes describe exactly what must change; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific revision notes before running.\"",
+            "copyEnabled": false,
+            "requiresNoteEdit": true,
+            "disabledReason": "notes"
+          },
+          {
+            "id": "reject",
+            "label": "Reject",
+            "status": "available",
+            "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=reject `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rejection notes describe why the campaign should stop; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific rejection notes before running.\"",
+            "copyEnabled": false,
+            "requiresNoteEdit": true,
+            "disabledReason": "notes"
+          }
+        ]
+      },
+      {
+        "id": "fill_local_postiz_inputs",
+        "label": "Fill real local Postiz inputs",
+        "status": "blocked",
+        "detail": "Local Postiz integration IDs and uploaded media references are still needed.",
+        "action": "Fill only local Postiz IDs and uploaded media references. Do not paste API keys or tokens.",
+        "preflightChecks": [
+          "Confirm human approval is recorded.",
+          "Use only local Postiz integration IDs and uploaded media references.",
+          "Do not paste API keys, access tokens, refresh tokens, cookies, passwords, or secrets."
+        ],
+        "expectedOutputs": [
+          "integrations.local.json",
+          "uploaded-media.local.json",
+          "postiz-local-input-validation.ui.json"
+        ],
+        "commands": [
+          {
+            "id": "prepare_local_postiz_inputs",
+            "label": "Prepare local Postiz inputs",
+            "status": "blocked",
+            "command": "node social-studio\\tools\\prepare-postiz-local-inputs.mjs `\n  --integrations-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.template.json\" `\n  --uploaded-media-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.template.json\" `\n  --integrations-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\"",
+            "copyEnabled": false,
+            "requiresNoteEdit": false,
+            "disabledReason": "prerequisites"
+          },
+          {
+            "id": "validate_postiz_inputs",
+            "label": "Validate Postiz inputs",
+            "status": "blocked",
+            "command": "node social-studio\\tools\\validate-postiz-local-inputs.mjs `\n  --bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\"",
+            "copyEnabled": false,
+            "requiresNoteEdit": false,
+            "disabledReason": "prerequisites"
+          }
+        ]
+      },
+      {
+        "id": "refresh_postiz_readiness",
+        "label": "Refresh Postiz readiness",
+        "status": "blocked",
+        "detail": "Postiz readiness must be refreshed after local input values are ready.",
+        "action": "Refresh dry-run readiness from the local input files.",
+        "preflightChecks": [
+          "Confirm approved-bundle.json exists.",
+          "Confirm local Postiz input validation is passing.",
+          "Confirm the manual approved package manifest exists."
+        ],
+        "expectedOutputs": [
+          "postiz-dry-run-readiness.json",
+          "postiz-dry-run-readiness.ui.json",
+          "postiz-dry-run-readiness.md"
+        ],
+        "commands": [
+          {
+            "id": "refresh_postiz_readiness",
+            "label": "Refresh Postiz readiness",
+            "status": "blocked",
+            "command": "node social-studio\\tools\\build-postiz-dry-run-readiness.mjs `\n  --workflow-status=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\workflow-status.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --approved-bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --postiz-input-kit=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\postiz-input-kit.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --postiz-dry-run=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-draft.dry-run.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-dry-run-readiness\"",
+            "copyEnabled": false,
+            "requiresNoteEdit": false,
+            "disabledReason": "prerequisites"
+          }
+        ]
+      },
+      {
+        "id": "build_postiz_dry_run",
+        "label": "Build Postiz dry-run package",
+        "status": "blocked",
+        "detail": "The Postiz dry-run payload is not created yet.",
+        "action": "Build the Postiz dry-run payload. It writes local JSON only and does not call Postiz.",
+        "preflightChecks": [
+          "Confirm Postiz readiness status is ready_for_dry_run.",
+          "Confirm tests, build, secret scan, and path leak scan flags are true.",
+          "Confirm this command is dry-run only and network calls remain off."
+        ],
+        "expectedOutputs": [
+          "postiz-draft.dry-run.json",
+          "workflow-status.json",
+          "mvp-completion-audit.json"
+        ],
+        "commands": [
+          {
+            "id": "build_postiz_dry_run",
+            "label": "Build Postiz dry-run",
+            "status": "blocked",
+            "command": "node social-studio\\tools\\run-postiz-dry-run-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --review-packet=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-packet\\review-packet.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --content-plan=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\content-plan\\content-plan.json\" `\n  --brand-claim-ledger=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\brand-claim-ledger\\brand-claim-ledger.json\" `\n  --production-packets=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-packets\\production-packets.json\" `\n  --production-queue=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-queue\\production-queue.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --human-approval-handoff=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\human-approval-handoff\\human-approval-handoff.ui.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --tests-passing=true `\n  --build-passing=true `\n  --secret-scan-passing=true `\n  --path-leak-scan-passing=true",
+            "copyEnabled": false,
+            "requiresNoteEdit": false,
+            "disabledReason": "prerequisites"
+          }
+        ]
+      },
+      {
+        "id": "confirm_mvp_completion",
+        "label": "Confirm MVP completion",
+        "status": "blocked",
+        "detail": "The completion audit must be refreshed after approval, real inputs, and dry-run package are ready.",
+        "action": "Refresh the MVP completion audit after the dry-run package exists.",
+        "preflightChecks": [
+          "Confirm human approval is recorded.",
+          "Confirm real local Postiz inputs are validated.",
+          "Confirm postiz-draft.dry-run.json exists."
+        ],
+        "expectedOutputs": [
+          "mvp-completion-audit.json",
+          "mvp-completion-audit.ui.json",
+          "approved_mvp_complete requirement becomes complete"
+        ],
+        "commands": []
+      }
+    ]
+  },
+  "markdown": "# MVP Finish Path\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nStatus: waiting_for_human_approval\n\n## Steps\n\n- Review and record decision: available - Review all generated assets, then copy approve or edit notes before running needs_revision or reject.\n  - Preflight:\n    - Open the human approval handoff.\n    - Review every generated asset and evidence item.\n    - Confirm artifact freshness before copying a decision command.\n  - Expected outputs:\n    - approved-bundle.json if approve is copied\n    - approved manual Postiz draft package if approve is copied\n    - needs_revision or rejected state if that decision is copied\n  - Approve: `node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --manual-package-dir=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --decision=approve `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rollback and not-live proof reviewed; Approved for Postiz draft upload only\" `\n  --notes=\"Approved for Postiz draft upload only. Do not publish without separate approval.\"`\n  - Needs revision: Copy disabled until notes are edited. `node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=needs_revision `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Revision notes describe exactly what must change; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific revision notes before running.\"`\n  - Reject: Copy disabled until notes are edited. `node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=reject `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rejection notes describe why the campaign should stop; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific rejection notes before running.\"`\n- Fill real local Postiz inputs: blocked - Fill only local Postiz IDs and uploaded media references. Do not paste API keys or tokens.\n  - Preflight:\n    - Confirm human approval is recorded.\n    - Use only local Postiz integration IDs and uploaded media references.\n    - Do not paste API keys, access tokens, refresh tokens, cookies, passwords, or secrets.\n  - Expected outputs:\n    - integrations.local.json\n    - uploaded-media.local.json\n    - postiz-local-input-validation.ui.json\n  - Prepare local Postiz inputs: Copy disabled until prerequisites are ready. `node social-studio\\tools\\prepare-postiz-local-inputs.mjs `\n  --integrations-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.template.json\" `\n  --uploaded-media-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.template.json\" `\n  --integrations-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\"`\n  - Validate Postiz inputs: Copy disabled until prerequisites are ready. `node social-studio\\tools\\validate-postiz-local-inputs.mjs `\n  --bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\"`\n- Refresh Postiz readiness: blocked - Refresh dry-run readiness from the local input files.\n  - Preflight:\n    - Confirm approved-bundle.json exists.\n    - Confirm local Postiz input validation is passing.\n    - Confirm the manual approved package manifest exists.\n  - Expected outputs:\n    - postiz-dry-run-readiness.json\n    - postiz-dry-run-readiness.ui.json\n    - postiz-dry-run-readiness.md\n  - Refresh Postiz readiness: Copy disabled until prerequisites are ready. `node social-studio\\tools\\build-postiz-dry-run-readiness.mjs `\n  --workflow-status=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\workflow-status.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --approved-bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --postiz-input-kit=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\postiz-input-kit.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --postiz-dry-run=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-draft.dry-run.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-dry-run-readiness\"`\n- Build Postiz dry-run package: blocked - Build the Postiz dry-run payload. It writes local JSON only and does not call Postiz.\n  - Preflight:\n    - Confirm Postiz readiness status is ready_for_dry_run.\n    - Confirm tests, build, secret scan, and path leak scan flags are true.\n    - Confirm this command is dry-run only and network calls remain off.\n  - Expected outputs:\n    - postiz-draft.dry-run.json\n    - workflow-status.json\n    - mvp-completion-audit.json\n  - Build Postiz dry-run: Copy disabled until prerequisites are ready. `node social-studio\\tools\\run-postiz-dry-run-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --review-packet=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-packet\\review-packet.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --content-plan=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\content-plan\\content-plan.json\" `\n  --brand-claim-ledger=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\brand-claim-ledger\\brand-claim-ledger.json\" `\n  --production-packets=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-packets\\production-packets.json\" `\n  --production-queue=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-queue\\production-queue.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --human-approval-handoff=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\human-approval-handoff\\human-approval-handoff.ui.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --tests-passing=true `\n  --build-passing=true `\n  --secret-scan-passing=true `\n  --path-leak-scan-passing=true`\n- Confirm MVP completion: blocked - Refresh the MVP completion audit after the dry-run package exists.\n  - Preflight:\n    - Confirm human approval is recorded.\n    - Confirm real local Postiz inputs are validated.\n    - Confirm postiz-draft.dry-run.json exists.\n  - Expected outputs:\n    - mvp-completion-audit.json\n    - mvp-completion-audit.ui.json\n    - approved_mvp_complete requirement becomes complete\n\n## Next Action\n\n- Review all generated assets, then copy approve or edit notes before running needs_revision or reject.\n\n"
+}

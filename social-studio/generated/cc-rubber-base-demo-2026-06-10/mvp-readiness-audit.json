@@ -1,0 +1,88 @@
+{
+  "packageType": "social_studio_mvp_readiness_audit",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+  "overall": {
+    "status": "blocked_by_human_review",
+    "mvpComplete": false,
+    "scope": "draft_only_review_first_mvp"
+  },
+  "gates": {
+    "planAndBrand": {
+      "status": "ready",
+      "label": "MVP plan and brand context are present.",
+      "evidence": ""
+    },
+    "contentPlan": {
+      "status": "ready",
+      "label": "UGC video, paid ad video, and normal post assets are planned behind review gates.",
+      "evidence": ""
+    },
+    "brandClaimLedger": {
+      "status": "ready",
+      "label": "Brand rules, claim sources, blocked claims, and required visuals are attached to every asset.",
+      "evidence": ""
+    },
+    "productionPackets": {
+      "status": "ready",
+      "label": "Per-asset production packets exist for UGC video, paid ad video, and normal post.",
+      "evidence": ""
+    },
+    "productionQueue": {
+      "status": "ready",
+      "label": "Production queue maps generated and pending assets without allowing publishing.",
+      "evidence": ""
+    },
+    "reviewBoard": {
+      "status": "ready",
+      "label": "Review board exposes human decisions only for generated assets.",
+      "evidence": ""
+    },
+    "moneyprinterDraft": {
+      "status": "ready",
+      "label": "MoneyPrinterTurbo draft video is present.",
+      "evidence": ""
+    },
+    "reviewPacket": {
+      "status": "ready",
+      "label": "Review packet and media are available.",
+      "evidence": ""
+    },
+    "humanApproval": {
+      "status": "blocked",
+      "label": "Human approval is still required.",
+      "evidence": ""
+    },
+    "manualPostizHandoff": {
+      "status": "ready",
+      "label": "Manual Postiz preview package exists but is not approved.",
+      "evidence": ""
+    },
+    "postizApiDryRun": {
+      "status": "blocked",
+      "label": "Postiz API draft dry-run package is missing or not safe.",
+      "evidence": ""
+    },
+    "noLivePosting": {
+      "status": "ready",
+      "label": "No live posting, scheduling, or publishing has been enabled.",
+      "evidence": ""
+    },
+    "verification": {
+      "status": "ready",
+      "label": "Tests, build, secret scan, and UI path-leak scan must pass.",
+      "evidence": ""
+    },
+    "finalPublish": {
+      "status": "not_in_scope",
+      "label": "Publishing is intentionally outside this draft-only MVP.",
+      "evidence": ""
+    }
+  },
+  "nextActions": [
+    "Complete human review of the MP4/contact sheet and record approve, needs_revision, or reject.",
+    "Keep Postiz draft creation blocked until approval evidence exists."
+  ],
+  "markdown": "# Crystal Clawz Social Studio MVP Readiness Audit\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nOverall status: blocked_by_human_review\nMVP complete: no\n\n## Gates\n\n- planAndBrand: ready - MVP plan and brand context are present.\n- contentPlan: ready - UGC video, paid ad video, and normal post assets are planned behind review gates.\n- brandClaimLedger: ready - Brand rules, claim sources, blocked claims, and required visuals are attached to every asset.\n- productionPackets: ready - Per-asset production packets exist for UGC video, paid ad video, and normal post.\n- productionQueue: ready - Production queue maps generated and pending assets without allowing publishing.\n- reviewBoard: ready - Review board exposes human decisions only for generated assets.\n- moneyprinterDraft: ready - MoneyPrinterTurbo draft video is present.\n- reviewPacket: ready - Review packet and media are available.\n- humanApproval: blocked - Human approval is still required.\n- manualPostizHandoff: ready - Manual Postiz preview package exists but is not approved.\n- postizApiDryRun: blocked - Postiz API draft dry-run package is missing or not safe.\n- noLivePosting: ready - No live posting, scheduling, or publishing has been enabled.\n- verification: ready - Tests, build, secret scan, and UI path-leak scan must pass.\n- finalPublish: not_in_scope - Publishing is intentionally outside this draft-only MVP.\n\n## Next Actions\n\n- Complete human review of the MP4/contact sheet and record approve, needs_revision, or reject.\n- Keep Postiz draft creation blocked until approval evidence exists.\n"
+}

@@ -1,0 +1,66 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "needs_review",
+  "noLivePosting": true,
+  "postizBlockedUntilApproval": true,
+  "summary": {
+    "totalAssets": 3,
+    "assetsNeedingHumanClaimCheck": 3,
+    "publishAllowed": 0
+  },
+  "brandRules": [
+    "Speak to South African nail technicians, salon owners, resellers, and students.",
+    "Keep the voice friendly, professional, practical, and clear.",
+    "Use product-page or human-approved claims only.",
+    "Do not invent reviews, awards, lab results, testimonials, before-and-after proof, or medical-style claims.",
+    "Every generated post or video must remain draft-only until a human reviewer approves it.",
+    "human reviewer is named"
+  ],
+  "assets": [
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+      "label": "UGC video",
+      "contentType": "ugc_video",
+      "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+      "approvedBenefitCount": 5,
+      "blockedClaimCount": 5,
+      "requiredVisuals": [
+        "product_closeup",
+        "shade_or_swatch",
+        "cta_end_frame"
+      ],
+      "reviewStatus": "needs_review",
+      "publishAllowed": false
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+      "label": "Paid ad video",
+      "contentType": "paid_ad_video",
+      "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+      "approvedBenefitCount": 5,
+      "blockedClaimCount": 5,
+      "requiredVisuals": [
+        "product_closeup",
+        "shade_or_swatch",
+        "cta_end_frame"
+      ],
+      "reviewStatus": "needs_review",
+      "publishAllowed": false
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+      "label": "Normal post",
+      "contentType": "normal_post",
+      "sourceRef": "https://crystalclawz.co.za/collections/french-rubber-base",
+      "approvedBenefitCount": 5,
+      "blockedClaimCount": 5,
+      "requiredVisuals": [
+        "product_closeup",
+        "shade_or_swatch",
+        "cta_end_frame"
+      ],
+      "reviewStatus": "needs_review",
+      "publishAllowed": false
+    }
+  ]
+}

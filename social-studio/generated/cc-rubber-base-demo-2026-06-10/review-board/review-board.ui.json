@@ -1,0 +1,59 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "needs_review",
+  "noLivePosting": true,
+  "liveActionsEnabled": false,
+  "summary": {
+    "totalAssets": 3,
+    "decisionRequired": 3,
+    "produceBeforeReview": 0,
+    "publishAllowed": 0
+  },
+  "items": [
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+      "label": "UGC video",
+      "contentType": "ugc_video",
+      "state": "generated_needs_review",
+      "reviewAction": "review_decision_required",
+      "reviewStatus": "needs_review",
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false,
+      "decisionCount": 3,
+      "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+      "contactSheetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/contact-sheet.jpg",
+      "imageUrl": "",
+      "nextAction": "Review the MP4 and contact sheet, then record approve, needs_revision, or reject."
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+      "label": "Paid ad video",
+      "contentType": "paid_ad_video",
+      "state": "generated_needs_review",
+      "reviewAction": "review_decision_required",
+      "reviewStatus": "needs_review",
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false,
+      "decisionCount": 3,
+      "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+      "contactSheetUrl": "",
+      "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg",
+      "nextAction": "Review the generated paid ad video draft and storyboard, then record approve, needs_revision, or reject."
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+      "label": "Normal post",
+      "contentType": "normal_post",
+      "state": "generated_needs_review",
+      "reviewAction": "review_decision_required",
+      "reviewStatus": "needs_review",
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false,
+      "decisionCount": 3,
+      "videoUrl": "",
+      "contactSheetUrl": "",
+      "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+      "nextAction": "Review the generated static post image and caption, then record approve, needs_revision, or reject."
+    }
+  ]
+}

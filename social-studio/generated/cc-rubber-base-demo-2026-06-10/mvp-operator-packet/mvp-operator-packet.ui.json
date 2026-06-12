@@ -1,0 +1,307 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "waiting_for_human_approval",
+  "commandOnly": true,
+  "networkCallsAllowed": false,
+  "liveActionsEnabled": false,
+  "summary": {
+    "totalRequirements": 14,
+    "completeRequirements": 10,
+    "blockedRequirements": 4,
+    "currentStep": "Review and record decision"
+  },
+  "currentBlockers": [
+    {
+      "id": "human_approval_recorded",
+      "label": "Human approval recorded",
+      "detail": "Record human approval first."
+    },
+    {
+      "id": "real_postiz_inputs",
+      "label": "Real local Postiz input values",
+      "detail": "Real Postiz integration IDs and uploaded media references are still required."
+    },
+    {
+      "id": "postiz_dry_run_package",
+      "label": "Postiz draft dry-run package",
+      "detail": "Dry-run package has not been created."
+    },
+    {
+      "id": "approved_mvp_complete",
+      "label": "Approved draft-only MVP complete",
+      "detail": "The MVP is not complete until every requirement above is complete."
+    }
+  ],
+  "nextSafeActions": [
+    {
+      "id": "review_and_decide",
+      "label": "Review and record decision",
+      "status": "available",
+      "detail": "3 generated assets need a real review decision.",
+      "action": "Review all generated assets, then copy approve or edit notes before running needs_revision or reject.",
+      "commands": [
+        {
+          "id": "approve",
+          "label": "Approve",
+          "status": "available",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --manual-package-dir=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --decision=approve `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rollback and not-live proof reviewed; Approved for Postiz draft upload only\" `\n  --notes=\"Approved for Postiz draft upload only. Do not publish without separate approval.\"",
+          "copyEnabled": true,
+          "requiresNoteEdit": false
+        },
+        {
+          "id": "needs_revision",
+          "label": "Needs revision",
+          "status": "available",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=needs_revision `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Revision notes describe exactly what must change; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific revision notes before running.\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": true
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "status": "available",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=reject `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rejection notes describe why the campaign should stop; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific rejection notes before running.\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": true
+        }
+      ]
+    }
+  ],
+  "gatedUpcomingActions": [
+    {
+      "id": "fill_local_postiz_inputs",
+      "label": "Fill real local Postiz inputs",
+      "status": "blocked",
+      "detail": "Local Postiz integration IDs and uploaded media references are still needed.",
+      "action": "Fill only local Postiz IDs and uploaded media references. Do not paste API keys or tokens.",
+      "commands": [
+        {
+          "id": "prepare_local_postiz_inputs",
+          "label": "Prepare local Postiz inputs",
+          "status": "blocked",
+          "command": "node social-studio\\tools\\prepare-postiz-local-inputs.mjs `\n  --integrations-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.template.json\" `\n  --uploaded-media-template=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.template.json\" `\n  --integrations-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media-out=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": false
+        },
+        {
+          "id": "validate_postiz_inputs",
+          "label": "Validate Postiz inputs",
+          "status": "blocked",
+          "command": "node social-studio\\tools\\validate-postiz-local-inputs.mjs `\n  --bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": false
+        }
+      ],
+      "blockedUntil": "Human approval recorded"
+    },
+    {
+      "id": "refresh_postiz_readiness",
+      "label": "Refresh Postiz readiness",
+      "status": "blocked",
+      "detail": "Postiz readiness must be refreshed after local input values are ready.",
+      "action": "Refresh dry-run readiness from the local input files.",
+      "commands": [
+        {
+          "id": "refresh_postiz_readiness",
+          "label": "Refresh Postiz readiness",
+          "status": "blocked",
+          "command": "node social-studio\\tools\\build-postiz-dry-run-readiness.mjs `\n  --workflow-status=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\workflow-status.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --approved-bundle=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --postiz-input-kit=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\postiz-input-kit.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --postiz-dry-run=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-draft.dry-run.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-dry-run-readiness\"",
+          "copyEnabled": false,
+          "requiresNoteEdit": false
+        }
+      ],
+      "blockedUntil": "Human approval recorded; Real local Postiz input values"
+    },
+    {
+      "id": "build_postiz_dry_run",
+      "label": "Build Postiz dry-run package",
+      "status": "blocked",
+      "detail": "The Postiz dry-run payload is not created yet.",
+      "action": "Build the Postiz dry-run payload. It writes local JSON only and does not call Postiz.",
+      "commands": [
+        {
+          "id": "build_postiz_dry_run",
+          "label": "Build Postiz dry-run",
+          "status": "blocked",
+          "command": "node social-studio\\tools\\run-postiz-dry-run-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\approved-bundle.json\" `\n  --integrations=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\integrations.local.json\" `\n  --uploaded-media=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\postiz-input-kit\\uploaded-media.local.json\" `\n  --review-packet=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-packet\\review-packet.json\" `\n  --manual-manifest=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\\manifest.json\" `\n  --content-plan=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\content-plan\\content-plan.json\" `\n  --brand-claim-ledger=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\brand-claim-ledger\\brand-claim-ledger.json\" `\n  --production-packets=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-packets\\production-packets.json\" `\n  --production-queue=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\production-queue\\production-queue.json\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --human-approval-handoff=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\human-approval-handoff\\human-approval-handoff.ui.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --tests-passing=true `\n  --build-passing=true `\n  --secret-scan-passing=true `\n  --path-leak-scan-passing=true",
+          "copyEnabled": false,
+          "requiresNoteEdit": false
+        }
+      ],
+      "blockedUntil": "Human approval recorded; Real local Postiz input values"
+    },
+    {
+      "id": "confirm_mvp_completion",
+      "label": "Confirm MVP completion",
+      "status": "blocked",
+      "detail": "The completion audit must be refreshed after approval, real inputs, and dry-run package are ready.",
+      "action": "Refresh the MVP completion audit after the dry-run package exists.",
+      "commands": [],
+      "blockedUntil": "Human approval recorded; Real local Postiz input values; Postiz draft dry-run package"
+    }
+  ],
+  "operatorFiles": [
+    {
+      "id": "human_approval_handoff",
+      "label": "Human approval handoff",
+      "file": "social-studio/generated/cc-rubber-base-demo-2026-06-10/human-approval-handoff/human-approval-handoff.ui.json",
+      "purpose": "Review generated assets and copy the selected decision command."
+    },
+    {
+      "id": "postiz_integrations",
+      "label": "Postiz integration IDs",
+      "file": "social-studio/generated/cc-rubber-base-demo-2026-06-10/postiz-input-kit/integrations.local.json",
+      "purpose": "Add real channel IDs and platform settings only."
+    },
+    {
+      "id": "uploaded_media",
+      "label": "Uploaded media references",
+      "file": "social-studio/generated/cc-rubber-base-demo-2026-06-10/postiz-input-kit/uploaded-media.local.json",
+      "purpose": "Add real uploaded media IDs and URLs for approved assets only."
+    }
+  ],
+  "postizValidation": {
+    "status": "blocked",
+    "readyForDryRun": false,
+    "missingChecks": 6,
+    "secretFieldCount": 0,
+    "networkCallsAllowed": false,
+    "liveActionsEnabled": false
+  },
+  "handoffSnapshot": {
+    "humanDecision": {
+      "status": "ready_for_human_decision",
+      "totalAssets": 3,
+      "readyAssets": 3,
+      "blockedAssets": 0
+    },
+    "postizInputs": {
+      "status": "needs_real_values",
+      "missingChecks": 6,
+      "sourceAssets": [
+        {
+          "key": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+          "label": "UGC video",
+          "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+          "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+          "valueShown": false
+        },
+        {
+          "key": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+          "label": "Paid ad video",
+          "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+          "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+          "valueShown": false
+        },
+        {
+          "key": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+          "label": "Normal post",
+          "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+          "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+          "valueShown": false
+        }
+      ]
+    }
+  },
+  "postizInputChecklist": {
+    "status": "needs_real_values",
+    "summary": {
+      "requiredPlatforms": 3,
+      "readyPlatforms": 0,
+      "requiredMediaAssets": 3,
+      "readyMediaAssets": 0,
+      "valuesShown": false
+    },
+    "integrationSlots": [
+      {
+        "platform": "instagram",
+        "status": "missing",
+        "localInputFile": "integrations.local.json",
+        "requiredFields": [
+          "id",
+          "settings.__type"
+        ],
+        "valueShown": false
+      },
+      {
+        "platform": "facebook",
+        "status": "missing",
+        "localInputFile": "integrations.local.json",
+        "requiredFields": [
+          "id",
+          "settings.__type"
+        ],
+        "valueShown": false
+      },
+      {
+        "platform": "tiktok",
+        "status": "missing",
+        "localInputFile": "integrations.local.json",
+        "requiredFields": [
+          "id",
+          "settings.__type"
+        ],
+        "valueShown": false
+      }
+    ],
+    "mediaUploadRefs": [
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+        "label": "UGC video",
+        "contentType": "ugc_video",
+        "mediaType": "video",
+        "status": "missing",
+        "localInputFile": "uploaded-media.local.json",
+        "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+        "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+        "requiredFields": [
+          "id",
+          "path"
+        ],
+        "valueShown": false
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+        "label": "Paid ad video",
+        "contentType": "paid_ad_video",
+        "mediaType": "video",
+        "status": "missing",
+        "localInputFile": "uploaded-media.local.json",
+        "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+        "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+        "requiredFields": [
+          "id",
+          "path"
+        ],
+        "valueShown": false
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+        "label": "Normal post",
+        "contentType": "normal_post",
+        "mediaType": "image",
+        "status": "missing",
+        "localInputFile": "uploaded-media.local.json",
+        "sourceAssetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+        "sourceInstruction": "Upload the reviewed source asset to Postiz, then paste the returned media id and path.",
+        "requiredFields": [
+          "id",
+          "path"
+        ],
+        "valueShown": false
+      }
+    ],
+    "forbiddenFields": [
+      "Do not add API keys, access tokens, refresh tokens, cookies, passwords, or secrets.",
+      "Do not add scheduling or publishing fields.",
+      "Do not remove assetId or contentType from uploaded media records."
+    ]
+  },
+  "forbiddenActions": [
+    "Do not call the Postiz API from this MVP packet.",
+    "Do not schedule or publish any social post from this MVP packet.",
+    "Do not paste API keys, access tokens, or secrets into local Postiz input files.",
+    "Do not treat the MVP as complete until approval, real Postiz inputs, dry-run package, and completion audit are all green."
+  ],
+  "nextAction": "Review all generated assets, then copy approve or edit notes before running needs_revision or reject."
+}

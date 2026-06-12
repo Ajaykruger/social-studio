@@ -1,0 +1,60 @@
+{
+  "packageType": "social_studio_static_post_review_asset",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+  "contentType": "normal_post",
+  "label": "Normal post",
+  "status": "needs_review",
+  "networkCallsAllowed": false,
+  "publishAllowed": false,
+  "postizStatus": "blocked_until_approved",
+  "review": {
+    "required": true,
+    "status": "needs_review",
+    "reviewer": "pending-human-review"
+  },
+  "media": {
+    "mediaType": "image",
+    "mimeType": "image/svg+xml",
+    "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+    "altText": "French Rubber Base normal post draft"
+  },
+  "caption": "French Rubber Base helps with smooth base. Shop Crystal Clawz French Rubber Base.",
+  "cta": "Shop Crystal Clawz French Rubber Base",
+  "approvedBenefits": [
+    "smooth base",
+    "cleaner colour application",
+    "salon-ready base",
+    "useful for French sets",
+    "supports overlay work where the product page supports it"
+  ],
+  "blockedClaims": [
+    "medical or health claims",
+    "guaranteed perfect results",
+    "invented testimonials",
+    "unverified lab results",
+    "works for every client"
+  ],
+  "nextAction": "Review the static post image and caption, then record approve, needs_revision, or reject.",
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+    "contentType": "normal_post",
+    "label": "Normal post",
+    "status": "needs_review",
+    "networkCallsAllowed": false,
+    "publishAllowed": false,
+    "postizStatus": "blocked_until_approved",
+    "media": {
+      "mediaType": "image",
+      "mimeType": "image/svg+xml",
+      "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+      "altText": "French Rubber Base normal post draft"
+    },
+    "caption": "French Rubber Base helps with smooth base. Shop Crystal Clawz French Rubber Base.",
+    "cta": "Shop Crystal Clawz French Rubber Base",
+    "nextAction": "Review the static post image and caption, then record approve, needs_revision, or reject."
+  },
+  "markdown": "# Static Normal Post Review Asset\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nAsset: cc-rubber-base-demo-2026-06-10-normal-post-03\nStatus: needs_review\n\n## Media\n\n- Image: /social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg\n- Type: image/svg+xml\n\n## Caption\n\nFrench Rubber Base helps with smooth base. Shop Crystal Clawz French Rubber Base.\n\n## Safety\n\n- Network calls allowed: false\n- Publish allowed: false\n- Postiz status: blocked_until_approved\n"
+}

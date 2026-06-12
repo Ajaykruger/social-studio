@@ -1,0 +1,23 @@
+﻿node_modules/
+dist/
+*.log
+.vite/
+.DS_Store
+.env
+.env.*
+!.env.example
+!.env.local.example
+
+# Local runtime outputs and secrets
+MoneyPrinterTurbo/.venv/
+MoneyPrinterTurbo/venv/
+MoneyPrinterTurbo/storage/
+MoneyPrinterTurbo/config.toml
+MoneyPrinterTurbo/logs/
+MoneyPrinterTurbo/.uv-cache/
+
+# Social Studio local-only Postiz values can contain real IDs after operators edit them.
+social-studio/generated/**/postiz-input-kit/integrations.local.json
+social-studio/generated/**/postiz-input-kit/uploaded-media.local.json
+
+# Keep generated review/demo artifacts intentionally tracked unless explicitly removed.

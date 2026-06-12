@@ -1,0 +1,87 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "assetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+  "status": "needs_review",
+  "commandOnly": true,
+  "liveActionsEnabled": false,
+  "summary": {
+    "commandCount": 3,
+    "liveActionsEnabled": false,
+    "blocker": "Human review decision is required before Postiz draft creation.",
+    "nextAction": "Review all generated assets, then copy approve or edit notes before running needs_revision or reject."
+  },
+  "commands": [
+    {
+      "decision": "approve",
+      "label": "Approve",
+      "resultStatus": "approved_waiting_postiz_dry_run",
+      "effect": {
+        "createsApprovedBundle": true,
+        "createsManualPostizPackage": true,
+        "keepsPostizBlocked": false,
+        "allowsSchedulingOrPublishing": false,
+        "operatorSummary": "Creates the approved bundle and manual Postiz package for Postiz draft upload only. Scheduling and publishing still need separate approval."
+      },
+      "evidenceChecklist": [
+        "UGC video evidence reviewed",
+        "Paid ad video evidence reviewed",
+        "Normal post evidence reviewed",
+        "Artifact freshness checked",
+        "Rollback and not-live proof reviewed",
+        "Approved for Postiz draft upload only"
+      ],
+      "requiresNoteEdit": false,
+      "copyEnabled": true,
+      "noteGuidance": "Approval notes are already scoped to Postiz draft upload only.",
+      "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --manual-package-dir=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --decision=approve `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rollback and not-live proof reviewed; Approved for Postiz draft upload only\" `\n  --notes=\"Approved for Postiz draft upload only. Do not publish without separate approval.\""
+    },
+    {
+      "decision": "needs_revision",
+      "label": "Needs revision",
+      "resultStatus": "needs_revision",
+      "effect": {
+        "createsApprovedBundle": false,
+        "createsManualPostizPackage": false,
+        "keepsPostizBlocked": true,
+        "allowsSchedulingOrPublishing": false,
+        "operatorSummary": "Keeps Postiz blocked and records the requested changes before any draft upload can continue."
+      },
+      "evidenceChecklist": [
+        "UGC video evidence reviewed",
+        "Paid ad video evidence reviewed",
+        "Normal post evidence reviewed",
+        "Artifact freshness checked",
+        "Revision notes describe exactly what must change",
+        "Postiz remains blocked"
+      ],
+      "requiresNoteEdit": true,
+      "copyEnabled": false,
+      "noteGuidance": "Edit --notes with specific revision notes before running.",
+      "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=needs_revision `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Revision notes describe exactly what must change; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific revision notes before running.\""
+    },
+    {
+      "decision": "reject",
+      "label": "Reject",
+      "resultStatus": "rejected",
+      "effect": {
+        "createsApprovedBundle": false,
+        "createsManualPostizPackage": false,
+        "keepsPostizBlocked": true,
+        "allowsSchedulingOrPublishing": false,
+        "operatorSummary": "Stops this asset from continuing to Postiz. No approved bundle, draft upload, scheduling, or publishing is created."
+      },
+      "evidenceChecklist": [
+        "UGC video evidence reviewed",
+        "Paid ad video evidence reviewed",
+        "Normal post evidence reviewed",
+        "Artifact freshness checked",
+        "Rejection notes describe why the campaign should stop",
+        "Postiz remains blocked"
+      ],
+      "requiresNoteEdit": true,
+      "copyEnabled": false,
+      "noteGuidance": "Edit --notes with specific rejection notes before running.",
+      "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=reject `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rejection notes describe why the campaign should stop; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific rejection notes before running.\""
+    }
+  ]
+}

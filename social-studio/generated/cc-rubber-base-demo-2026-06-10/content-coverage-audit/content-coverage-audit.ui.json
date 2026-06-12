@@ -1,0 +1,57 @@
+{
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "generated_review_coverage_ready",
+  "noLivePosting": true,
+  "networkCallsAllowed": false,
+  "publishAllowed": 0,
+  "summary": {
+    "requiredContentTypes": 3,
+    "plannedContentTypes": 3,
+    "packetReadyContentTypes": 3,
+    "generatedContentTypes": 3,
+    "pendingProductionContentTypes": 0,
+    "missingContentTypes": 0
+  },
+  "nextAction": "Review all generated assets and record approve, needs_revision, or reject decisions.",
+  "items": [
+    {
+      "contentType": "ugc_video",
+      "label": "UGC video",
+      "status": "generated_needs_review",
+      "planned": true,
+      "packetReady": true,
+      "generated": true,
+      "generator": "MoneyPrinterTurbo",
+      "output": "vertical_video",
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false,
+      "nextAction": "Review the generated asset and record approve, needs_revision, or reject."
+    },
+    {
+      "contentType": "paid_ad_video",
+      "label": "Paid ad video",
+      "status": "generated_needs_review",
+      "planned": true,
+      "packetReady": true,
+      "generated": true,
+      "generator": "MoneyPrinterTurbo",
+      "output": "vertical_video",
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false,
+      "nextAction": "Review the generated asset and record approve, needs_revision, or reject."
+    },
+    {
+      "contentType": "normal_post",
+      "label": "Normal post",
+      "status": "generated_needs_review",
+      "planned": true,
+      "packetReady": true,
+      "generated": true,
+      "generator": "Manual or Canva-style post builder",
+      "output": "image_or_caption_post",
+      "postizStatus": "blocked_until_approved",
+      "publishAllowed": false,
+      "nextAction": "Review the generated asset and record approve, needs_revision, or reject."
+    }
+  ]
+}

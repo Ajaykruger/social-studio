@@ -1,0 +1,195 @@
+{
+  "packageType": "social_studio_review_board",
+  "generatedAt": "2026-06-12T06:36:31.481Z",
+  "campaignId": "cc-rubber-base-demo-2026-06-10",
+  "status": "needs_review",
+  "safety": {
+    "noLivePosting": true,
+    "liveActionsEnabled": false,
+    "postizBlockedUntilApproval": true,
+    "scheduleAllowed": false,
+    "publishAllowed": false
+  },
+  "summary": {
+    "totalAssets": 3,
+    "decisionRequired": 3,
+    "produceBeforeReview": 0,
+    "publishAllowed": 0
+  },
+  "items": [
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+      "label": "UGC video",
+      "contentType": "ugc_video",
+      "state": "generated_needs_review",
+      "reviewAction": "review_decision_required",
+      "media": {
+        "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+        "contactSheetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/contact-sheet.jpg",
+        "imageUrl": ""
+      },
+      "review": {
+        "status": "needs_review",
+        "reviewer": "pending-human-review"
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "publishAllowed": false
+      },
+      "decisions": [
+        {
+          "decision": "approve",
+          "label": "Approve",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --manual-package-dir=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --decision=approve `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rollback and not-live proof reviewed; Approved for Postiz draft upload only\" `\n  --notes=\"Approved for Postiz draft upload only. Do not publish without separate approval.\""
+        },
+        {
+          "decision": "needs_revision",
+          "label": "Needs revision",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=needs_revision `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Revision notes describe exactly what must change; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific revision notes before running.\""
+        },
+        {
+          "decision": "reject",
+          "label": "Reject",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=reject `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rejection notes describe why the campaign should stop; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific rejection notes before running.\""
+        }
+      ],
+      "nextAction": "Review the MP4 and contact sheet, then record approve, needs_revision, or reject."
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+      "label": "Paid ad video",
+      "contentType": "paid_ad_video",
+      "state": "generated_needs_review",
+      "reviewAction": "review_decision_required",
+      "media": {
+        "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+        "contactSheetUrl": "",
+        "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg"
+      },
+      "review": {
+        "status": "needs_review",
+        "reviewer": "pending-human-review"
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "publishAllowed": false
+      },
+      "decisions": [
+        {
+          "decision": "approve",
+          "label": "Approve",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --manual-package-dir=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --decision=approve `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rollback and not-live proof reviewed; Approved for Postiz draft upload only\" `\n  --notes=\"Approved for Postiz draft upload only. Do not publish without separate approval.\""
+        },
+        {
+          "decision": "needs_revision",
+          "label": "Needs revision",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=needs_revision `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Revision notes describe exactly what must change; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific revision notes before running.\""
+        },
+        {
+          "decision": "reject",
+          "label": "Reject",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=reject `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rejection notes describe why the campaign should stop; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific rejection notes before running.\""
+        }
+      ],
+      "nextAction": "Review the generated paid ad video draft and storyboard, then record approve, needs_revision, or reject."
+    },
+    {
+      "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+      "label": "Normal post",
+      "contentType": "normal_post",
+      "state": "generated_needs_review",
+      "reviewAction": "review_decision_required",
+      "media": {
+        "videoUrl": "",
+        "contactSheetUrl": "",
+        "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg"
+      },
+      "review": {
+        "status": "needs_review",
+        "reviewer": "pending-human-review"
+      },
+      "postiz": {
+        "status": "blocked_until_approved",
+        "publishAllowed": false
+      },
+      "decisions": [
+        {
+          "decision": "approve",
+          "label": "Approve",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --manual-package-dir=\"social-studio\\handoff\\postiz\\approved\\cc-rubber-base-demo-2026-06-10\" `\n  --review-board=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\review-board\\review-board.json\" `\n  --decision=approve `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rollback and not-live proof reviewed; Approved for Postiz draft upload only\" `\n  --notes=\"Approved for Postiz draft upload only. Do not publish without separate approval.\""
+        },
+        {
+          "decision": "needs_revision",
+          "label": "Needs revision",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=needs_revision `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Revision notes describe exactly what must change; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific revision notes before running.\""
+        },
+        {
+          "decision": "reject",
+          "label": "Reject",
+          "command": "node social-studio\\tools\\run-review-decision-cycle.mjs `\n  --input=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\draft-bundle.json\" `\n  --out-dir=\"social-studio\\generated\\cc-rubber-base-demo-2026-06-10\" `\n  --decision=reject `\n  --reviewer=\"Andre\" `\n  --evidence=\"UGC video evidence reviewed; Paid ad video evidence reviewed; Normal post evidence reviewed; Artifact freshness checked; Rejection notes describe why the campaign should stop; Postiz remains blocked\" `\n  --notes=\"EDIT REQUIRED: add specific rejection notes before running.\""
+        }
+      ],
+      "nextAction": "Review the generated static post image and caption, then record approve, needs_revision, or reject."
+    }
+  ],
+  "uiSummary": {
+    "campaignId": "cc-rubber-base-demo-2026-06-10",
+    "status": "needs_review",
+    "noLivePosting": true,
+    "liveActionsEnabled": false,
+    "summary": {
+      "totalAssets": 3,
+      "decisionRequired": 3,
+      "produceBeforeReview": 0,
+      "publishAllowed": 0
+    },
+    "items": [
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
+        "label": "UGC video",
+        "contentType": "ugc_video",
+        "state": "generated_needs_review",
+        "reviewAction": "review_decision_required",
+        "reviewStatus": "needs_review",
+        "postizStatus": "blocked_until_approved",
+        "publishAllowed": false,
+        "decisionCount": 3,
+        "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+        "contactSheetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/contact-sheet.jpg",
+        "imageUrl": "",
+        "nextAction": "Review the MP4 and contact sheet, then record approve, needs_revision, or reject."
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
+        "label": "Paid ad video",
+        "contentType": "paid_ad_video",
+        "state": "generated_needs_review",
+        "reviewAction": "review_decision_required",
+        "reviewStatus": "needs_review",
+        "postizStatus": "blocked_until_approved",
+        "publishAllowed": false,
+        "decisionCount": 3,
+        "videoUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
+        "contactSheetUrl": "",
+        "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg",
+        "nextAction": "Review the generated paid ad video draft and storyboard, then record approve, needs_revision, or reject."
+      },
+      {
+        "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
+        "label": "Normal post",
+        "contentType": "normal_post",
+        "state": "generated_needs_review",
+        "reviewAction": "review_decision_required",
+        "reviewStatus": "needs_review",
+        "postizStatus": "blocked_until_approved",
+        "publishAllowed": false,
+        "decisionCount": 3,
+        "videoUrl": "",
+        "contactSheetUrl": "",
+        "imageUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
+        "nextAction": "Review the generated static post image and caption, then record approve, needs_revision, or reject."
+      }
+    ]
+  },
+  "markdown": "# Crystal Clawz Review Board\n\nGenerated: 2026-06-12T06:36:31.481Z\nCampaign: cc-rubber-base-demo-2026-06-10\nStatus: needs_review\n\n## Summary\n\n- Decision required: 3\n- Produce before review: 0\n- Publish allowed: 0\n\n## Items\n\n### UGC video\n\n- State: generated_needs_review\n- Review action: review_decision_required\n- Review status: needs_review\n- Postiz: blocked_until_approved\n- Decisions available: 3\n\n### Paid ad video\n\n- State: generated_needs_review\n- Review action: review_decision_required\n- Review status: needs_review\n- Postiz: blocked_until_approved\n- Decisions available: 3\n\n### Normal post\n\n- State: generated_needs_review\n- Review action: review_decision_required\n- Review status: needs_review\n- Postiz: blocked_until_approved\n- Decisions available: 3\n\n"
+}

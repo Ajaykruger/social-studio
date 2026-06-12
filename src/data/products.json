@@ -1,0 +1,52 @@
+[
+  {
+    "id": "rubber-base-gel",
+    "emoji": "base",
+    "name": "Rubber Base Gel",
+    "tagline": "The flexible foundation every nail tech needs",
+    "benefits": ["prevents lifting", "adds flexible wear", "bonds to the natural nail"],
+    "targetAudience": "nail techs dealing with lifting or weak natural nails",
+    "productVisibilityNote": "Show the product clearly in at least 2 clips",
+    "referenceAssetHint": "Use a clean product image on a salon desk or in a hand close-up"
+  },
+  {
+    "id": "polygel",
+    "emoji": "poly",
+    "name": "Polygel",
+    "tagline": "Control and strength for confident overlays",
+    "benefits": ["gives controlled application", "adds strength", "helps shape clean structure"],
+    "targetAudience": "nail techs who want stronger overlays and neater control",
+    "productVisibilityNote": "Show the tube or pot beside the nail setup",
+    "referenceAssetHint": "Use a close-up product image next to a shaped nail tip"
+  },
+  {
+    "id": "gel-polish",
+    "emoji": "gel",
+    "name": "Gel Polish",
+    "tagline": "Rich colour for neat salon sets",
+    "benefits": ["creates smooth colour", "adds a glossy finish", "supports salon-ready shade work"],
+    "targetAudience": "nail techs creating clean colour services",
+    "productVisibilityNote": "Show the colour bottle and finished nail in the same clip",
+    "referenceAssetHint": "Use a shade image with the cap, bottle, and swatch visible"
+  },
+  {
+    "id": "acrylic-system",
+    "emoji": "acrylic",
+    "name": "Acrylic System",
+    "tagline": "Reliable acrylic for confident sculpting",
+    "benefits": ["supports strong sets", "gives controlled application", "keeps the salon workflow clear"],
+    "targetAudience": "nail techs building confidence with acrylic services",
+    "productVisibilityNote": "Show powder, liquid, and brush in a neat working setup",
+    "referenceAssetHint": "Use a flat-lay image of the acrylic products and tools"
+  },
+  {
+    "id": "nail-training-course",
+    "emoji": "training",
+    "name": "Nail Training Course",
+    "tagline": "Practical training for confident nail techs",
+    "benefits": ["teaches clear steps", "supports hands-on practice", "builds business confidence"],
+    "targetAudience": "beginner nail techs who want proper guidance",
+    "productVisibilityNote": "Show class notes, practice hands, or a training setup",
+    "referenceAssetHint": "Use an image of the training desk, notes, or practice kit"
+  }
+]

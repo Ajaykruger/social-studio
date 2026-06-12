@@ -1,0 +1,42 @@
+[
+  {
+    "id": "salon-desk",
+    "emoji": "💡",
+    "name": "Salon desk",
+    "visualDescription": "Neat nail station with tools, lamp, and products visible",
+    "lightingNote": "Warm ring light or natural window light from the left",
+    "referenceAssetHint": "Photograph your station before filming - use it as a reference image in Flow"
+  },
+  {
+    "id": "in-car",
+    "emoji": "🚗",
+    "name": "In car",
+    "visualDescription": "Natural phone-style video filmed from the parked car seat",
+    "lightingNote": "Soft daylight through the windscreen, no harsh shadows",
+    "referenceAssetHint": "Take a quick reference photo of the car angle and lighting"
+  },
+  {
+    "id": "packing-orders",
+    "emoji": "📦",
+    "name": "Packing orders",
+    "visualDescription": "Hands packing Crystal Clawz products with labels and tissue paper visible",
+    "lightingNote": "Bright overhead light with clean product visibility",
+    "referenceAssetHint": "Use a reference photo of the packing station before parcels are sealed"
+  },
+  {
+    "id": "training-room",
+    "emoji": "🪑",
+    "name": "Training room",
+    "visualDescription": "Training table with practice hand, tools, notebook, and product setup",
+    "lightingNote": "Even room light with a clear view of hands and tools",
+    "referenceAssetHint": "Use a wide reference photo of the training setup and product area"
+  },
+  {
+    "id": "home-nail-setup",
+    "emoji": "🏠",
+    "name": "Home nail setup",
+    "visualDescription": "Small but neat home station with practical nail tools",
+    "lightingNote": "Natural light near a window or simple desk lamp",
+    "referenceAssetHint": "Use a photo that shows the home desk, lamp, and product clearly"
+  }
+]

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://crystalclawz.local/social-studio/schemas/review-status.schema.json",
+  "title": "Crystal Clawz Review Status",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": ["approved", "draft_upload_ready", "handed_to_postiz"]
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "checks": {
+            "properties": {
+              "brandFit": { "const": true },
+              "claimSafe": { "const": true },
+              "productVisible": { "const": true },
+              "captionReady": { "const": true },
+              "ctaReady": { "const": true },
+              "platformReady": { "const": true },
+              "notLive": { "const": true }
+            }
+          },
+          "approval": {
+            "properties": {
+              "approvedBy": { "type": "string", "minLength": 2 },
+              "approvedAt": { "type": "string", "minLength": 10 },
+              "approvalEvidence": { "type": "string", "minLength": 3 }
+            },
+            "required": ["approvedBy", "approvedAt", "approvalEvidence"]
+          }
+        }
+      }
+    }
+  ],
+  "required": [
+    "campaignId",
+    "assetId",
+    "status",
+    "reviewer",
+    "checks",
+    "approval"
+  ],
+  "properties": {
+    "campaignId": { "type": "string", "minLength": 3 },
+    "assetId": { "type": "string", "minLength": 3 },
+    "status": {
+      "type": "string",
+      "enum": ["needs_review", "approved", "needs_revision", "rejected", "draft_upload_ready", "handed_to_postiz"]
+    },
+    "reviewer": { "type": "string", "minLength": 2 },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "brandFit",
+        "claimSafe",
+        "productVisible",
+        "captionReady",
+        "ctaReady",
+        "platformReady",
+        "notLive"
+      ],
+      "properties": {
+        "brandFit": { "type": "boolean" },
+        "claimSafe": { "type": "boolean" },
+        "productVisible": { "type": "boolean" },
+        "captionReady": { "type": "boolean" },
+        "ctaReady": { "type": "boolean" },
+        "platformReady": { "type": "boolean" },
+        "notLive": { "type": "boolean" }
+      }
+    },
+    "notes": { "type": "string" },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approvedBy", "approvedAt", "approvalEvidence"],
+      "properties": {
+        "approvedBy": { "type": "string" },
+        "approvedAt": { "type": "string" },
+        "approvalEvidence": { "type": "string" }
+      }
+    }
+  }
+}
