@@ -43,8 +43,8 @@
       "tiktok"
     ],
     "media": {
-      "localPath": "C:\\path\\to\\CC UCG\\MoneyPrinterTurbo\\storage\\tasks\\2e7a2913-c5de-4e96-8da4-b1b385313687\\final-1.mp4",
-      "thumbnailPath": "C:\\path\\to\\CC UCG\\social-studio\\generated\\cc-rubber-base-demo-2026-06-10\\moneyprinter-final-thumb.jpg",
+      "localPath": "MoneyPrinterTurbo/storage/tasks/2e7a2913-c5de-4e96-8da4-b1b385313687/final-1.mp4",
+      "thumbnailPath": "social-studio/generated/cc-rubber-base-demo-2026-06-10/moneyprinter-final-thumb.jpg",
       "mediaType": "video",
       "aspectRatio": "9:16"
     },

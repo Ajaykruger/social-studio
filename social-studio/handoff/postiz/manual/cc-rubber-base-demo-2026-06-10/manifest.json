@@ -20,42 +20,12 @@
   },
   "assets": [
     {
-      "assetId": "cc-rubber-base-demo-2026-06-10-ugc-video-01",
-      "label": "UGC video",
+      "assetId": "cc-rubber-base-demo-2026-06-10-draft-001",
+      "label": "Primary asset",
       "contentType": "ugc_video",
       "mediaType": "video",
-      "assetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/final-1.mp4",
+      "assetUrl": "",
       "mediaFile": "media/final-1.mp4",
-      "supportingAssets": [
-        {
-          "type": "contact_sheet",
-          "assetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/contact-sheet.jpg",
-          "localPath": "C:\\path\\to\\CC UCG\\public\\social-studio\\cc-rubber-base-demo-2026-06-10\\review\\contact-sheet.jpg"
-        }
-      ]
-    },
-    {
-      "assetId": "cc-rubber-base-demo-2026-06-10-paid-ad-video-02",
-      "label": "Paid ad video",
-      "contentType": "paid_ad_video",
-      "mediaType": "video",
-      "assetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02.mp4",
-      "mediaFile": "media/paid-ad-video-02.mp4",
-      "supportingAssets": [
-        {
-          "type": "storyboard",
-          "assetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/paid-ad-video-02-storyboard.svg",
-          "localPath": "C:\\path\\to\\CC UCG\\public\\social-studio\\cc-rubber-base-demo-2026-06-10\\review\\paid-ad-video-02-storyboard.svg"
-        }
-      ]
-    },
-    {
-      "assetId": "cc-rubber-base-demo-2026-06-10-normal-post-03",
-      "label": "Normal post",
-      "contentType": "normal_post",
-      "mediaType": "image",
-      "assetUrl": "/social-studio/cc-rubber-base-demo-2026-06-10/review/normal-post-03.svg",
-      "mediaFile": "media/normal-post-03.svg",
       "supportingAssets": []
     }
   ],

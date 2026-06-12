@@ -4,9 +4,7 @@ Do not upload to Postiz until a human reviewer has checked this package.
 
 ## Assets To Review
 
-- [ ] UGC video (ugc_video): media/final-1.mp4
-- [ ] Paid ad video (paid_ad_video): media/paid-ad-video-02.mp4
-- [ ] Normal post (normal_post): media/normal-post-03.svg
+- [ ] Primary asset (ugc_video): media/final-1.mp4
 
 ## Checks
 

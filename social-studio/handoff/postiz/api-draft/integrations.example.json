@@ -26,7 +26,7 @@
       "autoAddMusic": false,
       "brand_content_toggle": false,
       "brand_organic_toggle": true,
-      "content_posting_method": "DIRECT_POST"
+      "content_posting_method": "UPLOAD"
     }
   }
 ]

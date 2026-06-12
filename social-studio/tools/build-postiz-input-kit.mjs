@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { detectPostizInputSecrets } from "../lib/postiz-input-safety.mjs";
+import { isPlaceholderValue } from "../lib/postiz-input-guards.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,9 +18,7 @@ function unique(values) {
   return Array.from(new Set(values.filter(Boolean)));
 }
 
-function isPlaceholder(value) {
-  return /replace-with|placeholder|todo/i.test(String(value || ""));
-}
+const isPlaceholder = isPlaceholderValue;
 
 function safeFileName(value) {
   const fileName = path.basename(String(value || ""));
@@ -261,12 +260,17 @@ function makeOperatorEditPlan(operatorPreflight) {
 }
 
 function templateIntegration(platform, sourceIntegration = {}) {
+  const settings = {
+    ...(sourceIntegration.settings || { __type: platform })
+  };
+  // Draft-only boundary: never seed templates with direct-publish modes.
+  if (String(settings.content_posting_method || "").toUpperCase() === "DIRECT_POST") {
+    settings.content_posting_method = "UPLOAD";
+  }
   return {
     platform,
     id: `TODO_POSTIZ_${platform.toUpperCase()}_INTEGRATION_ID`,
-    settings: {
-      ...(sourceIntegration.settings || { __type: platform })
-    }
+    settings
   };
 }
 

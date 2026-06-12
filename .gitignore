@@ -16,6 +16,19 @@ MoneyPrinterTurbo/config.toml
 MoneyPrinterTurbo/logs/
 MoneyPrinterTurbo/.uv-cache/
 
+# Full upstream MoneyPrinterTurbo checkout is local-only; only Crystal Clawz
+# docs/fixtures/templates are tracked in this repository.
+MoneyPrinterTurbo/*
+!MoneyPrinterTurbo/docs/
+MoneyPrinterTurbo/docs/*
+!MoneyPrinterTurbo/docs/crystalclawz-*
+!MoneyPrinterTurbo/fixtures/
+!MoneyPrinterTurbo/templates/
+
+# Local tooling and scratch outputs
+.claude/
+artifacts/
+
 # Social Studio local-only Postiz values can contain real IDs after operators edit them.
 social-studio/generated/**/postiz-input-kit/integrations.local.json
 social-studio/generated/**/postiz-input-kit/uploaded-media.local.json

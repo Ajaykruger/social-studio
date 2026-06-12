@@ -1,4 +1,5 @@
 import { SAFETY_RULES } from "./safetyRules.js";
+import { assertClaimSafe, findBlockedClaims } from "./claimGuard.js";
 
 const DEFAULT_GENERATED_AT = "2026-06-04T00:00:00.000Z";
 
@@ -81,24 +82,26 @@ function polishCta(rawCta, product) {
   const hasUrl = /crystalclawz\.co\.za/i.test(rawCta || "");
   const lowerClean = clean.toLowerCase();
   const lowerProduct = product.name.toLowerCase();
+  const safeFallback = `Shop ${product.name} at Crystal Clawz`;
 
   if (hasUrl) {
     return `Shop ${product.name} at crystalclawz.co.za`;
   }
   if (!clean) {
-    return `Shop ${product.name} at Crystal Clawz`;
+    return safeFallback;
+  }
+  // User-typed CTAs may carry unapproved claims; replace rather than echo them.
+  if (findBlockedClaims(clean).length > 0) {
+    return safeFallback;
   }
   if (
     lowerClean.includes("crystal clawz") &&
     !lowerClean.includes(lowerProduct)
   ) {
-    return `Get longer-lasting sets with ${product.name} from Crystal Clawz`;
-  }
-  if (lowerClean.includes("long-lasting") || lowerClean.includes("lasting")) {
-    return `Get longer-lasting sets with ${product.name}`;
+    return safeFallback;
   }
   if (!lowerClean.includes(lowerProduct)) {
-    return `${clean} with ${product.name}`;
+    return `${sentenceCase(clean)} with ${product.name}`;
   }
   return sentenceCase(clean);
 }
@@ -107,10 +110,14 @@ function makeSpokenLines(formState, polished) {
   const { product, videoType, tone } = formState;
   const pain = polished.pain;
 
+  const benefitLine =
+    product.benefits.filter(Boolean).slice(0, 2).join(" and ") ||
+    "supports clean, practical salon work";
+
   const baseLines = [
     `If ${pain}, this is where I would start.`,
     "Most lifting issues come from prep, product control, or the layer being too thick.",
-    `${product.name} helps because it ${product.benefits[0]} and ${product.benefits[1]}.`,
+    `${product.name} helps because it ${benefitLine}.`,
     `${polished.cta}. Save this for your next set.`
   ];
 
@@ -121,7 +128,7 @@ function makeSpokenLines(formState, polished) {
 
   if (tone === "Bold & direct") {
     baseLines[0] = `If ${pain}, do not ignore your prep.`;
-    baseLines[3] = `${polished.cta}. Fix the lifting before the next set.`;
+    baseLines[3] = `${polished.cta}. Get your prep right before the next set.`;
   }
 
   if (tone === "Hype/sale energy") {
@@ -284,7 +291,7 @@ function makeHooks({ product, videoType, audience }, polished) {
     `If ${pain}, watch this before your next set.`,
     `${who}, this ${product.name} tip will save you a lot of frustration.`,
     `Still battling with ${pain}? Start with your foundation.`,
-    `${product.name} is not just another product - it fixes a real salon problem.`,
+    `${product.name} is not just another product - it is built for everyday salon work.`,
     `${videoType.name} idea: show the problem, show the fix, then show the result.`
   ];
 }
@@ -315,7 +322,7 @@ export function generatePack(formState) {
   );
   const fallbackPrompts = makeFallbackPrompts(formState, clipScript, assetNames);
 
-  return {
+  const pack = {
     meta: {
       campaignName: polished.campaignName,
       product: formState.product.name,
@@ -344,7 +351,7 @@ export function generatePack(formState) {
       "Keep everything exactly the same, but make Jenn's spoken line simpler and more natural for South African nail techs.",
       "Keep everything exactly the same, but change only the background detail or clothing colour requested. Do not change Jenn, the product, voice, or product reference."
     ],
-    caption: `${formState.product.name} for nail techs who want cleaner, longer-lasting sets`,
+    caption: `${formState.product.name} for nail techs who want clean, salon-ready sets`,
     cta: polished.cta,
     assetChecklist: [
       `${formState.imageGenerator?.name || "Image generator"} Jenn avatar image created and uploaded as ${assetNames.avatar}`,
@@ -355,4 +362,9 @@ export function generatePack(formState) {
     ],
     safetyChecklist: SAFETY_RULES
   };
+
+  // Final boundary check: nothing leaves the generator with a blocked claim,
+  // including claims smuggled in through user-typed brief fields.
+  assertClaimSafe(pack, "UGC workflow pack");
+  return pack;
 }

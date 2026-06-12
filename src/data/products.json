@@ -4,7 +4,7 @@
     "emoji": "base",
     "name": "Rubber Base Gel",
     "tagline": "The flexible foundation every nail tech needs",
-    "benefits": ["prevents lifting", "adds flexible wear", "bonds to the natural nail"],
+    "benefits": ["gives a smooth base", "adds flexible wear", "supports neat overlay work"],
     "targetAudience": "nail techs dealing with lifting or weak natural nails",
     "productVisibilityNote": "Show the product clearly in at least 2 clips",
     "referenceAssetHint": "Use a clean product image on a salon desk or in a hand close-up"
@@ -13,9 +13,9 @@
     "id": "polygel",
     "emoji": "poly",
     "name": "Polygel",
-    "tagline": "Control and strength for confident overlays",
-    "benefits": ["gives controlled application", "adds strength", "helps shape clean structure"],
-    "targetAudience": "nail techs who want stronger overlays and neater control",
+    "tagline": "Control and structure for confident overlays",
+    "benefits": ["gives controlled application", "helps shape clean structure", "supports neat overlay work"],
+    "targetAudience": "nail techs who want neater, more controlled overlays",
     "productVisibilityNote": "Show the tube or pot beside the nail setup",
     "referenceAssetHint": "Use a close-up product image next to a shaped nail tip"
   },
@@ -34,7 +34,7 @@
     "emoji": "acrylic",
     "name": "Acrylic System",
     "tagline": "Reliable acrylic for confident sculpting",
-    "benefits": ["supports strong sets", "gives controlled application", "keeps the salon workflow clear"],
+    "benefits": ["supports confident sculpting", "gives controlled application", "keeps the salon workflow clear"],
     "targetAudience": "nail techs building confidence with acrylic services",
     "productVisibilityNote": "Show powder, liquid, and brush in a neat working setup",
     "referenceAssetHint": "Use a flat-lay image of the acrylic products and tools"

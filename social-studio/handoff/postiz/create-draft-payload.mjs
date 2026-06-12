@@ -2,6 +2,10 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { assertNoPostizInputSecrets } from "../../lib/postiz-input-safety.mjs";
+import {
+  assertDraftSafeSettings,
+  isPlaceholderValue
+} from "../../lib/postiz-input-guards.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,9 +25,7 @@ function requireText(value, label) {
   return clean;
 }
 
-function isPlaceholder(value) {
-  return /replace-with|placeholder/i.test(String(value || ""));
-}
+const isPlaceholder = isPlaceholderValue;
 
 function normalizeLocalApiBase(apiBaseUrl = DEFAULT_API_BASE_URL) {
   const clean = requireText(apiBaseUrl, "Postiz API base URL").replace(/\/+$/, "");
@@ -170,6 +172,7 @@ function normalizeIntegrations(integrations, platforms) {
       throw new Error(`placeholder Postiz integration id is not allowed for ${platform}`);
     }
     requireText(settings.__type, `Postiz settings.__type for ${platform}`);
+    assertDraftSafeSettings(settings, platform);
 
     return {
       platform,

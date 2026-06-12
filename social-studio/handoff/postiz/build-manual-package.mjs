@@ -57,6 +57,13 @@ function localPathFromPublicUrl(publicUrl) {
   return path.join(publicRoot, clean.slice(1).replace(/\//g, path.sep));
 }
 
+function resolveWorkspacePath(value) {
+  const clean = String(value || "").trim();
+  if (!clean) return "";
+  if (path.isAbsolute(clean)) return clean;
+  return path.join(workspaceRoot, clean.replace(/\//g, path.sep));
+}
+
 function normalizeReviewAssets(bundle) {
   const handoff = bundle.postizHandoff;
   const reviewAssets = Array.isArray(handoff.reviewAssets) ? handoff.reviewAssets : [];
@@ -89,7 +96,7 @@ function normalizeReviewAssets(bundle) {
 }
 
 async function copyAssetToPackage(asset, outDir, index) {
-  const sourcePath = asset.localPath || localPathFromPublicUrl(asset.assetUrl);
+  const sourcePath = resolveWorkspacePath(asset.localPath) || localPathFromPublicUrl(asset.assetUrl);
   const fallback = `${String(index + 1).padStart(2, "0")}-${asset.contentType}.${asset.mediaType === "image" ? "svg" : "mp4"}`;
   const fileName = fileNameFromPath(sourcePath, fallback);
   const packagePath = path.join(outDir, "media", fileName);
@@ -188,8 +195,8 @@ export async function buildManualPostizPackage({ bundle, outDir }) {
   const packageType = isApproved
     ? "postiz_manual_draft_ready"
     : "postiz_manual_upload_preview";
-  const mediaPath = handoff.media.localPath;
-  const thumbnailPath = handoff.media.thumbnailPath;
+  const mediaPath = resolveWorkspacePath(handoff.media.localPath);
+  const thumbnailPath = resolveWorkspacePath(handoff.media.thumbnailPath);
   const mediaName = fileNameFromPath(mediaPath, "draft-video.mp4");
   const thumbName = fileNameFromPath(thumbnailPath, "thumbnail.jpg");
 
