@@ -13,6 +13,14 @@ const studioRoot = path.resolve(__dirname, "..", "..");
 const repoRoot = path.resolve(studioRoot, "..");
 const defaultMoneyPrinterRoot = path.join(repoRoot, "MoneyPrinterTurbo");
 
+function pathForRoot(root) {
+  return /^[A-Za-z]:[\\/]/.test(String(root || "")) ? path.win32 : path;
+}
+
+function joinMoneyPrinterPath(root, ...parts) {
+  return pathForRoot(root).join(root, ...parts);
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -45,7 +53,7 @@ export function buildLocalRenderRequest({
   subject,
   script
 }) {
-  const localVideos = path.join(moneyPrinterRoot, "storage", "local_videos");
+  const localVideos = joinMoneyPrinterPath(moneyPrinterRoot, "storage", "local_videos");
   const materialNames = [
     "01_hook.mp4",
     "02_range.mp4",
@@ -66,10 +74,10 @@ export function buildLocalRenderRequest({
     video_source: "local",
     video_materials: materialNames.map((name) => ({
       provider: "local",
-      url: path.join(localVideos, name),
+      url: joinMoneyPrinterPath(localVideos, name),
       duration: 5
     })),
-    custom_audio_file: path.join(localVideos, "crystalclawz_rubber_base_bgm_15s.mp3"),
+    custom_audio_file: joinMoneyPrinterPath(localVideos, "crystalclawz_rubber_base_bgm_15s.mp3"),
     subtitle_enabled: false,
     bgm_type: "none",
     voice_name: "",
@@ -142,11 +150,12 @@ export function resolveTaskVideoPath({
     return video;
   }
 
-  const normalized = video.replace(/^\/+/, "").replace(/\//g, path.sep);
-  if (!normalized.startsWith(`tasks${path.sep}`)) {
+  const pathApi = pathForRoot(moneyPrinterRoot);
+  const normalized = video.replace(/^\/+/, "").replace(/\//g, pathApi.sep);
+  if (!normalized.startsWith(`tasks${pathApi.sep}`)) {
     throw new Error(`Unexpected MoneyPrinterTurbo video path: ${video}`);
   }
-  return path.join(moneyPrinterRoot, "storage", normalized);
+  return pathApi.join(moneyPrinterRoot, "storage", normalized);
 }
 
 async function main() {

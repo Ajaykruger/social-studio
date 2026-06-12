@@ -183,7 +183,8 @@ export async function refreshCurrentReviewState({
   publicUrlBase = "",
   reviewer = "Andre",
   generatedAt = new Date().toISOString(),
-  verification = {}
+  verification = {},
+  paidAdVideoBuilder
 }) {
   const bundle = JSON.parse(await readFile(bundlePath, "utf8"));
   assertNeedsReviewRefresh(bundle);
@@ -249,7 +250,8 @@ export async function refreshCurrentReviewState({
     outDir: path.join(resolvedGeneratedDir, "paid-ad-video-review"),
     publicOutDir: resolvedPublicOutDir,
     publicUrlBase: resolvedPublicUrlBase,
-    generatedAt
+    generatedAt,
+    runVideoBuilder: paidAdVideoBuilder
   });
 
   const productionQueueResult = await buildProductionQueueFromFiles({

@@ -136,6 +136,13 @@ async function seedPendingReview(tempDir, bundle = pendingBundle(tempDir)) {
   return { bundlePath, briefPath, productPath, contactSheetPath, visualReviewPath };
 }
 
+function fakePaidAdVideoBuilder(calls) {
+  return async ({ videoPath }) => {
+    calls.push(videoPath);
+    await writeFile(videoPath, "fake paid ad video");
+  };
+}
+
 test("refreshes the current unapproved review state without approval or Postiz API side effects", async () => {
   const tempDir = await mkdtemp(path.join(os.tmpdir(), "social-studio-refresh-"));
   try {
@@ -143,6 +150,7 @@ test("refreshes the current unapproved review state without approval or Postiz A
     const generatedDir = path.join(tempDir, "generated");
     const manualPackageDir = path.join(tempDir, "manual-package");
     const publicOutDir = path.join(tempDir, "public-review");
+    const paidAdVideoBuilds = [];
 
     const result = await refreshCurrentReviewState({
       bundlePath: files.bundlePath,
@@ -160,7 +168,8 @@ test("refreshes the current unapproved review state without approval or Postiz A
         buildPassing: true,
         secretScanPassing: true,
         pathLeakScanPassing: true
-      }
+      },
+      paidAdVideoBuilder: fakePaidAdVideoBuilder(paidAdVideoBuilds)
     });
 
     assert.equal(result.status, "blocked_by_human_review");
@@ -184,6 +193,7 @@ test("refreshes the current unapproved review state without approval or Postiz A
     assert.equal(await exists(path.join(publicOutDir, "normal-post-03.svg")), true);
     assert.equal(await exists(path.join(publicOutDir, "paid-ad-video-02.mp4")), true);
     assert.equal(await exists(path.join(publicOutDir, "paid-ad-video-02-storyboard.svg")), true);
+    assert.equal(paidAdVideoBuilds.length, 1);
     assert.equal(await exists(path.join(generatedDir, "approved-bundle.json")), false);
     assert.equal(await exists(path.join(generatedDir, "postiz-draft.dry-run.json")), false);
 
@@ -301,6 +311,7 @@ test("normal refresh prefers prepared local Postiz input files when they exist",
   try {
     const files = await seedPendingReview(tempDir);
     const generatedDir = path.join(tempDir, "generated");
+    const paidAdVideoBuilds = [];
     const inputKitDir = path.join(generatedDir, "postiz-input-kit");
     await mkdir(inputKitDir, { recursive: true });
     await writeFile(
@@ -341,7 +352,8 @@ test("normal refresh prefers prepared local Postiz input files when they exist",
       visualReviewPath: files.visualReviewPath,
       publicOutDir: path.join(tempDir, "public-review"),
       publicUrlBase: "/social-studio/current/review",
-      generatedAt: "2026-06-10T16:30:00.000Z"
+      generatedAt: "2026-06-10T16:30:00.000Z",
+      paidAdVideoBuilder: fakePaidAdVideoBuilder(paidAdVideoBuilds)
     });
 
     const postizInputKit = JSON.parse(
@@ -361,6 +373,7 @@ test("normal refresh prefers prepared local Postiz input files when they exist",
     assert.equal(postizLocalValidation.status, "blocked");
     assert.equal(postizLocalValidation.summary.missingChecks, 5);
     assert.equal(postizReadiness.summary.uploadedMediaReady, 0);
+    assert.equal(paidAdVideoBuilds.length, 1);
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
