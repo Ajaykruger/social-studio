@@ -87,7 +87,7 @@ function reviewAssetsFromReviewBoard(reviewBoard) {
     .filter((asset) => asset.assetUrl || asset.localPath);
 }
 
-const APPROVAL_EVIDENCE_GATES = [
+export const APPROVAL_EVIDENCE_GATES = [
   "UGC video evidence reviewed",
   "Paid ad video evidence reviewed",
   "Normal post evidence reviewed",

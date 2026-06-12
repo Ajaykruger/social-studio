@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import BrandClaimLedgerPanel from "./components/BrandClaimLedgerPanel.jsx";
 import ContentCoverageAuditPanel from "./components/ContentCoverageAuditPanel.jsx";
 import ContentPlanPanel from "./components/ContentPlanPanel.jsx";
@@ -14,27 +14,74 @@ import ProductionPacketsPanel from "./components/ProductionPacketsPanel.jsx";
 import ProductionQueuePanel from "./components/ProductionQueuePanel.jsx";
 import ReviewBoardPanel from "./components/ReviewBoardPanel.jsx";
 import ReviewDecisionCommandsPanel from "./components/ReviewDecisionCommandsPanel.jsx";
+import ReviewDecisionScreen from "./components/ReviewDecisionScreen.jsx";
 import ReviewMediaPanel from "./components/ReviewMediaPanel.jsx";
 import SocialStudioStatusPanel from "./components/SocialStudioStatusPanel.jsx";
-import brandClaimLedger from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/brand-claim-ledger/brand-claim-ledger.ui.json";
-import contentCoverageAudit from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/content-coverage-audit/content-coverage-audit.ui.json";
-import contentPlan from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/content-plan/content-plan.ui.json";
-import decisionCommands from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/review-decision-commands/review-decision-commands.ui.json";
-import humanApprovalHandoff from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/human-approval-handoff/human-approval-handoff.ui.json";
-import mvpCompletionAudit from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/mvp-completion-audit/mvp-completion-audit.ui.json";
-import mvpFinishPath from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/mvp-finish-path/mvp-finish-path.ui.json";
-import mvpOperatorPacket from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/mvp-operator-packet/mvp-operator-packet.ui.json";
-import postizCommandCenter from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/postiz-command-center/postiz-command-center.ui.json";
-import postizInputKit from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/postiz-input-kit/postiz-input-kit.ui.json";
-import postizLocalInputValidation from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/postiz-input-kit/postiz-local-input-validation.ui.json";
-import postizReadiness from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/postiz-dry-run-readiness/postiz-dry-run-readiness.ui.json";
-import productionPackets from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/production-packets/production-packets.ui.json";
-import productionQueue from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/production-queue/production-queue.ui.json";
-import reviewBoard from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/review-board/review-board.ui.json";
-import reviewPacket from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/review-packet/review-packet.ui.json";
-import socialStudioStatus from "../social-studio/generated/cc-rubber-base-demo-2026-06-10/workflow-status.ui.json";
+import {
+  activeCampaignId,
+  loadCampaignState,
+  loadStudioArtifacts
+} from "./utils/studioData.js";
+
+// Campaign artifacts the panels read, fetched at runtime so a new campaign or
+// a fresh decision does not require rebuilding the app.
+const ARTIFACT_MANIFEST = {
+  socialStudioStatus: "workflow-status.ui.json",
+  mvpCompletionAudit: "mvp-completion-audit/mvp-completion-audit.ui.json",
+  mvpOperatorPacket: "mvp-operator-packet/mvp-operator-packet.ui.json",
+  mvpFinishPath: "mvp-finish-path/mvp-finish-path.ui.json",
+  humanApprovalHandoff: "human-approval-handoff/human-approval-handoff.ui.json",
+  contentPlan: "content-plan/content-plan.ui.json",
+  contentCoverageAudit: "content-coverage-audit/content-coverage-audit.ui.json",
+  brandClaimLedger: "brand-claim-ledger/brand-claim-ledger.ui.json",
+  productionPackets: "production-packets/production-packets.ui.json",
+  productionQueue: "production-queue/production-queue.ui.json",
+  reviewBoard: "review-board/review-board.ui.json",
+  reviewPacket: "review-packet/review-packet.ui.json",
+  postizInputKit: "postiz-input-kit/postiz-input-kit.ui.json",
+  postizLocalInputValidation: "postiz-input-kit/postiz-local-input-validation.ui.json",
+  postizReadiness: "postiz-dry-run-readiness/postiz-dry-run-readiness.ui.json",
+  postizCommandCenter: "postiz-command-center/postiz-command-center.ui.json",
+  decisionCommands: "review-decision-commands/review-decision-commands.ui.json"
+};
 
 export default function App() {
+  const campaignId = activeCampaignId();
+  const [artifacts, setArtifacts] = useState(null);
+  const [missing, setMissing] = useState([]);
+  const [campaignState, setCampaignState] = useState(null);
+  const [loadError, setLoadError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const reload = useCallback(async () => {
+    setLoading(true);
+    setLoadError("");
+    try {
+      const [artifactResult, stateResult] = await Promise.all([
+        loadStudioArtifacts(campaignId, ARTIFACT_MANIFEST),
+        loadCampaignState(campaignId).catch(() => null)
+      ]);
+      setArtifacts(artifactResult.data);
+      setMissing(artifactResult.missing);
+      setCampaignState(stateResult);
+      if (Object.values(artifactResult.data).every((value) => value === null)) {
+        setLoadError(
+          "No campaign data could be loaded. Start the local decision server with: npm run serve"
+        );
+      }
+    } catch (error) {
+      setLoadError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [campaignId]);
+
+  useEffect(() => {
+    reload();
+  }, [reload]);
+
+  const data = artifacts || {};
+
   return (
     <main className="min-h-screen">
       <div className="mx-auto grid max-w-5xl gap-5 px-4 py-5 sm:px-6 lg:px-8">
@@ -59,23 +106,74 @@ export default function App() {
           </div>
         </header>
 
-        <SocialStudioStatusPanel status={socialStudioStatus} />
-        <MvpCompletionAuditPanel audit={mvpCompletionAudit} />
-        <MvpOperatorPacketPanel packet={mvpOperatorPacket} />
-        <MvpFinishPathPanel finishPath={mvpFinishPath} />
-        <HumanApprovalHandoffPanel handoff={humanApprovalHandoff} />
-        <ContentPlanPanel plan={contentPlan} />
-        <ContentCoverageAuditPanel audit={contentCoverageAudit} />
-        <BrandClaimLedgerPanel ledger={brandClaimLedger} />
-        <ProductionPacketsPanel packets={productionPackets} />
-        <ProductionQueuePanel queue={productionQueue} />
-        <ReviewBoardPanel board={reviewBoard} />
-        <ReviewMediaPanel packet={reviewPacket} />
-        <PostizInputKitPanel kit={postizInputKit} />
-        <PostizLocalInputValidationPanel validation={postizLocalInputValidation} />
-        <PostizDryRunReadinessPanel readiness={postizReadiness} />
-        <PostizCommandCenterPanel center={postizCommandCenter} />
-        <ReviewDecisionCommandsPanel packet={decisionCommands} />
+        {loading ? (
+          <div className="grid gap-2 rounded-md border border-slate-200 bg-slate-50 p-6 text-center">
+            <p className="text-lg font-black text-slate-950">
+              Loading campaign...
+            </p>
+            <p className="text-sm leading-6 text-slate-600">{campaignId}</p>
+          </div>
+        ) : null}
+
+        {loadError ? (
+          <div className="grid gap-2 rounded-md border border-rose-200 bg-rose-50 p-4">
+            <p className="font-black text-rose-950">Campaign failed to load</p>
+            <p className="text-sm leading-6 text-rose-950">{loadError}</p>
+            <button
+              type="button"
+              onClick={reload}
+              className="w-fit min-h-12 rounded-md bg-rose-700 px-5 text-sm font-bold text-white"
+            >
+              Try again
+            </button>
+          </div>
+        ) : null}
+
+        {!loading && !loadError ? (
+          <ReviewDecisionScreen
+            campaignId={campaignId}
+            workflowStatus={data.socialStudioStatus}
+            reviewPacket={data.reviewPacket}
+            handoff={data.humanApprovalHandoff}
+            ledger={data.brandClaimLedger}
+            campaignState={campaignState}
+            onDecided={reload}
+          />
+        ) : null}
+
+        {missing.length > 0 && !loading ? (
+          <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-950">
+            <span className="font-bold">Some campaign artifacts are missing: </span>
+            {missing.join(", ")}
+          </div>
+        ) : null}
+
+        {!loading && !loadError ? (
+          <details className="grid gap-5 rounded-md border border-slate-200 p-4">
+            <summary className="cursor-pointer text-lg font-black text-slate-950">
+              Operator dashboard (full detail)
+            </summary>
+            <div className="mt-4 grid gap-5">
+              <SocialStudioStatusPanel status={data.socialStudioStatus} />
+              <MvpCompletionAuditPanel audit={data.mvpCompletionAudit} />
+              <MvpOperatorPacketPanel packet={data.mvpOperatorPacket} />
+              <MvpFinishPathPanel finishPath={data.mvpFinishPath} />
+              <HumanApprovalHandoffPanel handoff={data.humanApprovalHandoff} />
+              <ContentPlanPanel plan={data.contentPlan} />
+              <ContentCoverageAuditPanel audit={data.contentCoverageAudit} />
+              <BrandClaimLedgerPanel ledger={data.brandClaimLedger} />
+              <ProductionPacketsPanel packets={data.productionPackets} />
+              <ProductionQueuePanel queue={data.productionQueue} />
+              <ReviewBoardPanel board={data.reviewBoard} />
+              <ReviewMediaPanel packet={data.reviewPacket} />
+              <PostizInputKitPanel kit={data.postizInputKit} />
+              <PostizLocalInputValidationPanel validation={data.postizLocalInputValidation} />
+              <PostizDryRunReadinessPanel readiness={data.postizReadiness} />
+              <PostizCommandCenterPanel center={data.postizCommandCenter} />
+              <ReviewDecisionCommandsPanel packet={data.decisionCommands} />
+            </div>
+          </details>
+        ) : null}
       </div>
     </main>
   );
