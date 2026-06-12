@@ -1,5 +1,7 @@
 # Crystal Clawz Social Studio
 
+[![CI](https://github.com/Ajaykruger/social-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/Ajaykruger/social-studio/actions/workflows/ci.yml)
+
 Review-first local MVP for creating Crystal Clawz social content with:
 
 - MoneyPrinterTurbo draft-video generation contracts
