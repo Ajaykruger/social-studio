@@ -113,7 +113,7 @@ decision without manual refresh weirdness; suite green.
 
 ---
 
-## Task 4 — Reviewer identity + timestamp hardening
+## Task 4 [DONE 37b641f] — Reviewer identity + timestamp hardening
 
 **Goal:** close two known soft spots.
 
