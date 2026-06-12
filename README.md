@@ -13,26 +13,40 @@ approval evidence, local Postiz input templates, and dry-run payloads only.
 
 ## Current Workflow
 
-1. Build campaign and brand context.
-2. Generate or attach MoneyPrinterTurbo draft media.
-3. Review UGC video, paid ad video, and normal post assets.
-4. Record a human decision for Postiz draft upload only.
-5. Fill local Postiz integration and uploaded-media references.
-6. Generate a local Postiz dry-run package.
-7. Confirm the MVP completion audit.
+1. **Create tab**: paste a crystalclawz.co.za product link, pick the one
+   approved benefit, and generate captions, hooks, a reel script, and a
+   static post. Everything passes the claim guard.
+2. **Send to review**: the draft becomes a campaign in the Review tab.
+   Reel campaigns stay blocked until the rendered video is attached.
+3. **Review tab**: the reviewer checks the assets, confirms each evidence
+   gate, and records approve, needs_revision, or reject.
+4. Approval creates a manual Postiz draft package only. Filling local Postiz
+   inputs and the dry-run package remain operator steps (Operator tab).
 
 ## Run Locally
 
 ```bash
 npm install
-npm run dev
+npm run build
+npm run serve
 ```
 
-Open the local URL shown by Vite, usually:
+Open http://127.0.0.1:4810/ - the serve command runs the app plus the local
+decision API (decisions, product import, generation). For development with
+hot reload, run `npm run serve` and `npm run dev` together and use the Vite
+URL instead.
+
+### AI generation (optional)
+
+Create a file named `.env` in the project root containing:
 
 ```text
-http://127.0.0.1:5173/
+ANTHROPIC_API_KEY=sk-ant-...
 ```
+
+With the key set, the Create tab generates with Claude (claude-opus-4-8).
+Without it, generation falls back to built-in templates. The `.env` file is
+gitignored and must never be committed.
 
 ## Verification
 

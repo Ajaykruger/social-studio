@@ -9,15 +9,18 @@
 // Binding is localhost-only by default. On a VPS it must sit behind an
 // authenticated proxy (Cloudflare Access / Tailscale) before HOST is changed.
 
-import { appendFile, mkdir, readFile, access } from "node:fs/promises";
+import { appendFile, mkdir, readdir, readFile, access } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import express from "express";
 
 import {
-  APPROVAL_EVIDENCE_GATES,
   runReviewDecisionCycle
 } from "../social-studio/tools/run-review-decision-cycle.mjs";
+import { approvalEvidenceRequirementsFor } from "../social-studio/tools/record-review-decision.mjs";
+import { importProductFromUrl } from "./product-import.mjs";
+import { createCampaign, generateCreativePack } from "./generate-campaign.mjs";
+import { loadDotEnv } from "./env.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +69,7 @@ function requireValidCampaignId(campaignId) {
   return clean;
 }
 
-function validateDecisionRequest(body) {
+function validateDecisionRequest(body, requiredGates) {
   const decision = String(body?.decision || "").trim();
   if (!DECISIONS.has(decision)) {
     return { error: "decision must be approve, needs_revision, or reject" };
@@ -81,9 +84,7 @@ function validateDecisionRequest(body) {
   const gates = Array.isArray(body?.gates) ? body.gates.map(String) : [];
 
   if (decision === "approve") {
-    const missing = APPROVAL_EVIDENCE_GATES.filter(
-      (gate) => !gates.includes(gate)
-    );
+    const missing = requiredGates.filter((gate) => !gates.includes(gate));
     if (missing.length > 0) {
       return {
         error: `approval requires every evidence gate to be confirmed; missing: ${missing.join("; ")}`
@@ -93,14 +94,15 @@ function validateDecisionRequest(body) {
       decision,
       reviewer,
       notes,
-      evidence: APPROVAL_EVIDENCE_GATES.join("; ")
+      gates: requiredGates,
+      evidence: requiredGates.join("; ")
     };
   }
 
   if (!notes) {
     return { error: `${decision} requires specific notes describing the decision` };
   }
-  return { decision, reviewer, notes, evidence: notes };
+  return { decision, reviewer, notes, gates: [], evidence: notes };
 }
 
 async function appendAuditLog(auditRoot, campaignId, entry) {
@@ -137,10 +139,15 @@ export function createDecisionApp({
       const workflowStatus = await readJsonIfExists(
         path.join(campaignDir, "workflow-status.ui.json")
       );
+      const bundle = await readJsonIfExists(
+        path.join(campaignDir, "draft-bundle.json")
+      );
       res.json({
         campaignId,
         workflowStatus,
-        approvalEvidenceGates: APPROVAL_EVIDENCE_GATES,
+        approvalEvidenceGates: approvalEvidenceRequirementsFor(bundle).map(
+          (requirement) => requirement.label
+        ),
         bundles: {
           draft: await fileExists(path.join(campaignDir, "draft-bundle.json")),
           approved: await fileExists(path.join(campaignDir, "approved-bundle.json")),
@@ -168,7 +175,11 @@ export function createDecisionApp({
         return;
       }
 
-      const validated = validateDecisionRequest(req.body);
+      const bundle = await readJsonIfExists(draftBundlePath);
+      const requiredGates = approvalEvidenceRequirementsFor(bundle).map(
+        (requirement) => requirement.label
+      );
+      const validated = validateDecisionRequest(req.body, requiredGates);
       if (validated.error) {
         res.status(400).json({ error: validated.error });
         return;
@@ -189,6 +200,7 @@ export function createDecisionApp({
       const result = await runReviewDecisionCycle({
         input: draftBundlePath,
         outDir: campaignDir,
+        workspaceRoot,
         manualPackageDir: path.join(paths.handoffApprovedRoot, campaignId),
         decision: validated.decision,
         reviewer: validated.reviewer,
@@ -202,8 +214,7 @@ export function createDecisionApp({
         campaignId,
         decision: validated.decision,
         reviewer: validated.reviewer,
-        gatesConfirmed:
-          validated.decision === "approve" ? APPROVAL_EVIDENCE_GATES : [],
+        gatesConfirmed: validated.gates,
         notes: validated.notes,
         resultStatus: result.status,
         bundlePath: path.relative(workspaceRoot, result.bundlePath),
@@ -225,6 +236,82 @@ export function createDecisionApp({
       });
     } catch (error) {
       res.status(error.statusCode || 422).json({ error: error.message });
+    }
+  });
+
+  app.get("/api/campaigns", async (req, res) => {
+    try {
+      let entries = [];
+      try {
+        entries = await readdir(paths.generatedRoot, { withFileTypes: true });
+      } catch {
+        entries = [];
+      }
+      const campaigns = [];
+      for (const entry of entries) {
+        if (!entry.isDirectory() || !CAMPAIGN_ID_PATTERN.test(entry.name)) continue;
+        const status = await readJsonIfExists(
+          path.join(paths.generatedRoot, entry.name, "workflow-status.ui.json")
+        );
+        campaigns.push({
+          campaignId: entry.name,
+          status: status?.status || "unknown",
+          statusLabel: status?.statusLabel || "Unknown",
+          generatedAt: status?.freshness?.generatedAt || ""
+        });
+      }
+      campaigns.sort((a, b) => (a.generatedAt < b.generatedAt ? 1 : -1));
+      res.json({ campaigns });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // --- Create mode -------------------------------------------------------
+  // Import is allowlisted to crystalclawz.co.za. Generation is claim-guarded
+  // on the server regardless of what the browser sends. Creating a campaign
+  // only ever produces a needs_review draft - the same human approval gates
+  // apply to generated content as to everything else.
+
+  app.post("/api/import-product", async (req, res) => {
+    try {
+      const product = await importProductFromUrl(req.body?.url);
+      res.json({ product });
+    } catch (error) {
+      res.status(422).json({ error: error.message });
+    }
+  });
+
+  app.post("/api/generate", async (req, res) => {
+    try {
+      const result = await generateCreativePack({
+        product: req.body?.product,
+        brief: req.body?.brief
+      });
+      res.json(result);
+    } catch (error) {
+      res.status(422).json({ error: error.message });
+    }
+  });
+
+  app.post("/api/campaigns", async (req, res) => {
+    try {
+      const result = await createCampaign({
+        workspaceRoot,
+        product: req.body?.product,
+        brief: req.body?.brief,
+        pack: req.body?.pack,
+        selectedCaptionIndex: Number(req.body?.selectedCaptionIndex) || 0,
+        generator: String(req.body?.generator || "unknown")
+      });
+      res.json({
+        ok: true,
+        ...result,
+        status: "needs_review",
+        boundary: "Draft created for human review only. Nothing is scheduled or published."
+      });
+    } catch (error) {
+      res.status(422).json({ error: error.message });
     }
   });
 
@@ -255,12 +342,18 @@ export function createDecisionApp({
 }
 
 async function main() {
+  loadDotEnv(defaultWorkspaceRoot);
   const host = process.env.HOST || "127.0.0.1";
   const port = Number(process.env.PORT || 4810);
   const app = createDecisionApp();
   app.listen(port, host, () => {
     console.log(`decision api listening on http://${host}:${port}`);
     console.log("draft_only=true scheduling=never publishing=never");
+    console.log(
+      process.env.ANTHROPIC_API_KEY
+        ? "generation=claude (ANTHROPIC_API_KEY found)"
+        : "generation=templates (set ANTHROPIC_API_KEY in .env for AI generation)"
+    );
   });
 }
 

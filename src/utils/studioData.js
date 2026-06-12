@@ -44,14 +44,36 @@ export async function loadCampaignState(campaignId) {
 }
 
 export async function submitDecision(campaignId, payload) {
-  const response = await fetch(`/api/campaigns/${campaignId}/decision`, {
+  return postJson(`/api/campaigns/${campaignId}/decision`, payload, "decision");
+}
+
+async function postJson(url, payload, label) {
+  const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   });
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(body.error || `decision failed (${response.status})`);
+    throw new Error(body.error || `${label} failed (${response.status})`);
   }
   return body;
+}
+
+export async function listCampaigns() {
+  const body = await fetchJson("/api/campaigns");
+  return body.campaigns || [];
+}
+
+export async function importProduct(url) {
+  const body = await postJson("/api/import-product", { url }, "product import");
+  return body.product;
+}
+
+export async function generateCreative(product, brief) {
+  return postJson("/api/generate", { product, brief }, "generation");
+}
+
+export async function createCampaignFromPack(payload) {
+  return postJson("/api/campaigns", payload, "campaign creation");
 }

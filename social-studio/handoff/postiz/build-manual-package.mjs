@@ -5,8 +5,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const studioRoot = path.resolve(__dirname, "..", "..");
-const workspaceRoot = path.resolve(studioRoot, "..");
-const publicRoot = path.join(workspaceRoot, "public");
+const defaultWorkspaceRoot = path.resolve(studioRoot, "..");
 
 function readArg(name, fallback = "") {
   const prefix = `--${name}=`;
@@ -51,25 +50,26 @@ function fileNameFromPath(value, fallback) {
   return path.basename(value || fallback);
 }
 
-function localPathFromPublicUrl(publicUrl) {
+function localPathFromPublicUrl(publicUrl, workspaceRoot) {
   const clean = String(publicUrl || "").trim();
   if (!clean.startsWith("/")) return "";
-  return path.join(publicRoot, clean.slice(1).replace(/\//g, path.sep));
+  return path.join(workspaceRoot, "public", clean.slice(1).replace(/\//g, path.sep));
 }
 
-function resolveWorkspacePath(value) {
+function resolveWorkspacePath(value, workspaceRoot) {
   const clean = String(value || "").trim();
   if (!clean) return "";
   if (path.isAbsolute(clean)) return clean;
   return path.join(workspaceRoot, clean.replace(/\//g, path.sep));
 }
 
-function normalizeReviewAssets(bundle) {
+function normalizeReviewAssets(bundle, workspaceRoot) {
   const handoff = bundle.postizHandoff;
   const reviewAssets = Array.isArray(handoff.reviewAssets) ? handoff.reviewAssets : [];
   if (reviewAssets.length > 0) {
     return reviewAssets.map((asset, index) => {
-      const localPath = asset.localPath || localPathFromPublicUrl(asset.assetUrl);
+      const localPath =
+        asset.localPath || localPathFromPublicUrl(asset.assetUrl, workspaceRoot);
       return {
         assetId: asset.assetId || `${bundle.assetId || "asset"}-${index + 1}`,
         label: asset.label || asset.contentType || `Asset ${index + 1}`,
@@ -95,8 +95,10 @@ function normalizeReviewAssets(bundle) {
   ];
 }
 
-async function copyAssetToPackage(asset, outDir, index) {
-  const sourcePath = resolveWorkspacePath(asset.localPath) || localPathFromPublicUrl(asset.assetUrl);
+async function copyAssetToPackage(asset, outDir, index, workspaceRoot) {
+  const sourcePath =
+    resolveWorkspacePath(asset.localPath, workspaceRoot) ||
+    localPathFromPublicUrl(asset.assetUrl, workspaceRoot);
   const fallback = `${String(index + 1).padStart(2, "0")}-${asset.contentType}.${asset.mediaType === "image" ? "svg" : "mp4"}`;
   const fileName = fileNameFromPath(sourcePath, fallback);
   const packagePath = path.join(outDir, "media", fileName);
@@ -187,7 +189,11 @@ function reviewChecklist({ isApproved, handoff, bundle, packageAssets }) {
   ].join("\n");
 }
 
-export async function buildManualPostizPackage({ bundle, outDir }) {
+export async function buildManualPostizPackage({
+  bundle,
+  outDir,
+  workspaceRoot = defaultWorkspaceRoot
+}) {
   assertManualDraftHandoff(bundle);
 
   const handoff = bundle.postizHandoff;
@@ -195,8 +201,8 @@ export async function buildManualPostizPackage({ bundle, outDir }) {
   const packageType = isApproved
     ? "postiz_manual_draft_ready"
     : "postiz_manual_upload_preview";
-  const mediaPath = resolveWorkspacePath(handoff.media.localPath);
-  const thumbnailPath = resolveWorkspacePath(handoff.media.thumbnailPath);
+  const mediaPath = resolveWorkspacePath(handoff.media.localPath, workspaceRoot);
+  const thumbnailPath = resolveWorkspacePath(handoff.media.thumbnailPath, workspaceRoot);
   const mediaName = fileNameFromPath(mediaPath, "draft-video.mp4");
   const thumbName = fileNameFromPath(thumbnailPath, "thumbnail.jpg");
 
@@ -205,10 +211,10 @@ export async function buildManualPostizPackage({ bundle, outDir }) {
   if (thumbnailPath) {
     await copyFile(thumbnailPath, path.join(outDir, "media", thumbName));
   }
-  const reviewAssets = normalizeReviewAssets(bundle);
+  const reviewAssets = normalizeReviewAssets(bundle, workspaceRoot);
   const packageAssets = [];
   for (const [index, asset] of reviewAssets.entries()) {
-    packageAssets.push(await copyAssetToPackage(asset, outDir, index));
+    packageAssets.push(await copyAssetToPackage(asset, outDir, index, workspaceRoot));
   }
 
   const manifest = {

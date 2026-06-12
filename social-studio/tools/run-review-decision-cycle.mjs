@@ -4,13 +4,15 @@ import { fileURLToPath } from "node:url";
 
 import { buildManualPostizPackage } from "../handoff/postiz/build-manual-package.mjs";
 import { buildWorkflowStatusFromFiles } from "./build-workflow-status.mjs";
-import { applyReviewDecision } from "./record-review-decision.mjs";
+import {
+  applyReviewDecision,
+  approvalEvidenceRequirementsFor
+} from "./record-review-decision.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const studioRoot = path.resolve(__dirname, "..");
-const workspaceRoot = path.resolve(studioRoot, "..");
-const publicRoot = path.join(workspaceRoot, "public");
+const defaultWorkspaceRoot = path.resolve(studioRoot, "..");
 
 function readArg(name, fallback = "") {
   const prefix = `--${name}=`;
@@ -39,10 +41,10 @@ async function readJsonIfExists(filePath) {
   }
 }
 
-function localPathFromPublicUrl(publicUrl) {
+function localPathFromPublicUrl(publicUrl, workspaceRoot) {
   const clean = String(publicUrl || "").trim();
   if (!clean.startsWith("/")) return "";
-  return path.join(publicRoot, clean.slice(1).replace(/\//g, path.sep));
+  return path.join(workspaceRoot, "public", clean.slice(1).replace(/\//g, path.sep));
 }
 
 function assetFileUrl(media = {}) {
@@ -53,7 +55,7 @@ function mediaTypeFor(media = {}) {
   return media.videoUrl ? "video" : "image";
 }
 
-function supportingAssetsFor(media = {}, primaryUrl = "") {
+function supportingAssetsFor(media = {}, primaryUrl = "", workspaceRoot) {
   return [
     ["contact_sheet", media.contactSheetUrl],
     ["storyboard", media.imageUrl && media.imageUrl !== primaryUrl ? media.imageUrl : ""]
@@ -62,11 +64,11 @@ function supportingAssetsFor(media = {}, primaryUrl = "") {
     .map(([type, url]) => ({
       type,
       assetUrl: url,
-      localPath: localPathFromPublicUrl(url)
+      localPath: localPathFromPublicUrl(url, workspaceRoot)
     }));
 }
 
-function reviewAssetsFromReviewBoard(reviewBoard) {
+function reviewAssetsFromReviewBoard(reviewBoard, workspaceRoot) {
   const items = Array.isArray(reviewBoard?.items) ? reviewBoard.items : [];
   return items
     .filter((item) => item?.reviewAction === "review_decision_required")
@@ -79,9 +81,9 @@ function reviewAssetsFromReviewBoard(reviewBoard) {
         label: item.label || item.contentType || `Asset ${index + 1}`,
         contentType: item.contentType || "asset",
         mediaType: mediaTypeFor(media),
-        localPath: media.localPath || localPathFromPublicUrl(assetUrl),
+        localPath: media.localPath || localPathFromPublicUrl(assetUrl, workspaceRoot),
         assetUrl,
-        supportingAssets: supportingAssetsFor(media, assetUrl)
+        supportingAssets: supportingAssetsFor(media, assetUrl, workspaceRoot)
       };
     })
     .filter((asset) => asset.assetUrl || asset.localPath);
@@ -96,26 +98,20 @@ export const APPROVAL_EVIDENCE_GATES = [
   "Approved for Postiz draft upload only"
 ];
 
-function approvalGateIsCovered(evidence, label, reviewAssets) {
-  if (!evidence.toLowerCase().includes(label.toLowerCase())) return false;
-  if (label === "UGC video evidence reviewed") {
-    return reviewAssets.some((asset) => asset.contentType === "ugc_video");
-  }
-  if (label === "Paid ad video evidence reviewed") {
-    return reviewAssets.some((asset) => asset.contentType === "paid_ad_video");
-  }
-  if (label === "Normal post evidence reviewed") {
-    return reviewAssets.some((asset) => asset.contentType === "normal_post");
+function approvalGateIsCovered(evidence, requirement, reviewAssets) {
+  if (!evidence.toLowerCase().includes(requirement.label.toLowerCase())) return false;
+  if (requirement.contentType) {
+    return reviewAssets.some((asset) => asset.contentType === requirement.contentType);
   }
   return true;
 }
 
 function makeApprovalEvidenceSummary(bundle, reviewAssets) {
   const evidence = String(bundle.reviewStatus?.approval?.approvalEvidence || "");
-  const gates = APPROVAL_EVIDENCE_GATES.map((label) => {
-    const covered = approvalGateIsCovered(evidence, label, reviewAssets);
+  const gates = approvalEvidenceRequirementsFor(bundle).map((requirement) => {
+    const covered = approvalGateIsCovered(evidence, requirement, reviewAssets);
     return {
-      label,
+      label: requirement.label,
       status: covered ? "covered" : "blocked"
     };
   });
@@ -132,8 +128,20 @@ function makeApprovalEvidenceSummary(bundle, reviewAssets) {
   };
 }
 
-function assertReviewBoardAssetsReady(reviewAssets) {
-  const requiredTypes = ["ugc_video", "paid_ad_video", "normal_post"];
+const LEGACY_REQUIRED_CONTENT_TYPES = ["ugc_video", "paid_ad_video", "normal_post"];
+
+function requiredContentTypesFor(bundle) {
+  // Campaigns created by the Create screen declare which asset types they
+  // contain; the original demo campaign predates that field and keeps the
+  // strict three-asset requirement.
+  const declared = bundle?.postizHandoff?.requiredContentTypes;
+  if (Array.isArray(declared) && declared.length > 0) {
+    return declared.map(String);
+  }
+  return LEGACY_REQUIRED_CONTENT_TYPES;
+}
+
+function assertReviewBoardAssetsReady(reviewAssets, requiredTypes) {
   const presentTypes = new Set(reviewAssets.map((asset) => asset.contentType));
   const missingTypes = requiredTypes.filter((contentType) => !presentTypes.has(contentType));
   if (missingTypes.length > 0) {
@@ -141,12 +149,12 @@ function assertReviewBoardAssetsReady(reviewAssets) {
   }
 }
 
-async function addReviewAssetsFromBoard(bundle, { reviewBoardPath, outDir }) {
+async function addReviewAssetsFromBoard(bundle, { reviewBoardPath, outDir, workspaceRoot }) {
   const resolvedReviewBoardPath =
     reviewBoardPath || path.join(outDir, "review-board", "review-board.json");
   const reviewBoard = await readJsonIfExists(resolvedReviewBoardPath);
-  const reviewAssets = reviewAssetsFromReviewBoard(reviewBoard);
-  assertReviewBoardAssetsReady(reviewAssets);
+  const reviewAssets = reviewAssetsFromReviewBoard(reviewBoard, workspaceRoot);
+  assertReviewBoardAssetsReady(reviewAssets, requiredContentTypesFor(bundle));
 
   return {
     ...bundle,
@@ -179,6 +187,7 @@ export async function runReviewDecisionCycle({
   outDir,
   manualPackageDir = "",
   reviewBoardPath = "",
+  workspaceRoot = defaultWorkspaceRoot,
   decision,
   reviewer,
   evidence,
@@ -198,7 +207,8 @@ export async function runReviewDecisionCycle({
   if (decision === "approve") {
     updated = await addReviewAssetsFromBoard(updated, {
       reviewBoardPath,
-      outDir: resolvedOutDir
+      outDir: resolvedOutDir,
+      workspaceRoot
     });
   }
   const bundlePath = path.join(resolvedOutDir, bundleNameForDecision(decision));
@@ -211,7 +221,8 @@ export async function runReviewDecisionCycle({
       path.join(studioRoot, "handoff", "postiz", "approved", updated.campaignId);
     await buildManualPostizPackage({
       bundle: updated,
-      outDir: resolvedManualPackageDir
+      outDir: resolvedManualPackageDir,
+      workspaceRoot
     });
     manualPackagePath = resolvedManualPackageDir;
   }

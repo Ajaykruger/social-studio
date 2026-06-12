@@ -103,6 +103,7 @@ export default function ReviewDecisionScreen({
   const decisionOpen = !alreadyApproved && !result;
 
   const assets = useMemo(() => {
+    if (reviewPacket?.assets?.length) return reviewPacket.assets;
     const reviewAssets = handoff?.reviewAssets || [];
     if (reviewAssets.length > 0) return reviewAssets;
     if (reviewPacket?.videoUrl) {

@@ -49,18 +49,21 @@ function requireSpecificDecisionNotes(value, decision) {
   return notes;
 }
 
-const APPROVAL_EVIDENCE_REQUIREMENTS = [
+export const APPROVAL_EVIDENCE_REQUIREMENTS = [
   {
     label: "UGC video evidence reviewed",
-    pattern: /ugc video evidence reviewed/i
+    pattern: /ugc video evidence reviewed/i,
+    contentType: "ugc_video"
   },
   {
     label: "Paid ad video evidence reviewed",
-    pattern: /paid ad video evidence reviewed/i
+    pattern: /paid ad video evidence reviewed/i,
+    contentType: "paid_ad_video"
   },
   {
     label: "Normal post evidence reviewed",
-    pattern: /normal post evidence reviewed/i
+    pattern: /normal post evidence reviewed/i,
+    contentType: "normal_post"
   },
   {
     label: "Artifact freshness checked",
@@ -76,17 +79,32 @@ const APPROVAL_EVIDENCE_REQUIREMENTS = [
   }
 ];
 
-function requireApprovalEvidenceCoverage(value) {
+// Per-asset evidence gates only apply to asset types the campaign actually
+// contains. Campaigns created before requiredContentTypes existed keep the
+// full strict gate list.
+export function approvalEvidenceRequirementsFor(bundle) {
+  const declared = bundle?.postizHandoff?.requiredContentTypes;
+  if (!Array.isArray(declared) || declared.length === 0) {
+    return APPROVAL_EVIDENCE_REQUIREMENTS;
+  }
+  const declaredTypes = declared.map(String);
+  return APPROVAL_EVIDENCE_REQUIREMENTS.filter(
+    (requirement) =>
+      !requirement.contentType || declaredTypes.includes(requirement.contentType)
+  );
+}
+
+function requireApprovalEvidenceCoverage(value, requirements) {
   const evidence = requireText(value, "approval evidence");
-  const missing = APPROVAL_EVIDENCE_REQUIREMENTS.filter((requirement) => !requirement.pattern.test(evidence));
+  const missing = requirements.filter((requirement) => !requirement.pattern.test(evidence));
   if (missing.length > 0) {
     throw new Error(`approval evidence must include: ${missing.map((requirement) => requirement.label).join("; ")}`);
   }
   return evidence;
 }
 
-function makeApprovalEvidenceSummary(evidence) {
-  const gates = APPROVAL_EVIDENCE_REQUIREMENTS.map((requirement) => ({
+function makeApprovalEvidenceSummary(evidence, requirements) {
+  const gates = requirements.map((requirement) => ({
     label: requirement.label,
     status: requirement.pattern.test(evidence) ? "covered" : "blocked"
   }));
@@ -139,9 +157,10 @@ export function applyReviewDecision(bundle, options) {
   }
 
   const reviewer = requireReviewer(options?.reviewer);
+  const evidenceRequirements = approvalEvidenceRequirementsFor(bundle);
   const evidence =
     decision === "approve"
-      ? requireApprovalEvidenceCoverage(options?.evidence)
+      ? requireApprovalEvidenceCoverage(options?.evidence, evidenceRequirements)
       : requireText(options?.evidence, "approval evidence");
   const decidedAt = approvalTimestamp(options?.approvedAt || new Date().toISOString());
   const notes =
@@ -160,7 +179,7 @@ export function applyReviewDecision(bundle, options) {
       approvedBy: reviewer,
       approvedAt: decidedAt,
       approvalEvidence: evidence,
-      evidenceSummary: makeApprovalEvidenceSummary(evidence),
+      evidenceSummary: makeApprovalEvidenceSummary(evidence, evidenceRequirements),
       scope: makeApprovalScope()
     };
 
