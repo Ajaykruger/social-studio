@@ -261,7 +261,7 @@ path references the scripts accurately.
 
 ---
 
-## Task 8 — Bind reviewer identity to Cloudflare Access
+## Task 8 [DONE e1d9345] — Bind reviewer identity to Cloudflare Access
 
 **Goal:** today the reviewer name is free-typed. Behind Cloudflare Access
 every request carries a verified Google identity in the
