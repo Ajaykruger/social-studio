@@ -215,7 +215,7 @@ Do Tasks 7–10 in order; `npm test` + `npm run build` green after each.
 
 ---
 
-## Task 7 — Turnkey install + update scripts
+## Task 7 [DONE 930cecc] — Turnkey install + update scripts
 
 **Goal:** collapse the manual `deploy/DEPLOY.md` steps into two scripts the
 operator runs on the server, plus a clear env template.
