@@ -323,7 +323,7 @@ names maps to a real button/endpoint that exists today.
 
 ---
 
-## Task 10 (optional, only if 7–9 are green) — Auto-deploy on push
+## Task 10 [DONE f559afa] (optional, only if 7–9 are green) — Auto-deploy on push
 
 **Goal:** let the operator ship future changes by pushing to `main`, without
 touching the server. This is OPTIONAL and must be safe.
