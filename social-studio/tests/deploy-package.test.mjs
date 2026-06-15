@@ -1,12 +1,33 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
+import { execFile as execFileCallback } from "node:child_process";
 import path from "node:path";
+import { promisify } from "node:util";
 
 const deployRoot = path.join(process.cwd(), "deploy");
+const execFile = promisify(execFileCallback);
 
 async function deployFile(name) {
   return readFile(path.join(deployRoot, name), "utf8");
+}
+
+function bashCommand() {
+  if (process.env.BASH_PATH) {
+    return process.env.BASH_PATH;
+  }
+
+  if (process.platform === "win32") {
+    return "C:\\Program Files\\Git\\bin\\bash.exe";
+  }
+
+  return "bash";
+}
+
+async function assertBashSyntax(scriptName) {
+  const scriptPath = path.join(deployRoot, scriptName);
+  await access(scriptPath);
+  await execFile(bashCommand(), ["-n", scriptPath], { timeout: 10000 });
 }
 
 test("deployment package includes the required runbook and config files", async () => {
@@ -31,6 +52,9 @@ test("deployment package includes the required runbook and config files", async 
   assert.match(runbook, /Cloudflare Access/i);
   assert.match(runbook, /0 2 \* \* \*/);
   assert.match(runbook, /must never be exposed without Cloudflare Access/i);
+  assert.match(runbook, /Fast path/i);
+  assert.match(runbook, /deploy\/bootstrap\.sh/);
+  assert.match(runbook, /deploy\/update\.sh/);
 
   assert.match(service, /WorkingDirectory=\/opt\/social-studio/);
   assert.match(service, /ExecStart=\/usr\/bin\/node server\/decision-api\.mjs/);
@@ -50,12 +74,44 @@ test("deployment package includes the required runbook and config files", async 
   assert.match(backup, /-mtime \+14/);
 });
 
+test("turnkey deploy scripts pass bash syntax checks", async () => {
+  await Promise.all([
+    assertBashSyntax("backup.sh"),
+    assertBashSyntax("bootstrap.sh"),
+    assertBashSyntax("update.sh"),
+    assertBashSyntax("healthcheck.sh")
+  ]);
+});
+
+test("bootstrap script keeps existing env files private and never overwrites them", async () => {
+  const bootstrap = await deployFile("bootstrap.sh");
+
+  assert.match(bootstrap, /set -euo pipefail/);
+  assert.match(bootstrap, /if \[\[ ! -f "\$\{ENV_FILE\}" \]\]/);
+  assert.match(bootstrap, /cp "\$\{APP_DIR\}\/deploy\/\.env\.example" "\$\{ENV_FILE\}"/);
+  assert.match(bootstrap, /chmod 600 "\$\{ENV_FILE\}"/);
+  assert.doesNotMatch(bootstrap, /cat >"\$\{ENV_FILE\}"/);
+});
+
+test("deploy env example lists server variables without real secrets", async () => {
+  const envExample = await deployFile(".env.example");
+
+  assert.match(envExample, /ANTHROPIC_API_KEY=/);
+  assert.match(envExample, /STUDIO_REVIEWERS=Jen,Andre/);
+  assert.match(envExample, /HOST=127\.0\.0\.1/);
+  assert.match(envExample, /PORT=4810/);
+  assert.match(envExample, /\/opt\/social-studio\/\.env/);
+  assert.match(envExample, /chmod 600/);
+  assert.doesNotMatch(envExample, /sk-ant-/i);
+});
+
 test("deployment package does not commit real hostnames or secret values", async () => {
   const files = await Promise.all([
     deployFile("DEPLOY.md"),
     deployFile("social-studio.service"),
     deployFile("Caddyfile"),
-    deployFile("backup.sh")
+    deployFile("backup.sh"),
+    deployFile(".env.example")
   ]);
   const combined = files.join("\n");
 

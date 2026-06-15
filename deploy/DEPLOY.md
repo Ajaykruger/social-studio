@@ -14,6 +14,44 @@ Placeholders used below:
 - `<REPO_URL>` - replace with this repository's HTTPS clone URL.
 - `<ALLOWED_EMAIL_1>` and `<ALLOWED_EMAIL_2>` - replace in Cloudflare Access.
 
+## Fast path: bootstrap the server
+
+Use this path on a fresh Ubuntu 24.04 server after the Hetzner, DNS, and
+Cloudflare account setup exists. It installs the app files only; it does not
+publish or schedule social content.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Ajaykruger/social-studio/main/deploy/bootstrap.sh -o /tmp/social-studio-bootstrap.sh
+bash /tmp/social-studio-bootstrap.sh https://github.com/Ajaykruger/social-studio.git studio.example.com
+```
+
+Success looks like: Node 22, Caddy, git, the `socialstudio` user, the built
+app at `/opt/social-studio`, the systemd service, and
+`/opt/social-studio/.env` all exist. The script creates `.env` from
+`deploy/.env.example` only if `.env` does not already exist, then applies
+`chmod 600`.
+
+After bootstrap:
+
+```bash
+nano /opt/social-studio/.env
+cp /opt/social-studio/deploy/Caddyfile /etc/caddy/Caddyfile
+nano /etc/caddy/Caddyfile
+caddy validate --config /etc/caddy/Caddyfile
+systemctl reload caddy
+/opt/social-studio/deploy/healthcheck.sh
+```
+
+For later app updates after a reviewed push to `main`:
+
+```bash
+cd /opt/social-studio
+./deploy/update.sh
+```
+
+The manual steps below explain what the scripts do and are the fallback if a
+script stops with a readable error.
+
 ## 1. Create the server
 
 1. In Hetzner Cloud, create a Hetzner CX32 server.
@@ -106,12 +144,12 @@ test -f /opt/social-studio/dist/index.html && echo "build artifact exists"
 ## 6. Create the server `.env`
 
 Create `/opt/social-studio/.env` on the server only. Never commit this file.
+The fast-path bootstrap creates it from `deploy/.env.example` only when it is
+missing, never overwrites an existing file, and sets `chmod 600`.
 
 ```bash
-cat >/opt/social-studio/.env <<'EOF'
-ANTHROPIC_API_KEY=replace-with-real-key-on-server
-STUDIO_REVIEWERS=Jen,Andre
-EOF
+cp /opt/social-studio/deploy/.env.example /opt/social-studio/.env
+nano /opt/social-studio/.env
 chown socialstudio:socialstudio /opt/social-studio/.env
 chmod 600 /opt/social-studio/.env
 ```
@@ -202,11 +240,7 @@ Backups keep 14 days.
 
 ```bash
 cd /opt/social-studio
-sudo -u socialstudio git pull --ff-only
-sudo -u socialstudio npm ci
-sudo -u socialstudio npm run build
-systemctl restart social-studio
-curl -fsS http://127.0.0.1:4810/api/health
+sudo -u socialstudio ./deploy/update.sh
 systemctl status social-studio --no-pager
 ```
 
