@@ -190,9 +190,164 @@ Only if Tasks 1–5 are done and green:
 
 ---
 
-## When you finish
+## When you finish a task
 
-Update this file: mark completed tasks with `[DONE <commit sha>]` in the
-heading. Push everything to `main`. The owner will have Claude review the
-diff afterwards — leave the work easy to review: small commits, test names
-that describe behavior, no drive-by refactors.
+Mark completed tasks with `[DONE <commit sha>]` in the heading. Push to
+`main`. The owner will have Claude review the diff — leave it easy to
+review: small commits, behavior-describing test names, no drive-by
+refactors.
+
+---
+
+# Phase 2 — Get it onto the server (Tasks 7–10)
+
+These make deployment turnkey for a non-technical operator. The operator
+(Andre) performs the account/DNS/billing actions himself (create the Hetzner
+server, buy a domain, set up Cloudflare Access). Your job is to make every
+on-server step a single script he can paste, and to make the app safe to
+expose behind Cloudflare Access. **Do NOT attempt to SSH anywhere, provision
+infrastructure, or deploy** — you have no server access and must not add any
+code that tries to. Produce committed files only. Same safety boundaries in
+`AGENTS.md` apply: draft-only, claim guard, 127.0.0.1 binding, no secrets in
+the repo.
+
+Do Tasks 7–10 in order; `npm test` + `npm run build` green after each.
+
+---
+
+## Task 7 — Turnkey install + update scripts
+
+**Goal:** collapse the manual `deploy/DEPLOY.md` steps into two scripts the
+operator runs on the server, plus a clear env template.
+
+- `deploy/.env.example` (committed) — every variable the server reads, with
+  comments and placeholder values, none real:
+  `ANTHROPIC_API_KEY=`, `STUDIO_REVIEWERS=Jen,Andre`, `HOST=127.0.0.1`,
+  `PORT=4810`. Note in the file that the real `.env` lives at
+  `/opt/social-studio/.env`, is chmod 600, and is never committed.
+- `deploy/bootstrap.sh` — idempotent first-time install run as root on a
+  fresh Ubuntu 24.04 box. Must: be `set -euo pipefail`; install Node 22
+  (NodeSource) + Caddy + git if absent; create the `socialstudio` system
+  user if absent; clone the repo to `/opt/social-studio` (or `git pull` if
+  already there); `npm ci` and `npm run build`; install
+  `deploy/social-studio.service` to `/etc/systemd/system/`; create
+  `/opt/social-studio/.env` from `deploy/.env.example` ONLY if it does not
+  already exist (never overwrite a real one); `chmod 600` the env file and
+  `chown` the install to `socialstudio`; `systemctl enable --now`; print
+  clear next-step instructions (edit `.env`, configure Caddy + Cloudflare
+  Access). Accept the repo URL and target domain as the first two
+  positional args with sensible defaults. Re-running must be safe.
+- `deploy/update.sh` — for shipping later changes: `set -euo pipefail`,
+  `cd /opt/social-studio`, `git pull`, `npm ci`, `npm run build`,
+  `systemctl restart social-studio`, then run the healthcheck (Task 8) and
+  report success/failure. Run as the deploy user with sudo for the restart.
+- `deploy/healthcheck.sh` — `curl -fsS http://127.0.0.1:4810/api/health`,
+  assert JSON `draftOnly:true` and that scheduling/publishing are off; exit
+  non-zero with a readable message on failure.
+- Update `deploy/DEPLOY.md` to lead with "the fast path" (run
+  `bootstrap.sh`) and keep the manual steps below as the explanation /
+  fallback. Keep all paths, user names, and ports consistent with the
+  systemd unit and Caddyfile.
+
+**Tests:** extend `social-studio/tests/deploy-package.test.mjs`: each script
+exists and passes `bash -n` (syntax check); `bootstrap.sh` contains
+`set -euo pipefail`, the no-overwrite `.env` guard, and the `chmod 600`;
+`.env.example` lists the four variables and contains no real key (no
+`sk-ant-` literal). Do not execute the scripts in tests — syntax + content
+assertions only.
+
+**Acceptance:** `bash -n` clean on all scripts; suite green; DEPLOY.md fast
+path references the scripts accurately.
+
+---
+
+## Task 8 — Bind reviewer identity to Cloudflare Access
+
+**Goal:** today the reviewer name is free-typed. Behind Cloudflare Access
+every request carries a verified Google identity in the
+`Cf-Access-Authenticated-User-Email` header. Use it so an approval is tied
+to the real signed-in person, not a typed string.
+
+- `server/decision-api.mjs`: read `Cf-Access-Authenticated-User-Email` on
+  decision and attach-reel requests. Add an OPTIONAL env
+  `STUDIO_REVIEWER_EMAILS` (comma-separated email→name not needed; just the
+  allowlist of emails). Behavior:
+  - If the header is present, the reviewer recorded in the audit log and
+    bundle is derived from it (use the part before `@`, or the matching
+    name from `STUDIO_REVIEWERS` if you can correlate by order — keep it
+    simple: record the email AND the typed name).
+  - If `STUDIO_REVIEWER_EMAILS` is set and the header email is not in it,
+    reject with 403.
+  - If the header is absent (local dev, no Cloudflare), behave exactly as
+    today (fall back to the typed reviewer + existing `STUDIO_REVIEWERS`
+    check). This keeps local `npm run serve` working unchanged.
+- The audit entry gains an `authenticatedEmail` field (empty string when no
+  header). Never log anything else from the headers.
+- Document both env vars in `README.md` and `deploy/.env.example`, and in
+  `deploy/DEPLOY.md` note that Cloudflare Access must be configured to pass
+  the `Cf-Access-Authenticated-User-Email` header (it does by default) and
+  that `STUDIO_REVIEWER_EMAILS` should list Jen's and Andre's Google emails.
+
+**Tests:** extend `social-studio/tests/decision-api.test.mjs`: with the
+header set and email allowed → approves and audit has `authenticatedEmail`;
+header email not in `STUDIO_REVIEWER_EMAILS` → 403; no header → unchanged
+behavior (existing tests still pass). Pass the header via the `fetch`
+options in the test helper.
+
+**Acceptance:** suite green; local serve unaffected; an approval behind
+Access is attributable to a verified email.
+
+---
+
+## Task 9 — Operator runbook for the live review (Jen's first real campaign)
+
+**Goal:** a short, plain-English checklist the operator and Jen follow the
+first time they use the deployed app end to end. No code logic changes.
+
+- `deploy/FIRST-CAMPAIGN.md`: numbered walkthrough — open the studio URL on
+  a phone, sign in via Google (Cloudflare Access), Create tab → paste a
+  crystalclawz.co.za product URL → pick the approved benefit → generate →
+  send to review; (operator) render the reel on the studio PC with
+  MoneyPrinterTurbo and attach it via the Review tab's "Attach rendered
+  reel" box; Jen reviews on her phone and approves; (operator) takes the
+  generated manual Postiz draft package and uploads it to Postiz as a
+  DRAFT. End with the explicit reminder: the app never schedules or
+  publishes — the human does the Postiz draft upload, and going live is a
+  separate, later, deliberate decision.
+- Include a one-line "if something looks wrong" section: how to read
+  `social-studio/audit/<campaign>.decisions.jsonl` and how to restart the
+  service.
+
+**Acceptance:** file reads clearly for a non-technical user; every action it
+names maps to a real button/endpoint that exists today.
+
+---
+
+## Task 10 (optional, only if 7–9 are green) — Auto-deploy on push
+
+**Goal:** let the operator ship future changes by pushing to `main`, without
+touching the server. This is OPTIONAL and must be safe.
+
+- `.github/workflows/deploy.yml`: trigger ONLY after the CI workflow
+  succeeds on `main` (use `workflow_run` depending on the CI workflow, or a
+  `needs:` gate in a combined workflow — CI must pass first). SSH to the
+  server using repo secrets (`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`)
+  and run `/opt/social-studio/deploy/update.sh`. If the secrets are not
+  configured, the job must no-op cleanly (skip, not fail) so the repo works
+  for anyone without a server.
+- Document in `deploy/DEPLOY.md` exactly which three secrets to add in
+  GitHub repo settings and how to generate the deploy SSH key. Make clear
+  this is opt-in and that without it nothing auto-deploys.
+- Do NOT weaken the CI-must-pass-first ordering. A failing test must never
+  reach the server.
+
+**Acceptance:** workflow is syntactically valid; no-ops without secrets;
+ordering guarantees CI passes before any deploy step; DEPLOY.md documents
+the secrets. (You cannot test the live SSH path — assert the workflow file
+shape and the skip-without-secrets behavior only.)
+
+---
+
+## When all done
+
+Mark Tasks 7–10 `[DONE <sha>]`, push to `main`, leave it review-ready.
