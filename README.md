@@ -54,10 +54,14 @@ You can also restrict who may record review decisions:
 
 ```text
 STUDIO_REVIEWERS=Jen,Andre
+STUDIO_REVIEWER_EMAILS=jen@example.com,andre@example.com
 ```
 
 Leave `STUDIO_REVIEWERS` unset to allow any real reviewer name. When it is
-set, names are matched case-insensitively.
+set, names are matched case-insensitively. When the app is behind Cloudflare
+Access, `STUDIO_REVIEWER_EMAILS` can restrict decisions to the Google emails
+allowed through Access. Local `npm run serve` requests without the Cloudflare
+header still use the typed reviewer name.
 
 ## Verification
 

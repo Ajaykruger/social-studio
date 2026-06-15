@@ -98,6 +98,7 @@ test("deploy env example lists server variables without real secrets", async () 
 
   assert.match(envExample, /ANTHROPIC_API_KEY=/);
   assert.match(envExample, /STUDIO_REVIEWERS=Jen,Andre/);
+  assert.match(envExample, /STUDIO_REVIEWER_EMAILS=jen@example\.com,andre@example\.com/);
   assert.match(envExample, /HOST=127\.0\.0\.1/);
   assert.match(envExample, /PORT=4810/);
   assert.match(envExample, /\/opt\/social-studio\/\.env/);

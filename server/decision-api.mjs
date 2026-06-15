@@ -70,11 +70,26 @@ function requireValidCampaignId(campaignId) {
   return clean;
 }
 
+function httpError(message, statusCode) {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  return error;
+}
+
 function normalizeReviewers(reviewers) {
   const values = Array.isArray(reviewers)
     ? reviewers
     : String(reviewers || "").split(",");
   return values.map((reviewer) => String(reviewer).trim()).filter(Boolean);
+}
+
+function normalizeReviewerEmails(emails) {
+  const values = Array.isArray(emails)
+    ? emails
+    : String(emails || "").split(",");
+  return values
+    .map((email) => String(email).trim().toLowerCase())
+    .filter(Boolean);
 }
 
 function reviewerAllowed(reviewer, reviewers) {
@@ -83,7 +98,28 @@ function reviewerAllowed(reviewer, reviewers) {
   return reviewers.some((allowed) => allowed.toLowerCase() === normalized);
 }
 
-function validateDecisionRequest(body, requiredGates, reviewers = []) {
+function authenticatedEmailForRequest(req) {
+  return String(req.get("Cf-Access-Authenticated-User-Email") || "")
+    .trim()
+    .toLowerCase();
+}
+
+function assertAuthenticatedEmailAllowed(authenticatedEmail, reviewerEmails) {
+  if (!authenticatedEmail || reviewerEmails.length === 0) return;
+  if (!reviewerEmails.includes(authenticatedEmail)) {
+    throw httpError(
+      `authenticated reviewer email is not allowed for this studio: ${authenticatedEmail}`,
+      403
+    );
+  }
+}
+
+function reviewerForDecision(typedReviewer, authenticatedEmail) {
+  if (!authenticatedEmail) return typedReviewer;
+  return `${typedReviewer} (${authenticatedEmail})`;
+}
+
+function validateDecisionRequest(body, requiredGates, reviewers = [], authenticatedEmail = "") {
   const decision = String(body?.decision || "").trim();
   if (!DECISIONS.has(decision)) {
     return { error: "decision must be approve, needs_revision, or reject" };
@@ -93,9 +129,10 @@ function validateDecisionRequest(body, requiredGates, reviewers = []) {
   if (reviewer.length < 2 || reviewer === "pending-human-review") {
     return { error: "a real human reviewer name is required" };
   }
-  if (!reviewerAllowed(reviewer, reviewers)) {
+  if (!authenticatedEmail && !reviewerAllowed(reviewer, reviewers)) {
     return { error: `reviewer is not allowed for this studio: ${reviewer}` };
   }
+  const recordedReviewer = reviewerForDecision(reviewer, authenticatedEmail);
 
   const notes = String(body?.notes || "").trim();
   const gates = Array.isArray(body?.gates) ? body.gates.map(String) : [];
@@ -109,7 +146,8 @@ function validateDecisionRequest(body, requiredGates, reviewers = []) {
     }
     return {
       decision,
-      reviewer,
+      reviewer: recordedReviewer,
+      authenticatedEmail,
       notes,
       gates: requiredGates,
       evidence: requiredGates.join("; ")
@@ -119,7 +157,14 @@ function validateDecisionRequest(body, requiredGates, reviewers = []) {
   if (!notes) {
     return { error: `${decision} requires specific notes describing the decision` };
   }
-  return { decision, reviewer, notes, gates: [], evidence: notes };
+  return {
+    decision,
+    reviewer: recordedReviewer,
+    authenticatedEmail,
+    notes,
+    gates: [],
+    evidence: notes
+  };
 }
 
 async function appendAuditLog(auditRoot, campaignId, entry) {
@@ -167,10 +212,12 @@ function contentTypesFor(bundle) {
 
 export function createDecisionApp({
   workspaceRoot = defaultWorkspaceRoot,
-  reviewers = process.env.STUDIO_REVIEWERS
+  reviewers = process.env.STUDIO_REVIEWERS,
+  reviewerEmails = process.env.STUDIO_REVIEWER_EMAILS
 } = {}) {
   const paths = workspacePaths(workspaceRoot);
   const reviewerAllowlist = normalizeReviewers(reviewers);
+  const reviewerEmailAllowlist = normalizeReviewerEmails(reviewerEmails);
   const app = express();
   app.use(express.json({ limit: "256kb" }));
 
@@ -235,7 +282,14 @@ export function createDecisionApp({
       const requiredGates = approvalEvidenceRequirementsFor(bundle).map(
         (requirement) => requirement.label
       );
-      const validated = validateDecisionRequest(req.body, requiredGates, reviewerAllowlist);
+      const authenticatedEmail = authenticatedEmailForRequest(req);
+      assertAuthenticatedEmailAllowed(authenticatedEmail, reviewerEmailAllowlist);
+      const validated = validateDecisionRequest(
+        req.body,
+        requiredGates,
+        reviewerAllowlist,
+        authenticatedEmail
+      );
       if (validated.error) {
         res.status(400).json({ error: validated.error });
         return;
@@ -272,6 +326,7 @@ export function createDecisionApp({
         campaignId,
         decision: validated.decision,
         reviewer: validated.reviewer,
+        authenticatedEmail: validated.authenticatedEmail || "",
         gatesConfirmed: validated.gates,
         notes: validated.notes,
         resultStatus: result.status,
@@ -287,6 +342,7 @@ export function createDecisionApp({
         campaignId,
         decision: validated.decision,
         reviewer: validated.reviewer,
+        authenticatedEmail: validated.authenticatedEmail || "",
         decidedAt,
         status: result.status,
         manualPackageReady: Boolean(result.manualPackagePath),
@@ -300,10 +356,13 @@ export function createDecisionApp({
   app.post("/api/campaigns/:campaignId/attach-reel", async (req, res) => {
     try {
       const campaignId = requireValidCampaignId(req.params.campaignId);
+      const authenticatedEmail = authenticatedEmailForRequest(req);
+      assertAuthenticatedEmailAllowed(authenticatedEmail, reviewerEmailAllowlist);
       const result = await attachRenderedReel({
         workspaceRoot,
         campaignId,
-        filePath: req.body?.filePath
+        filePath: req.body?.filePath,
+        authenticatedEmail
       });
       res.json(result);
     } catch (error) {

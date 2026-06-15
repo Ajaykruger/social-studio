@@ -203,12 +203,12 @@ async function withServer(workspaceRoot, run, appOptions = {}) {
   }
 }
 
-async function postDecision(baseUrl, body, campaignId = CAMPAIGN_ID) {
+async function postDecision(baseUrl, body, campaignId = CAMPAIGN_ID, options = {}) {
   const response = await fetch(
     `${baseUrl}/api/campaigns/${campaignId}/decision`,
     {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...(options.headers || {}) },
       body: JSON.stringify(body)
     }
   );
@@ -374,6 +374,105 @@ test("decision api allows configured reviewers case-insensitively", async () => 
         assert.equal(result.body.reviewer, "jen");
       },
       { reviewers: ["Jen", "Andre"] }
+    );
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("decision api records allowed Cloudflare Access email with approval", async () => {
+  const { workspaceRoot, campaignDir } = await seedWorkspace();
+  try {
+    await withServer(
+      workspaceRoot,
+      async (baseUrl) => {
+        const result = await postDecision(
+          baseUrl,
+          {
+            decision: "approve",
+            reviewer: "Jen",
+            gates: ALL_GATES,
+            notes: "Reviewed all three assets on mobile."
+          },
+          CAMPAIGN_ID,
+          {
+            headers: { "Cf-Access-Authenticated-User-Email": "Jen@Example.com" }
+          }
+        );
+
+        assert.equal(result.status, 200);
+
+        const approved = await readJson(path.join(campaignDir, "approved-bundle.json"));
+        assert.equal(approved.reviewStatus.reviewer, "Jen (jen@example.com)");
+        assert.equal(approved.reviewStatus.approval.approvedBy, "Jen (jen@example.com)");
+
+        const auditLines = (
+          await readFile(
+            path.join(workspaceRoot, "social-studio", "audit", `${CAMPAIGN_ID}.decisions.jsonl`),
+            "utf8"
+          )
+        )
+          .trim()
+          .split("\n")
+          .map((line) => JSON.parse(line));
+        assert.equal(auditLines.at(-1).reviewer, "Jen (jen@example.com)");
+        assert.equal(auditLines.at(-1).authenticatedEmail, "jen@example.com");
+      },
+      { reviewerEmails: ["jen@example.com"] }
+    );
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("decision api rejects Cloudflare Access email outside the configured allowlist", async () => {
+  const { workspaceRoot, campaignDir } = await seedWorkspace();
+  try {
+    await withServer(
+      workspaceRoot,
+      async (baseUrl) => {
+        const result = await postDecision(
+          baseUrl,
+          {
+            decision: "approve",
+            reviewer: "Jen",
+            gates: ALL_GATES,
+            notes: "Reviewed all three assets on mobile."
+          },
+          CAMPAIGN_ID,
+          {
+            headers: { "Cf-Access-Authenticated-User-Email": "mallory@example.com" }
+          }
+        );
+
+        assert.equal(result.status, 403);
+        assert.match(result.body.error, /authenticated reviewer email is not allowed/i);
+        await assert.rejects(access(path.join(campaignDir, "approved-bundle.json")));
+      },
+      { reviewerEmails: ["jen@example.com"] }
+    );
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("decision api ignores reviewer email allowlist when Cloudflare header is absent", async () => {
+  const { workspaceRoot } = await seedWorkspace();
+  try {
+    await withServer(
+      workspaceRoot,
+      async (baseUrl) => {
+        const result = await postDecision(baseUrl, {
+          decision: "approve",
+          reviewer: "Mallory",
+          gates: ALL_GATES,
+          notes: "Reviewed all three assets on mobile."
+        });
+
+        assert.equal(result.status, 200);
+        assert.equal(result.body.reviewer, "Mallory");
+      },
+      { reviewerEmails: ["jen@example.com"] }
     );
   } finally {
     await rm(workspaceRoot, { recursive: true, force: true });

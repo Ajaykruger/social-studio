@@ -151,7 +151,8 @@ export async function attachRenderedReel({
   workspaceRoot = defaultWorkspaceRoot,
   campaignId,
   filePath,
-  attachedAt = new Date().toISOString()
+  attachedAt = new Date().toISOString(),
+  authenticatedEmail = ""
 }) {
   const cleanCampaignId = requireValidCampaignId(campaignId);
   const resolvedWorkspaceRoot = path.resolve(workspaceRoot);
@@ -198,6 +199,7 @@ export async function attachRenderedReel({
       event: "reel_attached",
       sourcePath: auditPathFor(sourcePath, resolvedWorkspaceRoot),
       reelUrl,
+      authenticatedEmail: String(authenticatedEmail || ""),
       allowsSchedulingOrPublishing: false
     })}\n`
   );

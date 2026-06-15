@@ -93,8 +93,8 @@ async function assertRejectsWithStatus(fn, statusCode, messagePattern) {
   );
 }
 
-async function withServer(workspaceRoot, run) {
-  const app = createDecisionApp({ workspaceRoot });
+async function withServer(workspaceRoot, run, appOptions = {}) {
+  const app = createDecisionApp({ workspaceRoot, ...appOptions });
   const server = app.listen(0, "127.0.0.1");
   await new Promise((resolve) => server.once("listening", resolve));
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
@@ -221,6 +221,73 @@ test("attach reel endpoint uses the guarded attach flow", async () => {
       assert.equal(body.reelUrl, `/social-studio/${campaign.campaignId}/review/reel-01.mp4`);
       assert.match(body.boundary, /No scheduling/i);
     });
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("attach reel endpoint records allowed Cloudflare Access email in the audit", async () => {
+  const workspaceRoot = await makeWorkspace();
+  try {
+    const campaign = await createCampaignInWorkspace(workspaceRoot);
+    const sourcePath = await writeRenderedReel(workspaceRoot);
+
+    await withServer(
+      workspaceRoot,
+      async (baseUrl) => {
+        const response = await fetch(`${baseUrl}/api/campaigns/${campaign.campaignId}/attach-reel`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Cf-Access-Authenticated-User-Email": "Jen@Example.com"
+          },
+          body: JSON.stringify({ filePath: sourcePath })
+        });
+        const body = await response.json();
+
+        assert.equal(response.status, 200);
+        assert.equal(body.ok, true);
+
+        const auditLines = (
+          await readFile(path.join(workspaceRoot, "social-studio", "audit", `${campaign.campaignId}.decisions.jsonl`), "utf8")
+        )
+          .trim()
+          .split("\n")
+          .map((line) => JSON.parse(line));
+        assert.equal(auditLines.at(-1).event, "reel_attached");
+        assert.equal(auditLines.at(-1).authenticatedEmail, "jen@example.com");
+      },
+      { reviewerEmails: ["jen@example.com"] }
+    );
+  } finally {
+    await rm(workspaceRoot, { recursive: true, force: true });
+  }
+});
+
+test("attach reel endpoint rejects Cloudflare Access email outside the allowlist", async () => {
+  const workspaceRoot = await makeWorkspace();
+  try {
+    const campaign = await createCampaignInWorkspace(workspaceRoot);
+    const sourcePath = await writeRenderedReel(workspaceRoot);
+
+    await withServer(
+      workspaceRoot,
+      async (baseUrl) => {
+        const response = await fetch(`${baseUrl}/api/campaigns/${campaign.campaignId}/attach-reel`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Cf-Access-Authenticated-User-Email": "mallory@example.com"
+          },
+          body: JSON.stringify({ filePath: sourcePath })
+        });
+        const body = await response.json();
+
+        assert.equal(response.status, 403);
+        assert.match(body.error, /authenticated reviewer email is not allowed/i);
+      },
+      { reviewerEmails: ["jen@example.com"] }
+    );
   } finally {
     await rm(workspaceRoot, { recursive: true, force: true });
   }

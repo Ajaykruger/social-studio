@@ -163,7 +163,9 @@ ls -l /opt/social-studio/.env
 The file should be owned by `socialstudio` and readable only by the owner.
 
 If you do not want AI generation yet, omit `ANTHROPIC_API_KEY`. If you do not
-want reviewer allowlisting yet, omit `STUDIO_REVIEWERS`.
+want typed reviewer name allowlisting yet, omit `STUDIO_REVIEWERS`. When
+Cloudflare Access protects the app, set `STUDIO_REVIEWER_EMAILS` to Jen's and
+Andre's Google emails so approvals are tied to the signed-in account.
 
 ## 7. Install and start the systemd service
 
@@ -212,7 +214,11 @@ Do this before sending real users to the hostname.
    `https://studio.example.com`.
 5. Choose Google login.
 6. Add an allow policy for `<ALLOWED_EMAIL_1>` and `<ALLOWED_EMAIL_2>`.
-7. Save, then open `https://studio.example.com` in a private browser window.
+7. Confirm Cloudflare Access passes the
+   `Cf-Access-Authenticated-User-Email` header. This is the default.
+8. Add the same emails to `/opt/social-studio/.env` as
+   `STUDIO_REVIEWER_EMAILS=<ALLOWED_EMAIL_1>,<ALLOWED_EMAIL_2>`.
+9. Save, then open `https://studio.example.com` in a private browser window.
 
 Success looks like: Cloudflare asks for Google login before the Studio loads.
 No one should see the app without passing Access.
