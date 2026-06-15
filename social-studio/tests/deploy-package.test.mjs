@@ -121,3 +121,21 @@ test("deployment package does not commit real hostnames or secret values", async
   assert.doesNotMatch(combined, /BEGIN PRIVATE KEY/i);
   assert.doesNotMatch(combined, /ghp_|gho_/i);
 });
+
+test("first campaign runbook walks through review-first draft upload", async () => {
+  const runbook = await deployFile("FIRST-CAMPAIGN.md");
+
+  assert.match(runbook, /phone/i);
+  assert.match(runbook, /Google/i);
+  assert.match(runbook, /Create tab/i);
+  assert.match(runbook, /crystalclawz\.co\.za product URL/i);
+  assert.match(runbook, /approved benefit/i);
+  assert.match(runbook, /Attach rendered reel/i);
+  assert.match(runbook, /Review tab/i);
+  assert.match(runbook, /Jen reviews/i);
+  assert.match(runbook, /manual Postiz draft package/i);
+  assert.match(runbook, /DRAFT/);
+  assert.match(runbook, /never schedules or publishes/i);
+  assert.match(runbook, /social-studio\/audit\/<campaign>\.decisions\.jsonl/);
+  assert.match(runbook, /systemctl restart social-studio/);
+});
