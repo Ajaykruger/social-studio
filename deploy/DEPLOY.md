@@ -253,6 +253,38 @@ systemctl status social-studio --no-pager
 Success looks like: build succeeds, health returns draft-only safety JSON, and
 systemd remains active.
 
+## Optional auto-deploy on push
+
+This is opt-in. Without these GitHub repository secrets, nothing auto-deploys
+and the workflow exits cleanly after saying the deploy secrets are not
+configured.
+
+The deploy workflow is triggered only after the CI workflow succeeds on
+`main`. A failing test or build must not reach the server.
+
+Add these three secrets in GitHub repo settings:
+
+- `DEPLOY_HOST` - the server hostname or IP address.
+- `DEPLOY_USER` - the server user that can run `/opt/social-studio/deploy/update.sh`.
+- `DEPLOY_SSH_KEY` - the private deploy key for that user.
+
+Generate a deploy key on your own machine:
+
+```bash
+ssh-keygen -t ed25519 -C "social-studio-deploy" -f ~/.ssh/social-studio-deploy
+```
+
+Add the public key to the server user's `~/.ssh/authorized_keys`, then paste
+the private key file contents into the GitHub `DEPLOY_SSH_KEY` secret. Keep the
+private key out of the repository.
+
+Success looks like: after a push to `main`, GitHub first shows the CI workflow
+green. Only then does the Deploy workflow connect to the server and run:
+
+```bash
+/opt/social-studio/deploy/update.sh
+```
+
 ## Reference Sources
 
 - Node.js 22 package setup: NodeSource distributions.

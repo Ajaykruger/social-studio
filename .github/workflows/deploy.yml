@@ -1,0 +1,48 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Optional server update
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    steps:
+      - name: Check deploy secrets
+        id: deploy_secrets
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          if [[ -z "${DEPLOY_HOST}" || -z "${DEPLOY_USER}" || -z "${DEPLOY_SSH_KEY}" ]]; then
+            echo "configured=false" >> "${GITHUB_OUTPUT}"
+            echo "Deploy secrets not configured; skipping."
+            exit 0
+          fi
+          echo "configured=true" >> "${GITHUB_OUTPUT}"
+
+      - name: Install SSH key
+        if: ${{ steps.deploy_secrets.outputs.configured == 'true' }}
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "${DEPLOY_SSH_KEY}" > ~/.ssh/social-studio-deploy
+          chmod 600 ~/.ssh/social-studio-deploy
+
+      - name: Run server update
+        if: ${{ steps.deploy_secrets.outputs.configured == 'true' }}
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh -i ~/.ssh/social-studio-deploy \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=accept-new \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "/opt/social-studio/deploy/update.sh"
