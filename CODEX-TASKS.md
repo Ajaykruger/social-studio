@@ -299,7 +299,7 @@ Access is attributable to a verified email.
 
 ---
 
-## Task 9 — Operator runbook for the live review (Jen's first real campaign)
+## Task 9 [DONE 382e081] — Operator runbook for the live review (Jen's first real campaign)
 
 **Goal:** a short, plain-English checklist the operator and Jen follow the
 first time they use the deployed app end to end. No code logic changes.
